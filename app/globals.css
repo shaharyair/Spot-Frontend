@@ -85,12 +85,8 @@
   }
 
   body {
-    background: rgb(16, 16, 16);
-    background: radial-gradient(
-      circle,
-      rgba(16, 16, 16, 1) 0%,
-      rgba(21, 21, 21, 1) 50%,
-      rgba(16, 16, 16, 1) 100%
-    );
+    background: rgb(5, 5, 5);
+    background: radial-gradient(circle, #101010 0%, #151515 50%, #101010 100%)
+      no-repeat;
   }
 }

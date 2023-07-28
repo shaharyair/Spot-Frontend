@@ -9,11 +9,6 @@ import { Search } from "lucide-react";
 function Page() {
   const [username, setUsername] = useState("");
   const [songsData, setSongsData] = useState([]);
-  const [openSearch, setOpenSearch] = useState(false);
-
-  const handleOpenSearch = () => {
-    setOpenSearch(!openSearch);
-  };
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -31,41 +26,43 @@ function Page() {
   };
 
   return (
-    <div className='flex justify-center items-center flex-col gap-2 m-5'>
-      <h1 className='text-xl'>Spot.</h1>
-      <div className='flex justify-center items-center gap-2'>
-        <Input
-          type='text'
-          placeholder='Username'
-          value={username}
-          onChange={handleUsernameChange}
-          pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
-          title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
-        />
-        <Button type='submit' onClick={handleSubmit}>
-          Submit
-        </Button>
+    <>
+      <div className='w-screen h-screen flex justify-center items-center'>
+        <div className='flex flex-col justify-center items-center m-10'>
+          <h1 className='text-5xl font-semibold text-pinklogo'>Spot.</h1>
+          <div className='flex justify-center items-center gap-2 my-16'>
+            <Input
+              type='text'
+              placeholder='Username'
+              value={username}
+              onChange={handleUsernameChange}
+              pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
+              title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
+            />
+            <Button
+              type='submit'
+              onClick={handleSubmit}
+              className='bg-pinklogo hover:bg-white'
+            >
+              <Search className='text-black' />
+            </Button>
+          </div>
+          {songsData.length !== 0 && (
+            <h2 className='text-white mb-4 text-lg'>
+              {songsData.length} results were found:
+            </h2>
+          )}
+          {songsData.map((song) => (
+            <div key={song.id} className='text-white mb-1'>
+              <p>
+                <span className='text-pinklogo font-semibold'>Title: </span>
+                {song.title}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
-      {openSearch ? (
-        <div className='flex justify-center items-center gap-2'>
-          <Input type='text' />
-          <Button type='submit'>It Works</Button>
-        </div>
-      ) : (
-        <div>
-          <Button variant='outline' size='icon' onClick={handleOpenSearch}>
-            <Search />
-          </Button>
-        </div>
-      )}
-      {songsData.map((song) => (
-        <div key={song.id}>
-          <p>Title: {song.title}</p>
-          <p>Artist: {song.artist}</p>
-          <p>Album: {song.album}</p>
-        </div>
-      ))}
-    </div>
+    </>
   );
 }
 
