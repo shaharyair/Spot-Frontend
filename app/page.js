@@ -9,19 +9,25 @@ import { Search } from "lucide-react";
 function Page() {
   const [username, setUsername] = useState("");
   const [songsData, setSongsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`http://127.0.0.1:5000/api/songs`, {
         params: { username },
       });
       setSongsData(response.data);
     } catch (error) {
-      console.error("Error fetching songs:", error);
+      setError("Error fetching songs. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,6 +53,8 @@ function Page() {
               <Search className='text-black' />
             </Button>
           </div>
+          {loading && <p className='text-white mb-4 text-lg'>Loading...</p>}
+          {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
           {songsData.length !== 0 && (
             <h2 className='text-white mb-4 text-lg'>
               {songsData.length} results were found:
