@@ -16,7 +16,8 @@ function Page() {
     setUsername(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setLoading(true);
 
     try {
@@ -35,8 +36,11 @@ function Page() {
     <>
       <div className='w-screen h-screen flex justify-center items-center'>
         <div className='flex flex-col justify-center items-center m-10'>
-          <h1 className='text-5xl font-semibold text-pinklogo'>Spot.</h1>
-          <div className='flex justify-center items-center gap-2 my-16'>
+          <h1 className='text-6xl font-semibold text-pinklogo'>Spot.</h1>
+          <form
+            className='flex justify-center items-center gap-2 my-16'
+            onSubmit={handleSubmit}
+          >
             <Input
               type='text'
               placeholder='Username'
@@ -44,15 +48,12 @@ function Page() {
               onChange={handleUsernameChange}
               pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
               title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
+              required
             />
-            <Button
-              type='submit'
-              onClick={handleSubmit}
-              className='bg-pinklogo hover:bg-white'
-            >
+            <Button type='submit' className='bg-pinklogo hover:bg-white'>
               <Search className='text-black' />
             </Button>
-          </div>
+          </form>
           {loading && <p className='text-white mb-4 text-lg'>Loading...</p>}
           {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
           {songsData.length !== 0 && (
