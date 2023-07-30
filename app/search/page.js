@@ -5,7 +5,7 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import BarLoader from "react-spinners/BarLoader";
+import LoadingBar from "@/components/loadingbar";
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -66,16 +66,7 @@ function Page() {
               <HiMagnifyingGlass className='text-black text-2xl' />
             </Button>
           </form>
-          {loading && (
-            <BarLoader
-              color='#E900FF'
-              cssOverride={{
-                width: "30vw",
-                maxWidth: "350px",
-                minWidth: "250px",
-              }}
-            />
-          )}
+          {loading && <LoadingBar />}
           {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
           {songsData.length === 0 && searched && (
             <h2 className='text-white mb-4 text-lg lg:text-2xl'>

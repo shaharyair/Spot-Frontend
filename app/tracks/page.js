@@ -2,26 +2,13 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BarLoader } from "react-spinners";
+import LoadingBar from "@/components/loadingbar";
 
 function ErrorMessage({ message }) {
   return (
     <div className='bg-red-200 p-4 rounded-lg'>
       <p className='text-red-700 text-lg lg:text-xl'>{message}</p>
     </div>
-  );
-}
-
-function LoadingSpinner() {
-  return (
-    <BarLoader
-      color='#E900FF'
-      cssOverride={{
-        width: "30vw",
-        maxWidth: "350px",
-        minWidth: "250px",
-      }}
-    />
   );
 }
 
@@ -71,7 +58,7 @@ function Page() {
       <div className='h-screen -mt-28 flex justify-center items-center'>
         <div className='flex flex-col justify-center items-center gap-8 text-center m-5'>
           {error && <ErrorMessage message={error} />}
-          {loading ? <LoadingSpinner /> : <SongList songs={songs} />}
+          {loading ? <LoadingBar /> : <SongList songs={songs} />}
         </div>
       </div>
     </>
