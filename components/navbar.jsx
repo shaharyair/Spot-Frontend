@@ -129,7 +129,7 @@ function Navbar() {
             </h1>
           </Link>
           <div className='flex items-center justify-center gap-5 lg:order-3 text-2xl text-pinklogo lg:text-3xl'>
-            <Link href='/'>
+            <Link href='/search'>
               <HiMagnifyingGlass className='hover:text-white transition-colors duration-200' />
             </Link>
             <Link href='/account'>
