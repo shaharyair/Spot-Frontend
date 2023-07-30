@@ -18,11 +18,21 @@ module.exports = {
     extend: {
       colors: {
         pinklogo: "#E900FF",
+        backgroundBlack: "#101010",
+        navbarBlack: "#151515",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        transitionProperty: {
+          mobilenavbar: "left, transform",
+        },
+        transitionTimingFunction: {
+          ease: "ease",
+          in: "ease-in",
+          out: "ease-out",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
