@@ -12,6 +12,7 @@ function Page() {
   const [songsData, setSongsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searched, setSearched] = useState(false);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -20,12 +21,16 @@ function Page() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setSearched(false);
+    setSongsData([]);
+    setError(null);
 
     try {
       const response = await axios.get(`http://127.0.0.1:5000/api/songs`, {
         params: { username },
       });
       setSongsData(response.data);
+      setSearched(true);
     } catch (error) {
       setError("Error fetching songs. Please try again later.");
     } finally {
@@ -72,13 +77,22 @@ function Page() {
             />
           )}
           {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
-          {songsData.length !== 0 && (
-            <h2 className='text-white mb-4 text-lg'>
-              {songsData.length} results were found:
+          {songsData.length === 0 && searched && (
+            <h2 className='text-white mb-4 text-lg lg:text-2xl'>
+              No results were found.
             </h2>
           )}
+          {songsData.length !== 0 && (
+            <h2 className='text-white mb-4 text-lg lg:text-2xl'>
+              {songsData.length}&nbsp;
+              {songsData.length === 1
+                ? "result was found:"
+                : "results were found:"}
+            </h2>
+          )}
+
           {songsData.map((song) => (
-            <div key={song.id} className='text-white mb-1'>
+            <div key={song.id} className='text-white mb-1 text-lg lg:text-xl'>
               <p>
                 <span className='text-pinklogo font-semibold'>Title: </span>
                 {song.title}
