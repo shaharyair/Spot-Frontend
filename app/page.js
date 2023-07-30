@@ -4,7 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import BarLoader from "react-spinners/BarLoader";
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -34,11 +35,13 @@ function Page() {
 
   return (
     <>
-      <div className='w-screen h-screen flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center m-10'>
-          <h1 className='text-6xl font-semibold text-pinklogo'>Spot.</h1>
+      <div className='h-screen -mt-28 flex justify-center items-center'>
+        <div className='flex flex-col justify-center items-center'>
+          <h2 className='text-3xl lg:text-4xl text-white'>
+            Search your <span className='text-pinklogo'>tracks !</span>
+          </h2>
           <form
-            className='flex justify-center items-center gap-2 my-16'
+            className='flex justify-center items-center gap-2 my-12 lg:my-14'
             onSubmit={handleSubmit}
           >
             <Input
@@ -49,12 +52,25 @@ function Page() {
               pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
               title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
               required
+              className=' w-[50vw] max-w-[300px] min-w-[150px] text-md lg:text-lg '
             />
-            <Button type='submit' className='bg-pinklogo hover:bg-white'>
-              <Search className='text-black' />
+            <Button
+              type='submit'
+              className='bg-pinklogo hover:bg-white duration-200'
+            >
+              <HiMagnifyingGlass className='text-black text-2xl' />
             </Button>
           </form>
-          {loading && <p className='text-white mb-4 text-lg'>Loading...</p>}
+          {loading && (
+            <BarLoader
+              color='#E900FF'
+              cssOverride={{
+                width: "30vw",
+                maxWidth: "350px",
+                minWidth: "250px",
+              }}
+            />
+          )}
           {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
           {songsData.length !== 0 && (
             <h2 className='text-white mb-4 text-lg'>
