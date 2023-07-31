@@ -19,8 +19,8 @@ function SongList({ songs }) {
         <>
           <h2 className='text-white text-3xl lg:text-4xl'>Tracks:</h2>
           <ul>
-            {songs.map((song) => (
-              <li key={song.title} className='m-2'>
+            {songs.map((song, index) => (
+              <li key={index} className='m-2'>
                 <p className='text-white md:text-md lg:text-lg'>
                   <span className='text-pinklogo'>Title: </span>
                   {song.title}
