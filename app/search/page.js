@@ -82,8 +82,8 @@ function Page() {
             </h2>
           )}
 
-          {songsData.map((song) => (
-            <div key={song.id} className='text-white mb-1 text-lg lg:text-xl'>
+          {songsData.map((song, index) => (
+            <div key={index} className='text-white mb-1 text-lg lg:text-xl'>
               <p>
                 <span className='text-pinklogo font-semibold'>Title: </span>
                 {song.title}
