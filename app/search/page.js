@@ -41,7 +41,7 @@ function Page() {
 
   return (
     <>
-      <div className='h-screen -mt-28 flex justify-center items-center'>
+      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
         <div className='flex flex-col justify-center items-center'>
           <h2 className='text-3xl lg:text-4xl text-white'>
             <span className='text-pinklogo'>Spot</span> your tracks.

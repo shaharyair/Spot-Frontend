@@ -57,14 +57,14 @@ function Page() {
 
   return (
     <>
-      <div className='h-screen -mt-28 flex justify-center items-center'>
+      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
         <form
-          className='flex flex-col justify-center items-center gap-8 text-center m-5'
+          className='flex flex-col justify-center items-center gap-8 text-center'
           onSubmit={handleUpload}
         >
           <Input
             // className='w-[50vw] max-w-[300px] min-w-[150px]'
-            className='w-[50vw] max-w-[300px] min-w-[150px] text-md lg:text-lg'
+            className='w-[50vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'
             id='Track'
             // type='file'
             type='text'
@@ -74,7 +74,7 @@ function Page() {
             required
           />
           <Input
-            className='w-[50vw] max-w-[300px] min-w-[150px] text-md lg:text-lg'
+            className='w-[50vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'
             type='text'
             value={songTitle}
             onChange={handleTitleChange}

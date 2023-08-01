@@ -5,7 +5,7 @@ function LoadingBar() {
     <BarLoader
       color='#E900FF'
       cssOverride={{
-        width: "30vw",
+        width: "50vw",
         maxWidth: "350px",
         minWidth: "250px",
       }}

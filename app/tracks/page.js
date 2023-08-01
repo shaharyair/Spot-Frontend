@@ -48,8 +48,8 @@ function Page() {
 
   return (
     <>
-      <div className='h-screen -mt-28 flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-8 text-center m-5'>
+      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
+        <div className='flex flex-col justify-center items-center gap-8 text-center'>
           {error && <ErrorMessage message={error} />}
           {loading ? <LoadingBar /> : <SongList songs={songs} />}
         </div>

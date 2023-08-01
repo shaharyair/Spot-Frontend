@@ -55,8 +55,11 @@ function Navbar() {
 
   return (
     <>
-      <div className='sticky flex h-28 w-full items-center justify-center'>
-        <div className='container mx-5 flex items-center justify-between'>
+      <div
+        className='fixed top-0 left-0 flex h-24 w-full items-center justify-center bg-navbarBlack/90
+       drop-shadow-lg backdrop-blur-sm'
+      >
+        <div className='container flex items-center justify-between'>
           <div
             onClick={toggleMobileNavbar}
             className='cursor-pointer lg:hidden text-3xl text-pinklogo'
@@ -72,7 +75,7 @@ function Navbar() {
               openMobileNavbar
                 ? "left-1/4 md:left-1/2"
                 : "-left-3/4 md:-left-1/2"
-            } top-28 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-500 bg-navbarBlack px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
+            } top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-500 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
           >
             <nav className='mb-40 lg:m-0'>
               <ul className='flex flex-col items-start justify-center gap-3 text-left text-lg lg:text-xl text-pinklogo lg:flex-row lg:items-center lg:gap-4 lg:text-center'>

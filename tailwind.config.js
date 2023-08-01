@@ -19,7 +19,8 @@ module.exports = {
       colors: {
         pinklogo: "#E900FF",
         backgroundBlack: "#101010",
-        navbarBlack: "#151515",
+        navbarBlack: "#131313",
+        navbarBlack2: "#151515",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
