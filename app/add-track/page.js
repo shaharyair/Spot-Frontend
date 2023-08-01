@@ -6,18 +6,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 function Page() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
   const [songTitle, setSongTitle] = useState("");
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    // setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.value);
   };
 
   const handleTitleChange = (event) => {
     setSongTitle(event.target.value);
   };
 
-  const handleUpload = () => {
+  const handleUpload = (event) => {
+    event.preventDefault();
+
     if (!selectedFile) {
       alert("Please select a file before uploading.");
       return;
@@ -28,19 +32,26 @@ function Page() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("track_path", selectedFile);
-    formData.append("title", songTitle);
+    // Upload mp3 file to the database
+    // const formData = new FormData();
+    // formData.append("track_path", selectedFile);
+    // formData.append("title", songTitle);
+
+    // Upload with track path
+    const formData = {
+      track_path: selectedFile,
+      title: songTitle,
+    };
 
     axios
       .post("http://127.0.0.1:5000/api/upload_song", formData)
       .then((response) => {
         console.log("Song uploaded successfully!");
-        alert("Success!");
+        alert("Song uploaded successfully!");
       })
       .catch((error) => {
         console.error("Failed to upload the song.", error);
-        alert("Failed!");
+        alert("Failed to upload the song.");
       });
   };
 
@@ -52,10 +63,14 @@ function Page() {
           onSubmit={handleUpload}
         >
           <Input
-            className='w-[50vw] max-w-[300px] min-w-[150px]'
+            // className='w-[50vw] max-w-[300px] min-w-[150px]'
+            className='w-[50vw] max-w-[300px] min-w-[150px] text-md lg:text-lg'
             id='Track'
-            type='file'
+            // type='file'
+            type='text'
+            value={selectedFile}
             onChange={handleFileChange}
+            placeholder='Track Path'
             required
           />
           <Input
