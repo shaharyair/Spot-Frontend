@@ -3,19 +3,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingBar from "@/components/loadingbar";
-
-function ErrorMessage({ message }) {
-  return (
-    <div className='bg-red-200 p-4 rounded-lg'>
-      <p className='text-red-700 text-lg lg:text-xl'>{message}</p>
-    </div>
-  );
-}
+import ErrorMessage from "@/components/errormessage";
 
 function SongList({ songs }) {
   return (
     <>
-      {songs.length === 0 ? null : (
+      {songs.length !== 0 && (
         <>
           <h2 className='text-white text-3xl lg:text-4xl'>Tracks:</h2>
           <ul>

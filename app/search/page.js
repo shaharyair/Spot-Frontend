@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import LoadingBar from "@/components/loadingbar";
+import ErrorMessage from "@/components/errormessage";
 
 function Page() {
   const [username, setUsername] = useState("");
@@ -57,7 +58,7 @@ function Page() {
               pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
               title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
               required
-              className=' w-[50vw] max-w-[300px] min-w-[150px] text-md lg:text-lg '
+              className=' w-[50vw] max-w-[300px] min-w-[150px] text-sm lg:text-lg '
             />
             <Button
               type='submit'
@@ -67,7 +68,7 @@ function Page() {
             </Button>
           </form>
           {loading && <LoadingBar />}
-          {error && <p className='text-red-500 mb-4 text-lg'>{error}</p>}
+          {error && <ErrorMessage message={error} />}
           {songsData.length === 0 && searched && (
             <h2 className='text-white mb-4 text-lg lg:text-2xl'>
               No results were found.
