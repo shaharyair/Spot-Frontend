@@ -57,7 +57,7 @@ function Navbar() {
     <>
       <div
         className='fixed top-0 left-0 flex h-24 w-full items-center justify-center bg-navbarBlack/90
-       drop-shadow-lg backdrop-blur-sm'
+       drop-shadow-lg backdrop-blur-sm z-50'
       >
         <div className='container flex items-center justify-between'>
           <div

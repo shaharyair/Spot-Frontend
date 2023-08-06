@@ -41,7 +41,7 @@ function Page() {
 
   return (
     <>
-      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
+      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
         <div className='flex flex-col justify-center items-center'>
           <h2 className='text-3xl lg:text-4xl text-white'>
             <span className='text-bpmPink'>Spot</span> your tracks.
@@ -58,7 +58,7 @@ function Page() {
               pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
               title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
               required
-              className=' w-[50vw] max-w-[300px] min-w-[150px] text-sm lg:text-lg '
+              className=' w-[50vw] max-w-[300px] min-w-[250px] text-sm lg:text-lg '
             />
             <Button
               type='submit'

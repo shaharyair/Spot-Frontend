@@ -49,20 +49,20 @@ function Page() {
 
   return (
     <>
-      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
+      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
         <form
           className='flex flex-col justify-center items-center gap-8 text-center'
           onSubmit={handleUpload}
         >
           <Input
-            className='w-[50vw] max-w-[300px] min-w-[150px]'
+            className='w-[90vw] max-w-[300px] min-w-[250px]'
             id='Track'
             type='file'
             onChange={handleFileChange}
             required
           />
           <Input
-            className='w-[50vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'
+            className='w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'
             type='text'
             value={songTitle}
             onChange={handleTitleChange}
