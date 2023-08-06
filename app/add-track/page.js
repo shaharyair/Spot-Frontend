@@ -6,13 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 function Page() {
-  // const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const [songTitle, setSongTitle] = useState("");
 
   const handleFileChange = (event) => {
-    // setSelectedFile(event.target.files[0]);
-    setSelectedFile(event.target.value);
+    setSelectedFile(event.target.files[0]);
   };
 
   const handleTitleChange = (event) => {
@@ -33,15 +31,9 @@ function Page() {
     }
 
     // Upload mp3 file to the database
-    // const formData = new FormData();
-    // formData.append("track_path", selectedFile);
-    // formData.append("title", songTitle);
-
-    // Upload with track path
-    const formData = {
-      track_path: selectedFile,
-      title: songTitle,
-    };
+    const formData = new FormData();
+    formData.append("track_path", selectedFile);
+    formData.append("title", songTitle);
 
     axios
       .post("http://127.0.0.1:5000/api/upload_song", formData)
@@ -63,14 +55,10 @@ function Page() {
           onSubmit={handleUpload}
         >
           <Input
-            // className='w-[50vw] max-w-[300px] min-w-[150px]'
-            className='w-[50vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'
+            className='w-[50vw] max-w-[300px] min-w-[150px]'
             id='Track'
-            // type='file'
-            type='text'
-            value={selectedFile}
+            type='file'
             onChange={handleFileChange}
-            placeholder='Track Path'
             required
           />
           <Input
