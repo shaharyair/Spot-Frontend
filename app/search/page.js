@@ -44,7 +44,7 @@ function Page() {
       <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
         <div className='flex flex-col justify-center items-center'>
           <h2 className='text-3xl lg:text-4xl text-white'>
-            <span className='text-pinklogo'>Spot</span> your tracks.
+            <span className='text-bpmPink'>Spot</span> your tracks.
           </h2>
           <form
             className='flex justify-center items-center gap-2 my-12 lg:my-14'
@@ -62,7 +62,7 @@ function Page() {
             />
             <Button
               type='submit'
-              className='bg-pinklogo hover:bg-white duration-200'
+              className='bg-bpmPink hover:bg-white duration-200'
             >
               <HiMagnifyingGlass className='text-black text-2xl' />
             </Button>
@@ -86,7 +86,7 @@ function Page() {
           {songsData.map((song, index) => (
             <div key={index} className='text-white mb-1 text-lg lg:text-xl'>
               <p>
-                <span className='text-pinklogo font-semibold'>Title: </span>
+                <span className='text-bpmPink font-semibold'>Title: </span>
                 {song.title}
               </p>
             </div>

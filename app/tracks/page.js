@@ -15,7 +15,7 @@ function SongList({ songs }) {
             {songs.map((song, index) => (
               <li key={index} className='m-2'>
                 <p className='text-white md:text-md lg:text-lg'>
-                  <span className='text-pinklogo'>Title: </span>
+                  <span className='text-bpmPink'>Title: </span>
                   {song.title}
                 </p>
               </li>

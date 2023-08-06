@@ -17,10 +17,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        pinklogo: "#E900FF",
-        backgroundBlack: "#101010",
-        navbarBlack: "#131313",
-        navbarBlack2: "#151515",
+        bpmPink: "#E73059",
+        white: "#FAF4F4",
+        backgroundBlack: "#111111",
+        navbarBlack: "#151515",
+        navbarBlack2: "#191919",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -62,7 +62,7 @@ function Navbar() {
         <div className='container flex items-center justify-between'>
           <div
             onClick={toggleMobileNavbar}
-            className='cursor-pointer lg:hidden text-3xl text-pinklogo'
+            className='cursor-pointer lg:hidden text-3xl text-bpmPink'
           >
             {openMobileNavbar ? (
               <HiXMark className='hover:text-white transition-colors duration-200' />
@@ -78,7 +78,7 @@ function Navbar() {
             } top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-500 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
           >
             <nav className='mb-40 lg:m-0'>
-              <ul className='flex flex-col items-start justify-center gap-3 text-left text-lg lg:text-xl text-pinklogo lg:flex-row lg:items-center lg:gap-4 lg:text-center'>
+              <ul className='flex flex-col items-start justify-center gap-3 text-left text-lg lg:text-xl text-bpmPink lg:flex-row lg:items-center lg:gap-4 lg:text-center'>
                 <li>
                   <Link
                     href='/tracks'
@@ -106,12 +106,12 @@ function Navbar() {
               </ul>
             </nav>
             <Link href='/account' className='inline-block lg:hidden'>
-              <div className='mb-10 flex items-center gap-3 text-pinklogo hover:text-white transition-colors duration-200'>
+              <div className='mb-10 flex items-center gap-3 text-bpmPink hover:text-white transition-colors duration-200'>
                 <HiUser className='text-2xl' />
                 <p className='text-lg'>Sign In</p>
               </div>
             </Link>
-            <div className='flex gap-4 lg:hidden text-3xl text-pinklogo'>
+            <div className='flex gap-4 lg:hidden text-3xl text-bpmPink'>
               <Link href='/'>
                 <FaInstagram className=' hover:text-white transition-colors duration-200' />
               </Link>
@@ -127,11 +127,11 @@ function Navbar() {
             </div>
           </div>
           <Link href='/' className='ml-6 lg:ml-0 lg:mr-10'>
-            <h1 className='text-4xl lg:text-5xl font-semibold text-pinklogo'>
+            <h1 className='text-4xl lg:text-5xl font-semibold text-bpmPink'>
               Spot.
             </h1>
           </Link>
-          <div className='flex items-center justify-center gap-5 lg:order-3 text-2xl text-pinklogo lg:text-3xl'>
+          <div className='flex items-center justify-center gap-5 lg:order-3 text-2xl text-bpmPink lg:text-3xl'>
             <Link href='/search'>
               <HiMagnifyingGlass className='hover:text-white transition-colors duration-200' />
             </Link>

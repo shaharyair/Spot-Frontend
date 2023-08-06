@@ -3,7 +3,7 @@ import { BarLoader } from "react-spinners";
 function LoadingBar() {
   return (
     <BarLoader
-      color='#E900FF'
+      color='#E73059'
       cssOverride={{
         width: "50vw",
         maxWidth: "350px",

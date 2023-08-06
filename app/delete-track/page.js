@@ -48,7 +48,7 @@ function Page() {
           />
           <Button
             type='submit'
-            className='bg-pinklogo text-black hover:bg-white duration-200 '
+            className='bg-bpmPink text-black hover:bg-white duration-200 '
           >
             Delete Track
           </Button>

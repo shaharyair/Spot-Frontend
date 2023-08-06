@@ -16,7 +16,7 @@ function Footer() {
             href='/'
             className='col-start-1 col-span-2 row-start-1 self-center lg:col-span-1 lg:self-start'
           >
-            <h1 className='text-3xl lg:text-5xl font-semibold text-pinklogo'>
+            <h1 className='text-3xl lg:text-5xl font-semibold text-bpmPink'>
               Spot.
             </h1>
           </Link>
@@ -27,7 +27,7 @@ function Footer() {
             <li>
               <Link
                 href='/'
-                className='hover:text-pinklogo transition-colors duration-200'
+                className='hover:text-bpmPink transition-colors duration-200'
               >
                 Contact us
               </Link>
@@ -35,7 +35,7 @@ function Footer() {
             <li>
               <Link
                 href='/'
-                className='hover:text-pinklogo transition-colors duration-200'
+                className='hover:text-bpmPink transition-colors duration-200'
               >
                 About
               </Link>
@@ -43,7 +43,7 @@ function Footer() {
             <li>
               <Link
                 href='/'
-                className='hover:text-pinklogo transition-colors duration-200'
+                className='hover:text-bpmPink transition-colors duration-200'
               >
                 Services
               </Link>
@@ -56,7 +56,7 @@ function Footer() {
             <li>
               <Link
                 href='/'
-                className='hover:text-pinklogo transition-colors duration-200'
+                className='hover:text-bpmPink transition-colors duration-200'
               >
                 Terms of Services
               </Link>
@@ -64,7 +64,7 @@ function Footer() {
             <li>
               <Link
                 href='/'
-                className='hover:text-pinklogo transition-colors duration-200'
+                className='hover:text-bpmPink transition-colors duration-200'
               >
                 Privacy Policy
               </Link>
@@ -72,7 +72,7 @@ function Footer() {
           </ul>
           <div className=' col-start-1 row-start-3 col-span-2 lg:row-start-2 lg:col-span-3 lg:mt-5'>
             <h1 className='text-gray-400 mb-5'>Follow us</h1>
-            <div className='flex justify-center items-center gap-8 text-3xl lg:text-4xl text-pinklogo transition-colors duration-200'>
+            <div className='flex justify-center items-center gap-8 text-3xl lg:text-4xl text-bpmPink transition-colors duration-200'>
               <Link href='/'>
                 <FaInstagram className=' hover:text-white transition-colors duration-200' />
               </Link>
