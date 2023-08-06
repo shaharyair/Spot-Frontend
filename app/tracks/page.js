@@ -51,7 +51,7 @@ function Page() {
       <div className='container h-[98vh] min-h-[650px] flex justify-center items-center p-2'>
         <div className='flex flex-col justify-center items-center gap-8 text-center'>
           {error && <ErrorMessage message={error} />}
-          {loading ? <LoadingBar /> : <SongList songs={songs} />}
+          {!error && (loading ? <LoadingBar /> : <SongList songs={songs} />)}
         </div>
       </div>
     </>
