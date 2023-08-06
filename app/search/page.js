@@ -63,6 +63,7 @@ function Page() {
             <Button
               type='submit'
               className='bg-bpmPink hover:bg-white duration-200'
+              disabled={!username}
             >
               <HiMagnifyingGlass className='text-black text-2xl' />
             </Button>

@@ -67,10 +67,10 @@ function Page() {
             value={songTitle}
             onChange={handleTitleChange}
             placeholder='Track Title'
-            required
           />
           <Button
             type='submit'
+            disabled={!selectedFile}
             className='bg-bpmPink text-black hover:bg-white duration-200 '
           >
             Upload Track
