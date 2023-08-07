@@ -25,14 +25,8 @@ function Page() {
       return;
     }
 
-    if (!songTitle.trim()) {
-      alert("Please enter a song title.");
-      return;
-    }
-
-    // Upload mp3 file to the database
     const formData = new FormData();
-    formData.append("track_path", selectedFile);
+    formData.append("file", selectedFile);
     formData.append("title", songTitle);
 
     axios
