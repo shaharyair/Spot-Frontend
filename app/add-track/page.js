@@ -9,6 +9,7 @@ import {
   HiOutlineQuestionMarkCircle,
 } from "react-icons/hi2";
 import LoadingBar from "@/components/loadingbar";
+import Dialog from "@/components/dialog";
 
 function Page() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -61,6 +62,7 @@ function Page() {
       })
       .catch((error) => {
         setError(true);
+        setSelectedFile(null);
       })
       .finally(() => {
         setLoading(false);
@@ -74,34 +76,16 @@ function Page() {
   return (
     <>
       {songUploaded && (
-        <div className='z-[999] fixed top-0 left-0 h-screen w-screen flex justify-center items-center bg-dialogBlack/25 backdrop-blur-[3px] animate-fade-in text-center'>
-          <div className=' px-10 py-8 lg:px-14 lg:py-10 bg- rounded-lg bg-dialogBlack border border-white flex flex-col items-center justify-center gap-6'>
-            <p className=' text-white font-thin text-lg lg:text-xl'>
-              Song Uploaded Successfully.
-            </p>
-            <Button
-              className='bg-bpmPink text-black hover:bg-white duration-200'
-              onClick={() => setSongUploaded(false)}
-            >
-              Close
-            </Button>
-          </div>
-        </div>
+        <Dialog
+          message={"Song Uploaded Successfully."}
+          onClick={() => setSongUploaded(false)}
+        />
       )}
       {error && (
-        <div className='z-[999] fixed top-0 left-0 h-screen w-screen flex justify-center items-center bg-dialogBlack/25 backdrop-blur-[3px] animate-fade-in text-center'>
-          <div className=' px-10 py-8 lg:px-14 lg:py-10 bg- rounded-lg bg-dialogBlack border border-white flex flex-col items-center justify-center gap-6 leading-3'>
-            <p className=' text-white font-thin text-lg lg:text-xl'>
-              Error, please try again later.
-            </p>
-            <Button
-              className='bg-bpmPink text-black hover:bg-white duration-200'
-              onClick={() => setError(false)}
-            >
-              Close
-            </Button>
-          </div>
-        </div>
+        <Dialog
+          message={"Error, please try again later."}
+          onClick={() => setError(false)}
+        />
       )}
       <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
         {!error && loading ? (
@@ -128,7 +112,7 @@ function Page() {
                   onClick={() => setOptionsOpen(!optionsOpen)}
                   className='text-gray-400 font-thin cursor-pointer flex items-center text-sm lg:text-base gap-1 row-start-1 col-start-1 pl-1'
                 >
-                  <span className='text-xl lg:text-2xl'>
+                  <span className='text-lg lg:text-lg'>
                     {optionsOpen ? "-" : "+"}
                   </span>
                   More Options
@@ -141,7 +125,7 @@ function Page() {
                     optionsOpen ? "max-h-[500px]" : "max-h-[0px]"
                   } col-span-2 overflow-hidden flex flex-col w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg transition-max-w  duration-300 ease-linear`}
                 >
-                  <div className='flex flex-col gap-3 py-1'>
+                  <div className='flex flex-col gap-3 p-1'>
                     <Input
                       type='text'
                       value={songTitle}
