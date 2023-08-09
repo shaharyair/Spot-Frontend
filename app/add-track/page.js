@@ -10,6 +10,7 @@ import {
 } from "react-icons/hi2";
 import LoadingBar from "@/components/loadingbar";
 import Dialog from "@/components/dialog";
+import Tooltip from "@/components/tooltip";
 
 function Page() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -117,9 +118,17 @@ function Page() {
                   </span>
                   More Options
                 </div>
-                <div className=" className=' text-xl text-gray-600 row-start-1 col-start-2 justify-self-end p-1">
+                <Tooltip
+                  childrenStyle={
+                    "text-2xl text-gray-600 row-start-1 col-start-2 justify-self-end p-1"
+                  }
+                  message={"Audio file (WAV, MP3, AIFC, etc)"}
+                  position={"bottom"}
+                  variant={"dark"}
+                >
                   <HiOutlineQuestionMarkCircle />
-                </div>
+                </Tooltip>
+
                 <div
                   className={`${
                     optionsOpen ? "max-h-[500px]" : "max-h-[0px]"
