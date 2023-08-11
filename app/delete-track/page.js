@@ -32,6 +32,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedSongId, setSelectedSongId] = useState(null);
+  const [selectedSongTitle, setSelectedSongTitle] = useState("");
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -45,6 +46,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
       .then((response) => {
         setOpenWarningDialog(false);
         setSongDeleted("Track deleted successfully.");
+        onSongDeleted(selectedSongId);
         setLoading(false);
       })
       .catch((error) => {
@@ -85,19 +87,15 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                           (song) => song.title === value
                         );
 
-                        console.log(selectedSong);
-
-                        setSelectedSongId(selectedSong.id);
-
-                        console.log(selectedSongId);
-
-                        field.onChange(selectedSongId);
+                        field.onChange(selectedSong.id);
                       }}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select a track' />
+                          <SelectValue>
+                            {selectedSongTitle || "Select a track"}
+                          </SelectValue>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
