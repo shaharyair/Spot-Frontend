@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import WarningDialog from "@/components/warning-dialog";
 
 const FormSchema = z.object({
   id: z
@@ -37,6 +38,8 @@ const FormSchema = z.object({
 });
 
 function SongListDeleteForm({ songs }) {
+  const [openDialog, setOpenDialog] = useState(true);
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
@@ -100,13 +103,22 @@ function SongListDeleteForm({ songs }) {
               )}
             />
             <Button
+              onClick={() => setOpenDialog(true)}
               size='lg'
-              type='submit'
               className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
             >
               Delete
               <HiTrash className='text-lg lg:text-xl' />
             </Button>
+            {openDialog && (
+              <WarningDialog
+                title={"Are you absolutely sure?"}
+                message={
+                  "This action cannot be undone. This will permanently delete the track."
+                }
+                onClick={() => setOpenDialog(false)}
+              />
+            )}
           </form>
         </Form>
       </div>
