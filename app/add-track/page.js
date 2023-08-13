@@ -26,7 +26,7 @@ function Page() {
 
   const regexPattern = /^[A-Za-z0-9\s\-_,.!?'"()]{1,35}$/;
   const regexMessage =
-    "Please enter a title (up to 35 characters) using only letters, numbers, spaces, and: - _ , . ! ? ' ( ).";
+    "Please enter (up to 35 characters) using only letters, numbers, spaces, and: - _ , . ! ? ' ( ).";
 
   // Validation function for text inputs
   const isValidText = (text) => {
