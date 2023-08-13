@@ -67,7 +67,7 @@ function Page() {
       .catch((error) => {
         console.error("Error fetching songs:", error);
         setLoading(false);
-        setError("Error fetching songs. Please try again later.");
+        setError(error.message);
       });
   }, []);
 
