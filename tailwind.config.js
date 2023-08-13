@@ -93,6 +93,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-out": "fade-out 0.3s ease forwards",
         "fade-in": "fade-in 0.3s ease forwards",
+        "fade-in-header": "fade-in 2s ease-in forwards",
       },
     },
   },
