@@ -31,7 +31,6 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
   const [songDeleted, setSongDeleted] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedSongId, setSelectedSongId] = useState(null);
   const [selectedSongTitle, setSelectedSongTitle] = useState("");
 
   const form = useForm({
@@ -41,18 +40,31 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
   function onSubmit(data) {
     setLoading(true);
 
+    const selectedSong = songs.find((song) => song.id === data.id);
+
+    if (!selectedSong) {
+      form.setError("id", {
+        type: "manual",
+        message: "Invalid song selected.",
+      });
+      return;
+    }
+
     axios
       .post("http://127.0.0.1:5000/api/delete_song", data)
       .then((response) => {
         setOpenWarningDialog(false);
         setSongDeleted("Track deleted successfully.");
-        onSongDeleted(selectedSongId);
+        onSongDeleted(selectedSongTitle);
         setLoading(false);
       })
       .catch((error) => {
         setOpenWarningDialog(false);
         setError(error.message);
         setLoading(false);
+      })
+      .finally(() => {
+        setSelectedSongTitle("");
       });
   }
 
@@ -87,14 +99,21 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                           (song) => song.title === value
                         );
 
+                        setSelectedSongTitle(value);
                         field.onChange(selectedSong.id);
+
+                        console.log(
+                          `song id: ${selectedSong.id}\n\nsong title on state: ${value}`
+                        );
                       }}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue>
-                            {selectedSongTitle || "Select a track"}
+                            {songs.length === 0
+                              ? "No tracks to delete."
+                              : selectedSongTitle || "Select a track"}
                           </SelectValue>
                         </SelectTrigger>
                       </FormControl>
@@ -112,11 +131,13 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                   </FormItem>
                 )}
               />
+
               <Button
-                // onClick={() => setOpenWarningDialog(true)}
+                onClick={() => setOpenWarningDialog(true)}
+                disabled={!selectedSongTitle}
                 size='lg'
                 className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
-                type='submit'
+                type='button'
               >
                 Delete
                 <HiTrash className='text-lg lg:text-xl' />
@@ -143,9 +164,9 @@ function Page() {
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
 
-  const handleSongDeleted = (deletedSongId) => {
+  const handleSongDeleted = (deletedSongTitle) => {
     setSongs((prevSongs) =>
-      prevSongs.filter((song) => song.id !== deletedSongId)
+      prevSongs.filter((song) => song.title !== deletedSongTitle)
     );
   };
 
