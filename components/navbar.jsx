@@ -9,6 +9,7 @@ import {
   FaFacebookSquare,
 } from "react-icons/fa";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 function Navbar() {
   const [openMobileNavbar, setOpenMobileNavbar] = useState(false);
@@ -18,7 +19,7 @@ function Navbar() {
   };
 
   useEffect(() => {
-    const closeOnResize = () => {
+    const closeMobileNavbarOnResize = () => {
       if (window.innerWidth >= 1024) {
         setOpenMobileNavbar(false);
       }
@@ -44,12 +45,12 @@ function Navbar() {
 
     document.addEventListener("click", handleLinkClick);
     document.addEventListener("click", handleOutsideClick);
-    window.addEventListener("resize", closeOnResize);
+    window.addEventListener("resize", closeMobileNavbarOnResize);
 
     return () => {
       document.removeEventListener("click", handleLinkClick);
       document.removeEventListener("click", handleOutsideClick);
-      window.removeEventListener("resize", closeOnResize);
+      window.removeEventListener("resize", closeMobileNavbarOnResize);
     };
   }, [openMobileNavbar]);
 
@@ -78,7 +79,7 @@ function Navbar() {
             } top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-500 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
           >
             <nav className='mb-40 lg:m-0'>
-              <ul className='flex flex-col items-start justify-center gap-3 text-left text-lg lg:text-xl text-bpmPink lg:flex-row lg:items-center lg:gap-4 lg:text-center'>
+              <ul className='flex flex-col items-start justify-center gap-3 text-left text-sm lg:text-base text-bpmPink lg:flex-row lg:items-center lg:gap-5 lg:text-center'>
                 <li>
                   <Link
                     href='/tracks'
@@ -105,13 +106,13 @@ function Navbar() {
                 </li>
               </ul>
             </nav>
-            <Link href='/account' className='inline-block lg:hidden'>
-              <div className='mb-10 flex items-center gap-3 text-bpmPink hover:text-white transition-colors duration-200'>
+            <Link href='/' className='inline-block lg:hidden'>
+              <div className='mb-10 flex items-center gap-3 text-bpmPink hover:text-white transition-colors duration-200 text-sm'>
                 <HiUser className='text-2xl' />
-                <p className='text-lg'>Sign In</p>
+                <p>Sign In</p>
               </div>
             </Link>
-            <div className='flex gap-4 lg:hidden text-3xl text-bpmPink'>
+            <div className='flex gap-4 lg:hidden text-2xl text-bpmPink'>
               <Link href='/'>
                 <FaInstagram className=' hover:text-white transition-colors duration-200' />
               </Link>
@@ -126,16 +127,19 @@ function Navbar() {
               </Link>
             </div>
           </div>
-          <Link href='/' className='ml-6 lg:ml-0 lg:mr-10'>
+          <Link href='/' className='ml-6 lg:ml-0 lg:mr-20'>
             <h1 className='text-4xl lg:text-5xl font-semibold text-bpmPink'>
               Spot.
             </h1>
           </Link>
-          <div className='flex items-center justify-center gap-5 lg:order-3 text-2xl text-bpmPink lg:text-3xl'>
+          <div className='flex items-center justify-center gap-6 lg:order-3 text-2xl text-bpmPink lg:text-3xl'>
             <Link href='/search'>
-              <HiMagnifyingGlass className='hover:text-white transition-colors duration-200' />
+              <Button className='bg-bpmPink rounded-xl text-black hover:bg-white duration-200 justify-center p-4 items-center gap-2 hidden lg:flex'>
+                Search <HiMagnifyingGlass className='text-lg' />
+              </Button>
+              <HiMagnifyingGlass className='lg:hidden hover:text-white transition-colors duration-200' />
             </Link>
-            <Link href='/account'>
+            <Link href='/'>
               <HiUser className='hover:text-white transition-colors duration-200' />
             </Link>
           </div>
