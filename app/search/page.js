@@ -24,12 +24,13 @@ function Page() {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
 
-  const regexPattern = /[a-zA-Z][a-zA-Z0-9._]{1,29}$/;
+  const regexPatternString = "[a-zA-Z][a-zA-Z0-9._]{1,30}$";
   const regexMessage =
     "Username must start with a letter and can only contain letters, numbers, periods, and underscores.";
 
   // Validation function for text inputs
   const isValidText = (text) => {
+    const regexPattern = new RegExp(regexPatternString);
     return regexPattern.test(text);
   };
 
@@ -96,7 +97,7 @@ function Page() {
                   placeholder='Username'
                   value={username}
                   onChange={handleUsernameChange}
-                  pattern={regexPattern}
+                  pattern={regexPatternString}
                   title={regexMessage}
                   required
                   className='w-[50vw] max-w-[250px] min-w-[200px]'

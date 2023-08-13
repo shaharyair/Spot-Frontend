@@ -15,6 +15,7 @@ import Tooltip from "@/components/tooltip";
 function Page() {
   // State variables
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [songTitle, setSongTitle] = useState("");
   const [songArtist, setSongArtist] = useState("");
   const [songAlbum, setSongAlbum] = useState("");
@@ -24,18 +25,21 @@ function Page() {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [trackExists, setTrackExists] = useState(false);
 
-  const regexPattern = /^[A-Za-z0-9\s\-_,.!?'"()]{1,35}$/;
-  const regexMessage =
-    "Please enter (up to 35 characters) using only letters, numbers, spaces, and: - _ , . ! ? ' ( ).";
+  const regexPatternString = "^.{1,50}$";
+  const regexMessage = "Please enter a maximum length of 50 characters.";
 
   // Validation function for text inputs
   const isValidText = (text) => {
+    const regexPattern = new RegExp(regexPatternString);
     return regexPattern.test(text);
   };
 
   // Handler for file input change
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const newFile = event.target.files[0];
+    setSelectedFile(newFile);
+
+    setFileName(newFile.name.replace(/\.[^/.]+$/, ""));
   };
 
   // Handler for song title change
@@ -71,6 +75,10 @@ function Page() {
   const handleUpload = async (event) => {
     event.preventDefault();
 
+    setLoading(true);
+    setError("");
+    setSongUploaded("");
+
     // Validation checks
     if (!selectedFile) {
       setError("Please select a file.");
@@ -79,6 +87,7 @@ function Page() {
     }
 
     if (
+      (fileName !== "" && !isValidText(fileName)) ||
       (songTitle !== "" && !isValidText(songTitle)) ||
       (songArtist !== "" && !isValidText(songArtist)) ||
       (songAlbum !== "" && !isValidText(songAlbum))
@@ -88,19 +97,12 @@ function Page() {
       return;
     }
 
-    setError("");
-    setSongUploaded("");
-    setLoading(true);
-
     // Prepare form data for upload
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", songTitle);
     formData.append("artist", songArtist);
     formData.append("album", songAlbum);
-
-    const fileNameWithoutExtension = selectedFile.name.replace(/\.[^/.]+$/, "");
-    console.log(fileNameWithoutExtension);
 
     try {
       // Check if the song with the same title or filename already exists
@@ -110,8 +112,7 @@ function Page() {
       const songs = songsResponse.data;
 
       const fileNameExists = songs.some(
-        (song) =>
-          song.title.toLowerCase() === fileNameWithoutExtension.toLowerCase()
+        (song) => song.title.toLowerCase() === fileName.toLowerCase()
       );
 
       const titleExists = songs.some(
@@ -203,7 +204,7 @@ function Page() {
                       value={songTitle}
                       onChange={handleTitleChange}
                       placeholder='Title'
-                      pattern={regexPattern}
+                      pattern={regexPatternString}
                       title={regexMessage}
                       className={
                         trackExists && "border-2 border-red-500 text-red-800"
@@ -214,7 +215,7 @@ function Page() {
                       value={songArtist}
                       onChange={handleArtistChange}
                       placeholder='Artist'
-                      pattern={regexPattern}
+                      pattern={regexPatternString}
                       title={regexMessage}
                     />
                     <Input
@@ -222,7 +223,7 @@ function Page() {
                       value={songAlbum}
                       onChange={handleAlbumChange}
                       placeholder='Album'
-                      pattern={regexPattern}
+                      pattern={regexPatternString}
                       title={regexMessage}
                     />
                   </div>

@@ -20,7 +20,7 @@ function SongListTable({ songs }) {
   return (
     <>
       {/* Scrollable area for the table */}
-      <ScrollArea className='h-[75vh] max-h-[550px] py-4 px-6 rounded-md border'>
+      <ScrollArea className='h-[75vh] max-h-[550px] min-w-[50vw] py-4 px-6 rounded-md border'>
         {/* Table for displaying song information */}
         <Table className='text-left font-thin text-base lg:text-xl'>
           <TableCaption>
@@ -86,12 +86,12 @@ function Page() {
             (loading ? (
               <LoadingBar />
             ) : songs.length === 0 ? (
-              <h2 className='text-3xl lg:text-4xl text-white font-thin'>
+              <h2 className='text-2xl lg:text-4xl text-white font-thin'>
                 <span className='text-bpmPink'>No </span>tracks were found.
               </h2>
             ) : (
               <>
-                <h2 className='text-3xl lg:text-4xl text-white font-thin'>
+                <h2 className='text-2xl lg:text-4xl text-white font-thin'>
                   <span className='text-bpmPink'>Your </span>tracks.
                 </h2>
                 {/* Display SongListTable component if there are songs */}
