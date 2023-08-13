@@ -63,7 +63,6 @@ function Page() {
       .then((response) => {
         setSongs(response.data);
         setLoading(false);
-        console.log({ songs });
       })
       .catch((error) => {
         console.error("Error fetching songs:", error);

@@ -24,6 +24,15 @@ function Page() {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
 
+  const regexPattern = /[a-zA-Z][a-zA-Z0-9._]{1,29}$/;
+  const regexMessage =
+    "Username must start with a letter and can only contain letters, numbers, periods, and underscores.";
+
+  // Validation function for text inputs
+  const isValidText = (text) => {
+    return regexPattern.test(text);
+  };
+
   // Event handler for username input change
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -32,6 +41,13 @@ function Page() {
   // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!isValidText(username)) {
+      setError(regexMessage);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setSearched(false);
     setSongsData([]);
@@ -48,7 +64,7 @@ function Page() {
       setSearched(true);
     } catch (error) {
       // Handle errors by setting an error message
-      setError("Error, please try again later.");
+      setError(error.message);
     } finally {
       // Set loading to false and reset username field
       setLoading(false);
@@ -80,8 +96,8 @@ function Page() {
                   placeholder='Username'
                   value={username}
                   onChange={handleUsernameChange}
-                  pattern='^[a-zA-Z][a-zA-Z0-9._]{1,29}$'
-                  title='Username must start with a letter and can only contain letters, numbers, periods, and underscores.'
+                  pattern={regexPattern}
+                  title={regexMessage}
                   required
                   className='w-[50vw] max-w-[250px] min-w-[200px]'
                 />
