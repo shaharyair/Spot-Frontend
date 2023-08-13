@@ -4,28 +4,42 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingBar from "@/components/loadingbar";
 import ErrorMessage from "@/components/errormessage";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-function SongList({ songs }) {
+function SongListTable({ songs }) {
   return (
     <>
-      {songs.length !== 0 && (
-        <>
-          <h2 className='text-bpmPink text-3xl lg:text-4xl'>Tracks:</h2>
-          <ul className='flex flex-col justify-center items-start gap-2 text-left'>
+      <ScrollArea className='h-[75vh] max-h-[550px] py-4 px-6 rounded-md border'>
+        <Table className='text-left font-thin text-base lg:text-xl'>
+          <TableCaption>A list of all the tracks.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Artist</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Album</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className='text-white'>
             {songs.map((song, index) => (
-              <li
-                key={index}
-                className='flex justify-center items-center gap-2'
-              >
-                <p className='text-white md:text-md lg:text-lg'>
-                  <span className='text-bpmPink'>Title: </span>
-                  {song.title}
-                </p>
-              </li>
+              <TableRow key={index}>
+                {console.log(song)}
+                <TableCell className='text-bpmPink'>{song.artist}</TableCell>
+                <TableCell>{song.title}</TableCell>
+                <TableCell className='text-bpmPink'>{song.album}</TableCell>
+              </TableRow>
             ))}
-          </ul>
-        </>
-      )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
     </>
   );
 }
@@ -41,6 +55,7 @@ function Page() {
       .then((response) => {
         setSongs(response.data);
         setLoading(false);
+        console.log({ songs });
       })
       .catch((error) => {
         console.error("Error fetching songs:", error);
@@ -52,9 +67,19 @@ function Page() {
   return (
     <>
       <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-8 text-center'>
+        <div className='flex flex-col justify-center items-center gap-8 text-center mt-16'>
           {error && <ErrorMessage message={error} />}
-          {!error && (loading ? <LoadingBar /> : <SongList songs={songs} />)}
+          {!error &&
+            (loading ? (
+              <LoadingBar />
+            ) : (
+              <>
+                <h2 className='text-3xl lg:text-4xl text-white font-thin'>
+                  <span className='text-bpmPink'>Your </span>tracks.
+                </h2>
+                {songs.length !== 0 && <SongListTable songs={songs} />}
+              </>
+            ))}
         </div>
       </div>
     </>

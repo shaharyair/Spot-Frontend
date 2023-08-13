@@ -53,8 +53,8 @@ function Page() {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", songTitle);
-    formData.append("artist", songTitle);
-    formData.append("album", songTitle);
+    formData.append("artist", songArtist);
+    formData.append("album", songAlbum);
 
     axios
       .post("http://127.0.0.1:5000/api/upload_song", formData)
