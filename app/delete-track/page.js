@@ -2,73 +2,155 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import LoadingBar from "@/components/loadingbar";
+import { HiTrash } from "react-icons/hi2";
 import ErrorMessage from "@/components/errormessage";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import WarningDialog from "@/components/warning-dialog";
+import Dialog from "@/components/dialog";
 
-function SongListDeleteForm({ songs }) {
-  const [songTitle, setSongTitle] = useState("");
+const FormSchema = z.object({
+  id: z.number({}),
+});
 
-  const handleRadioChange = (event) => {
-    setSongTitle(event.target.value);
-  };
+function SongListDeleteForm({ songs, onSongDeleted }) {
+  const [openWarningDialog, setOpenWarningDialog] = useState(false);
+  const [songDeleted, setSongDeleted] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedSongTitle, setSelectedSongTitle] = useState("");
 
-  const handleDelete = (event) => {
-    event.preventDefault();
-    if (!songTitle.trim()) {
-      alert("Please choose a song title.");
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+  });
+
+  function onSubmit(data) {
+    setLoading(true);
+
+    const selectedSong = songs.find((song) => song.id === data.id);
+
+    if (!selectedSong) {
+      form.setError("id", {
+        type: "manual",
+        message: "Invalid song selected.",
+      });
       return;
     }
 
     axios
-      .post("http://127.0.0.1:5000/api/delete_song", { title: songTitle })
+      .post("http://127.0.0.1:5000/api/delete_song", data)
       .then((response) => {
-        console.log("Song deleted successfully!");
-        alert("Song deleted successfully!");
-        window.location.reload();
+        setOpenWarningDialog(false);
+        setSongDeleted("Track deleted successfully.");
+        onSongDeleted(selectedSongTitle);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Failed to delete the song.", error);
-        alert("Failed to delete the song!");
+        setOpenWarningDialog(false);
+        setError(error.message);
+        setLoading(false);
+      })
+      .finally(() => {
+        setSelectedSongTitle("");
       });
-  };
+  }
 
   return (
     <>
-      <form
-        className='flex flex-col justify-center items-center gap-8 text-center'
-        onSubmit={handleDelete}
-      >
-        <h2 className='text-bpmPink text-3xl lg:text-4xl'>Tracks:</h2>
-        <ul className='flex flex-col justify-center items-start gap-2 text-left'>
-          {songs.map((song, index) => (
-            <li key={index} className='flex justify-center items-center gap-2'>
-              <input
-                id={song.title}
-                type='radio'
-                value={song.title}
-                checked={songTitle === song.title}
-                onChange={handleRadioChange}
-                className='h-4 w-4'
+      {!loading && songDeleted && (
+        <Dialog message={songDeleted} onClick={() => setSongDeleted(false)} />
+      )}
+      {!loading && error && (
+        <Dialog message={error} onClick={() => setError(false)} />
+      )}
+      {loading ? (
+        <LoadingBar />
+      ) : (
+        <div className='flex flex-col justify-center items-center gap-10 w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'>
+          <h2 className='text-3xl lg:text-4xl text-white font-thin overflow-visible whitespace-nowrap'>
+            <span className='text-bpmPink'>Delete</span> your tracks.
+          </h2>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className='flex flex-col justify-center items-center gap-8'
+            >
+              <FormField
+                control={form.control}
+                name='id'
+                render={({ field }) => (
+                  <FormItem className='w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'>
+                    <Select
+                      onValueChange={(value) => {
+                        const selectedSong = songs.find(
+                          (song) => song.title === value
+                        );
+
+                        setSelectedSongTitle(value);
+                        field.onChange(selectedSong.id);
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue>
+                            {songs.length === 0
+                              ? "No tracks to delete."
+                              : selectedSongTitle || "Select a track"}
+                          </SelectValue>
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Tracks</SelectLabel>
+                          {songs.map((song, index) => (
+                            <SelectItem key={index} value={song.title}>
+                              {song.title}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
               />
-              <Label
-                htmlFor={song.title}
-                className='text-white md:text-md lg:text-lg leading-5'
+
+              <Button
+                onClick={() => setOpenWarningDialog(true)}
+                disabled={!selectedSongTitle}
+                size='lg'
+                className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
+                type='button'
               >
-                {song.title}
-              </Label>
-            </li>
-          ))}
-        </ul>
-        <Button
-          disabled={!songTitle}
-          type='submit'
-          className='bg-bpmPink text-black hover:bg-white duration-200 '
-        >
-          Delete Track
-        </Button>
-      </form>
+                Delete
+                <HiTrash className='text-lg lg:text-xl' />
+              </Button>
+              {openWarningDialog && (
+                <WarningDialog
+                  title={"Are you sure?"}
+                  message={
+                    "This action cannot be undone. This will permanently delete the track."
+                  }
+                  onClickCancel={() => setOpenWarningDialog(false)}
+                />
+              )}
+            </form>
+          </Form>
+        </div>
+      )}
     </>
   );
 }
@@ -77,6 +159,12 @@ function Page() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
+
+  const handleSongDeleted = (deletedSongTitle) => {
+    setSongs((prevSongs) =>
+      prevSongs.filter((song) => song.title !== deletedSongTitle)
+    );
+  };
 
   useEffect(() => {
     axios
@@ -88,7 +176,7 @@ function Page() {
       .catch((error) => {
         console.error("Error fetching songs:", error);
         setLoading(false);
-        setError("Error fetching songs. Please try again later.");
+        setError(error.message);
       });
   }, []);
 
@@ -98,7 +186,14 @@ function Page() {
         <div className='flex flex-col justify-center items-center gap-8 text-center'>
           {error && <ErrorMessage message={error} />}
           {!error &&
-            (loading ? <LoadingBar /> : <SongListDeleteForm songs={songs} />)}
+            (loading ? (
+              <LoadingBar />
+            ) : (
+              <SongListDeleteForm
+                songs={songs}
+                onSongDeleted={handleSongDeleted}
+              />
+            ))}
         </div>
       </div>
     </>
