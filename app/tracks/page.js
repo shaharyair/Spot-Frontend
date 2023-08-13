@@ -23,7 +23,10 @@ function SongListTable({ songs }) {
       <ScrollArea className='h-[75vh] max-h-[550px] py-4 px-6 rounded-md border'>
         {/* Table for displaying song information */}
         <Table className='text-left font-thin text-base lg:text-xl'>
-          <TableCaption>A list of all the tracks.</TableCaption>
+          <TableCaption>
+            {songs.length}{" "}
+            {songs.length === 1 ? "result was found." : "results were found."}
+          </TableCaption>
           <TableHeader>
             {/* Table header row */}
             <TableRow>
@@ -82,6 +85,10 @@ function Page() {
             // Display loading bar or song list if there's no error
             (loading ? (
               <LoadingBar />
+            ) : songs.length === 0 ? (
+              <h2 className='text-3xl lg:text-4xl text-white font-thin'>
+                <span className='text-bpmPink'>No </span>tracks were found.
+              </h2>
             ) : (
               <>
                 <h2 className='text-3xl lg:text-4xl text-white font-thin'>
