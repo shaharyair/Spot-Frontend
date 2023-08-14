@@ -24,6 +24,7 @@ function Page() {
   const [loading, setLoading] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [trackExists, setTrackExists] = useState(false);
+  const [userEditedTitle, setUserEditedTitle] = useState(false);
 
   const regexPatternString = "^.{1,50}$";
   const regexMessage = "Please enter a maximum length of 50 characters.";
@@ -40,12 +41,16 @@ function Page() {
     setSelectedFile(newFile);
 
     setFileName(newFile.name.replace(/\.[^/.]+$/, ""));
+
+    setUserEditedTitle(false);
   };
 
   // Handler for song title change
   const handleTitleChange = (event) => {
     const newTitle = event.target.value;
     setSongTitle(newTitle);
+
+    setUserEditedTitle(true);
 
     // Check if the title already exists in the database
     axios
@@ -87,10 +92,10 @@ function Page() {
     }
 
     if (
-      (fileName !== "" && !isValidText(fileName)) ||
-      (songTitle !== "" && !isValidText(songTitle)) ||
-      (songArtist !== "" && !isValidText(songArtist)) ||
-      (songAlbum !== "" && !isValidText(songAlbum))
+      (fileName && !isValidText(fileName)) ||
+      (songTitle && !isValidText(songTitle)) ||
+      (songArtist && !isValidText(songArtist)) ||
+      (songAlbum && !isValidText(songAlbum))
     ) {
       setError(regexMessage);
       setLoading(false);
@@ -100,7 +105,7 @@ function Page() {
     // Prepare form data for upload
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("title", songTitle);
+    formData.append("title", songTitle || fileName);
     formData.append("artist", songArtist);
     formData.append("album", songAlbum);
 
@@ -111,15 +116,17 @@ function Page() {
       );
       const songs = songsResponse.data;
 
-      const fileNameExists = songs.some(
-        (song) => song.title.toLowerCase() === fileName.toLowerCase()
-      );
+      const noTitlefileNameExists =
+        !songTitle &&
+        songs.some(
+          (song) => song.title.toLowerCase() === fileName.toLowerCase()
+        );
 
       const titleExists = songs.some(
         (song) => song.title.toLowerCase() === songTitle.toLowerCase()
       );
 
-      if (titleExists || fileNameExists) {
+      if (titleExists || noTitlefileNameExists) {
         setError("A track with the same title already exists.");
       } else {
         // Upload the song if the title doesn't exist
@@ -201,7 +208,7 @@ function Page() {
                   <div className='flex flex-col gap-3 p-1'>
                     <Input
                       type='text'
-                      value={songTitle}
+                      value={userEditedTitle ? songTitle : fileName}
                       onChange={handleTitleChange}
                       placeholder='Title'
                       pattern={regexPatternString}
