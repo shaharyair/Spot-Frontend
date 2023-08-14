@@ -7,6 +7,7 @@ import {
   FaYoutube,
   FaFacebookSquare,
 } from "react-icons/fa";
+import SocialLinks from "./sociallinks";
 
 function Footer() {
   return (
@@ -17,7 +18,7 @@ function Footer() {
           <div className='col-start-1 col-span-2 row-start-1 self-center lg:col-span-1 lg:self-start flex justify-center items-center gap-[5px]'>
             <h1>Powered</h1>
             <h1>By</h1>
-            <Link href='/'>
+            <Link href='https://www.bpm-music.com/'>
               <Image
                 src={bpmLogo}
                 width={65}
@@ -80,18 +81,7 @@ function Footer() {
           <div className=' col-start-1 row-start-3 col-span-2 lg:row-start-3 lg:col-span-3'>
             <h1 className='text-gray-400 mb-5'>Follow us</h1>
             <div className='flex justify-center items-center gap-5 text-2xl lg:text-3xl text-bpmPink transition-colors duration-200'>
-              <Link href='/'>
-                <FaInstagram className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaFacebookSquare className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaYoutube className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaTiktok className=' hover:text-white transition-colors duration-200' />
-              </Link>
+              <SocialLinks />
             </div>
           </div>
           <div className='row-start-4 col-start-1 col-span-2 mt-5 lg:row-start-4 lg:col-span-3 lg:self-end'>

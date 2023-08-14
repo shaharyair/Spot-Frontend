@@ -2,14 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { HiUser, HiBars3, HiXMark, HiMagnifyingGlass } from "react-icons/hi2";
-import {
-  FaInstagram,
-  FaTiktok,
-  FaYoutube,
-  FaFacebookSquare,
-} from "react-icons/fa";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import SocialLinks from "./sociallinks";
 
 function Navbar() {
   const [openMobileNavbar, setOpenMobileNavbar] = useState(false);
@@ -113,18 +108,7 @@ function Navbar() {
               </div>
             </Link>
             <div className='flex gap-4 lg:hidden text-2xl text-bpmPink'>
-              <Link href='/'>
-                <FaInstagram className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaFacebookSquare className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaYoutube className=' hover:text-white transition-colors duration-200' />
-              </Link>
-              <Link href='/'>
-                <FaTiktok className=' hover:text-white transition-colors duration-200' />
-              </Link>
+              <SocialLinks />
             </div>
           </div>
           <Link href='/' className='ml-6 lg:ml-0 lg:mr-20'>
