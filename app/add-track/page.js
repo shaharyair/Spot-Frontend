@@ -24,6 +24,7 @@ function Page() {
   const [loading, setLoading] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [trackExists, setTrackExists] = useState(false);
+  const [userEditedTitle, setUserEditedTitle] = useState(false);
 
   const regexPatternString = "^.{1,50}$";
   const regexMessage = "Please enter a maximum length of 50 characters.";
@@ -40,12 +41,16 @@ function Page() {
     setSelectedFile(newFile);
 
     setFileName(newFile.name.replace(/\.[^/.]+$/, ""));
+
+    setUserEditedTitle(false);
   };
 
   // Handler for song title change
   const handleTitleChange = (event) => {
     const newTitle = event.target.value;
     setSongTitle(newTitle);
+
+    setUserEditedTitle(true);
 
     // Check if the title already exists in the database
     axios
@@ -201,7 +206,7 @@ function Page() {
                   <div className='flex flex-col gap-3 p-1'>
                     <Input
                       type='text'
-                      value={songTitle}
+                      value={userEditedTitle ? songTitle : fileName}
                       onChange={handleTitleChange}
                       placeholder='Title'
                       pattern={regexPatternString}
