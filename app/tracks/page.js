@@ -14,6 +14,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // Component for displaying the song list in a table
 function SongListTable({ songs }) {
@@ -86,9 +88,20 @@ function Page() {
             (loading ? (
               <LoadingBar />
             ) : songs.length === 0 ? (
-              <h2 className='text-2xl lg:text-4xl text-white font-thin'>
-                <span className='text-bpmPink'>No </span>tracks were found.
-              </h2>
+              <>
+                <h2 className='text-2xl lg:text-4xl text-white font-thin'>
+                  <span className='text-bpmPink'>No </span>tracks were found.
+                </h2>
+                <Link href='/add-track'>
+                  <Button
+                    size='lg'
+                    type='submit'
+                    className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
+                  >
+                    Upload Track
+                  </Button>
+                </Link>
+              </>
             ) : (
               <>
                 <h2 className='text-2xl lg:text-4xl text-white font-thin'>

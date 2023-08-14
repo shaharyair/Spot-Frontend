@@ -77,7 +77,7 @@ function Page() {
   return (
     <>
       <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-12'>
+        <div className='flex flex-col justify-center items-center gap-10'>
           {loading ? (
             // Show loading bar when data is being fetched
             <LoadingBar />
