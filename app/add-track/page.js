@@ -198,7 +198,12 @@ function Page() {
                 onChange={handleFileChange}
                 required
               />
-
+              {/* Track exists message */}
+              {trackExists && (
+                <p className='text-red-800'>
+                  A track with the same title already exists.
+                </p>
+              )}
               {/* More Options section */}
               <div className='grid grid-col-2 justify-center items-center'>
                 {/* Toggle More Options */}
