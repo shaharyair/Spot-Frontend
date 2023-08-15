@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,10 +12,12 @@ import LoadingBar from "@/components/loadingbar";
 import Dialog from "@/components/dialog";
 import Tooltip from "@/components/tooltip";
 
+// Main component definition
 function Page() {
-  // State variables
+  // State variables to manage form inputs, loading state, and error messages
+  const [songs, setSongs] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileName, setFileName] = useState("");
+  const [fileNameNoExtension, setFileNameNoExtension] = useState("");
   const [songTitle, setSongTitle] = useState("");
   const [songArtist, setSongArtist] = useState("");
   const [songAlbum, setSongAlbum] = useState("");
@@ -25,7 +27,9 @@ function Page() {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [trackExists, setTrackExists] = useState(false);
   const [userEditedTitle, setUserEditedTitle] = useState(false);
+  const [uploadCount, setUploadCount] = useState(0);
 
+  // Regular expression pattern and error message for text validation
   const regexPatternString = "^.{1,50}$";
   const regexMessage = "Please enter a maximum length of 50 characters.";
 
@@ -37,34 +41,33 @@ function Page() {
 
   // Handler for file input change
   const handleFileChange = (event) => {
+    // Update selected file and related state variables
     const newFile = event.target.files[0];
     setSelectedFile(newFile);
-
-    setFileName(newFile.name.replace(/\.[^/.]+$/, ""));
-
     setUserEditedTitle(false);
+    const fileName = newFile && newFile.name.replace(/\.[^/.]+$/, "");
+    setFileNameNoExtension(fileName);
+
+    // Check if the filename already exists in the database if title not edited by user
+    const noTitlefileNameExists =
+      fileName &&
+      !songTitle &&
+      songs.some((song) => song.title.toLowerCase() === fileName.toLowerCase());
+    setTrackExists(noTitlefileNameExists);
   };
 
   // Handler for song title change
   const handleTitleChange = (event) => {
+    // Update song title and check if it already exists
     const newTitle = event.target.value;
     setSongTitle(newTitle);
-
     setUserEditedTitle(true);
 
-    // Check if the title already exists in the database
-    axios
-      .get(`http://127.0.0.1:5000/api/database_songs`)
-      .then((response) => {
-        const songs = response.data;
-        const titleExists = songs.some(
-          (song) => song.title.toLowerCase() === newTitle.toLowerCase()
-        );
-        setTrackExists(titleExists);
-      })
-      .catch((error) => {
-        console.error("Error fetching songs:", error);
-      });
+    // Check if the title already exists in the database if title edited by user
+    const titleExists = songs.some(
+      (song) => song.title.toLowerCase() === newTitle.toLowerCase()
+    );
+    setTrackExists(titleExists);
   };
 
   // Handlers for artist and album input changes
@@ -80,11 +83,10 @@ function Page() {
   const handleUpload = async (event) => {
     event.preventDefault();
 
+    // Start loading state
     setLoading(true);
-    setError("");
-    setSongUploaded("");
 
-    // Validation checks
+    // Validation checks for form inputs
     if (!selectedFile) {
       setError("Please select a file.");
       setLoading(false);
@@ -92,7 +94,7 @@ function Page() {
     }
 
     if (
-      (fileName && !isValidText(fileName)) ||
+      (fileNameNoExtension && !isValidText(fileNameNoExtension)) ||
       (songTitle && !isValidText(songTitle)) ||
       (songArtist && !isValidText(songArtist)) ||
       (songAlbum && !isValidText(songAlbum))
@@ -105,7 +107,7 @@ function Page() {
     // Prepare form data for upload
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("title", songTitle || fileName);
+    formData.append("title", songTitle || fileNameNoExtension);
     formData.append("artist", songArtist);
     formData.append("album", songAlbum);
 
@@ -119,7 +121,8 @@ function Page() {
       const noTitlefileNameExists =
         !songTitle &&
         songs.some(
-          (song) => song.title.toLowerCase() === fileName.toLowerCase()
+          (song) =>
+            song.title.toLowerCase() === fileNameNoExtension.toLowerCase()
         );
 
       const titleExists = songs.some(
@@ -137,8 +140,11 @@ function Page() {
       console.error("Error:", error);
       setError(error.message);
     } finally {
+      // Reset state after upload attempt
+      setUploadCount((prevCount) => prevCount + 1);
       setLoading(false);
       setOptionsOpen(false);
+      setFileNameNoExtension("");
       setSongTitle("");
       setSongArtist("");
       setSongAlbum("");
@@ -146,6 +152,20 @@ function Page() {
     }
   };
 
+  // Fetch songs data from the server when uploadCount changes
+  useEffect(() => {
+    axios
+      .get(`http://127.0.0.1:5000/api/database_songs`)
+      .then((response) => {
+        setSongs(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching songs:", error);
+        setError(error.message);
+      });
+  }, [uploadCount]);
+
+  // Render the component UI
   return (
     <>
       {/* Display success or error dialogs */}
@@ -164,11 +184,15 @@ function Page() {
               className='flex flex-col justify-center items-center text-center gap-4'
               onSubmit={handleUpload}
             >
+              {/* Form header */}
               <h2 className='text-3xl lg:text-4xl mb-8 text-white font-thin'>
                 <span className='text-bpmPink'>Upload</span> your tracks.
               </h2>
+              {/* File input */}
               <Input
-                className='w-[90vw] max-w-[300px] min-w-[250px]'
+                className={`w-[90vw] max-w-[300px] min-w-[250px]  ${
+                  trackExists && "border-2 border-red-500 text-red-800"
+                }`}
                 id='Track'
                 type='file'
                 onChange={handleFileChange}
@@ -206,9 +230,10 @@ function Page() {
                   } col-span-2 overflow-hidden flex flex-col w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg transition-max-w  duration-300 ease-linear`}
                 >
                   <div className='flex flex-col gap-3 p-1'>
+                    {/* Title input */}
                     <Input
                       type='text'
-                      value={userEditedTitle ? songTitle : fileName}
+                      value={userEditedTitle ? songTitle : fileNameNoExtension}
                       onChange={handleTitleChange}
                       placeholder='Title'
                       pattern={regexPatternString}
@@ -217,6 +242,7 @@ function Page() {
                         trackExists && "border-2 border-red-500 text-red-800"
                       }
                     />
+                    {/* Artist input */}
                     <Input
                       type='text'
                       value={songArtist}
@@ -225,6 +251,7 @@ function Page() {
                       pattern={regexPatternString}
                       title={regexMessage}
                     />
+                    {/* Album input */}
                     <Input
                       type='text'
                       value={songAlbum}
@@ -254,4 +281,5 @@ function Page() {
   );
 }
 
+// Export the component
 export default Page;
