@@ -24,7 +24,15 @@ import Dialog from "@/components/dialog";
 
 // Define validation schema for the form
 const FormSchema = z.object({
-  id: z.number({}),
+  id: z.number().refine(
+    (value) => {
+      const idString = value.toString();
+      return /^[0-9]{8}$/.test(idString); // Check if it's an 8-digit number
+    },
+    {
+      message: "Song ID must be an 8-digit number.",
+    }
+  ),
 });
 
 // Component responsible for deleting songs
@@ -34,7 +42,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
   const [songDeleted, setSongDeleted] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedSongTitle, setSelectedSongTitle] = useState("");
+  const [selectedSong, setSelectedSong] = useState(null);
 
   // React Hook Form initialization
   const form = useForm({
@@ -60,17 +68,16 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
       .post("http://127.0.0.1:5000/api/delete_song", data)
       .then((response) => {
         setOpenWarningDialog(false);
+        onSongDeleted((prevCount) => prevCount + 1);
         setSongDeleted("Track deleted successfully.");
-        onSongDeleted(selectedSongTitle);
-        setLoading(false);
       })
       .catch((error) => {
         setOpenWarningDialog(false);
         setError(error.message);
-        setLoading(false);
       })
       .finally(() => {
-        setSelectedSongTitle("");
+        setLoading(false);
+        setSelectedSong("");
       });
   }
 
@@ -83,6 +90,9 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
       {/* Display error dialog */}
       {!loading && error && (
         <Dialog message={error} onClick={() => setError(false)} />
+      )}
+      {form.formState.errors.id && (
+        <Dialog message={form.formState.errors.id.message} />
       )}
       {/* Display loading bar */}
       {loading ? (
@@ -105,32 +115,50 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                   <FormItem className='w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'>
                     {/* Dropdown for selecting a song */}
                     <Select
-                      onValueChange={(value) => {
-                        const selectedSong = songs.find(
-                          (song) => song.title === value
+                      onValueChange={(stringSongId) => {
+                        const intSongId = parseInt(stringSongId);
+
+                        field.onChange(intSongId);
+
+                        const selectedSongById = songs.find(
+                          (song) => song.id === intSongId
                         );
 
-                        setSelectedSongTitle(value);
-                        field.onChange(selectedSong.id);
+                        setSelectedSong(selectedSongById);
                       }}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue>
-                            {songs.length === 0
-                              ? "No tracks to delete."
-                              : selectedSongTitle || "Select a track"}
+                            {songs.length === 0 ? (
+                              "No tracks to delete."
+                            ) : selectedSong ? (
+                              <>
+                                <span className='text-bpmPink'>
+                                  {selectedSong.artist}
+                                </span>{" "}
+                                - {selectedSong.title}
+                              </>
+                            ) : (
+                              "Select a track"
+                            )}
                           </SelectValue>
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className='w-[90vw] max-w-[300px] min-w-[250px] min-h-[40vh] max-h-[300px] text-md lg:text-lg'>
                         <SelectGroup>
-                          <SelectLabel>Tracks</SelectLabel>
                           {/* Display available song options */}
-                          {songs.map((song, index) => (
-                            <SelectItem key={index} value={song.title}>
+                          {songs.map((song) => (
+                            <SelectItem
+                              key={song.id.toString()}
+                              value={song.id.toString()}
+                            >
                               {song.title}
+                              <br />
+                              <span className='text-bpmPink'>
+                                {song.artist}
+                              </span>
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -143,7 +171,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
               {/* Delete button */}
               <Button
                 onClick={() => setOpenWarningDialog(true)}
-                disabled={!selectedSongTitle}
+                disabled={!selectedSong}
                 size='lg'
                 className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
                 type='button'
@@ -175,13 +203,7 @@ function Page() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
-
-  // Function to handle song deletion
-  const handleSongDeleted = (deletedSongTitle) => {
-    setSongs((prevSongs) =>
-      prevSongs.filter((song) => song.title !== deletedSongTitle)
-    );
-  };
+  const [deleteCount, setDeleteCount] = useState(0);
 
   // Fetch songs when the component mounts
   useEffect(() => {
@@ -196,7 +218,7 @@ function Page() {
         setLoading(false);
         setError(error.message);
       });
-  }, []);
+  }, [deleteCount]);
 
   return (
     <>
@@ -213,7 +235,7 @@ function Page() {
               // Display the song deletion form
               <SongListDeleteForm
                 songs={songs}
-                onSongDeleted={handleSongDeleted}
+                onSongDeleted={setDeleteCount}
               />
             ))}
         </div>
