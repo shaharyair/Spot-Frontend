@@ -92,7 +92,7 @@ function Page() {
     setSongTitle("");
     setSongAlbum("");
     setFileName(newFile ? fileNameWithoutExtension : "");
-    setOptionsOpen(false);
+    setOptionsOpen(true);
   };
 
   // Handler for song title change
