@@ -230,7 +230,10 @@ function Page() {
         setError("A track with the same title and artist already exists.");
       } else {
         // Upload the song if the title doesn't exist
-        await axios.post("http://127.0.0.1:5000/api/upload_song", formData);
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}upload_song`,
+          formData
+        );
         setSongUploaded("Track uploaded successfully.");
       }
     } catch (error) {
@@ -253,7 +256,7 @@ function Page() {
   // Fetch songs data from the server when uploadCount changes
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:5000/api/database_songs`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
       .then((response) => {
         setSongs(response.data);
       })

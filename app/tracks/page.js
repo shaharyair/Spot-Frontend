@@ -64,7 +64,7 @@ function Page() {
   // Fetch songs data from the server when the component mounts
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:5000/api/database_songs`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
       .then((response) => {
         setSongs(response.data);
         setLoading(false);

@@ -56,9 +56,12 @@ function Page() {
 
     try {
       // Make a GET request to fetch songs data based on the provided username
-      const response = await axios.get(`http://127.0.0.1:5000/api/songs`, {
-        params: { username },
-      });
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}songs`,
+        {
+          params: { username },
+        }
+      );
 
       // Update state with fetched songs data and set searched to true
       setSongsData(response.data);

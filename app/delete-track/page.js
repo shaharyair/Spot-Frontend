@@ -65,7 +65,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
 
     // Make API call to delete the song
     axios
-      .post("http://127.0.0.1:5000/api/delete_song", data)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}delete_song`, data)
       .then((response) => {
         setOpenWarningDialog(false);
         onSongDeleted((prevCount) => prevCount + 1);
@@ -208,7 +208,7 @@ function Page() {
   // Fetch songs when the component mounts
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:5000/api/database_songs`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
       .then((response) => {
         setSongs(response.data);
         setLoading(false);
