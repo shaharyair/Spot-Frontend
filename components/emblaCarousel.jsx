@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { flushSync } from "react-dom";
 
-const TWEEN_FACTOR = 6;
+const TWEEN_FACTOR = 4.5;
 
 const numberWithinRange = (number, min, max) =>
   Math.min(Math.max(number, min), max);
@@ -22,6 +22,8 @@ const EmblaCarousel = (props) => {
     const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
     setScrollProgress(progress * 100);
 
+    const slideIndex = parseInt(emblaApi.slidesInView(true));
+
     const styles = emblaApi.scrollSnapList().map((scrollSnap, index) => {
       let diffToTarget = scrollSnap - scrollProgress;
 
@@ -36,16 +38,12 @@ const EmblaCarousel = (props) => {
         });
       }
 
-      const slideIndex = parseInt(emblaApi.slidesInView(true));
-      setSlideInView(slideIndex);
-
-      console.log(slideInView);
-
       const tweenValue = 1 - Math.abs(diffToTarget * TWEEN_FACTOR);
       return numberWithinRange(tweenValue, 0, 1);
     });
     setOpacityValues(styles);
-  }, [emblaApi, setOpacityValues, slideInView]);
+    setSlideInView(slideIndex);
+  }, [emblaApi, setOpacityValues, setSlideInView]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -72,25 +70,38 @@ const EmblaCarousel = (props) => {
 
   return (
     <div className='overflow-hidden' ref={emblaRef}>
-      <div className='flex touch-pan-y w-full max-w-[750px] rounded-lg  '>
+      <div className='flex touch-pan-y w-full max-w-[750px] rounded-lg'>
         {slides.map((slide, index) => (
           <div
-            className='flex justify-center items-center transform flex-shrink-0 flex-grow-0 w-min-0 w-[85vw] max-w-[350px] mx-2'
             key={index}
+            className='flex flex-col justify-center items-center gap-2'
             style={{
               ...(opacityValues && {
                 opacity: opacityValues[index],
               }),
             }}
           >
-            <video
-              className='w-full object-cover drop-shadow-md rounded-lg carousel-video'
-              autoPlay={index === slideInView}
-              muted={index !== slideInView}
-              loop
+            <h1 className='text-white text-xl font-thin'>
+              <span className='text-bpmPink'>Yust</span> - {`Track ${index}`}
+            </h1>
+            <div
+              className='flex justify-center items-center transform flex-shrink-0 flex-grow-0 w-min-0 w-[85vw] max-w-[350px] mx-2'
+              key={index}
+              style={{
+                ...(opacityValues && {
+                  opacity: opacityValues[index],
+                }),
+              }}
             >
-              <source src={slide} />
-            </video>
+              <video
+                className='w-full object-cover drop-shadow-md rounded-lg carousel-video'
+                autoPlay={index === slideInView}
+                muted={index !== slideInView}
+                loop
+              >
+                <source src={slide} />
+              </video>
+            </div>
           </div>
         ))}
       </div>

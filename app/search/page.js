@@ -132,16 +132,16 @@ function CalendarForm() {
 export default function Page() {
   return (
     <>
-      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
+      <div className='container mt-24 p-14 min-h-[650px] flex justify-center items-center'>
         <EmblaCarousel
           slides={[
-            "https://drive.google.com/uc?id=1LwTsb1fsXpT9TkWcMAWWboxoF5kqcSzA",
             "https://drive.google.com/uc?id=1tn6-RtGJqk2zNIoaL7oKLfE6f_WErmTZ",
             "https://drive.google.com/uc?id=1jolteKG_n8PAE8NHJgdevwqo53O3VKBu",
             "https://drive.google.com/uc?id=1KESnzSgSlhJt1E5gP6g0tKV1YFMObR01",
+            "https://drive.google.com/uc?id=1LwTsb1fsXpT9TkWcMAWWboxoF5kqcSzA",
             "https://drive.google.com/uc?id=1x06vLK_52GxzW_2w5XKD__zAtUaa3DuS",
             "https://drive.google.com/uc?id=1FtZatD-vUClc-GCJIqLOBPxlptNN1TJI",
-            "https://drive.google.com/uc?id=1WV9UCrXdFLihiyXM8nwxEO3ucAKx34nh",
+            "https://drive.google.com/uc?id=1KiyTrUHjzIWMmZNrVgXeWsjrjJ7R8d2M",
           ]}
           options={{
             loop: true,
@@ -149,6 +149,7 @@ export default function Page() {
             inViewThreshold: 1,
           }}
         />
+        {/* <CalendarForm /> */}
       </div>
     </>
   );
