@@ -1,7 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { flushSync } from "react-dom";
-import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from "react-icons/hi2";
+import {
+  HiOutlineSpeakerWave,
+  HiOutlineSpeakerXMark,
+  HiOutlineShare,
+} from "react-icons/hi2";
+
+import { FaShare, FaInstagram, FaTiktok, FaFacebook } from "react-icons/fa";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
 
 const TWEEN_FACTOR = 4.5;
 
@@ -70,6 +86,16 @@ const EmblaCarousel = (props) => {
     });
   }, [slideInView]);
 
+  const handleInstagramShare = (videoUrl) => {
+    // Create the Instagram intent link
+    const instagramLink = `instagram://library?AssetPath=${encodeURIComponent(
+      videoUrl
+    )}`;
+
+    // Open the Instagram app if available, otherwise, open the Instagram website
+    window.location.href = instagramLink;
+  };
+
   return (
     <div className='overflow-hidden' ref={emblaRef}>
       <div className='flex touch-pan-y w-full max-w-[750px] rounded-lg'>
@@ -83,9 +109,27 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <h1 className='text-white text-xl font-thin'>
-              <span className='text-bpmPink'>Yust</span> - {`Track ${index}`}
-            </h1>
+            <div className='w-full flex justify-around items-center'>
+              <h1 className='text-white text-xl font-thin'>
+                <span className='text-bpmPink'>Yust</span> - {`Track ${index}`}
+              </h1>
+              <DropdownMenu>
+                <DropdownMenuTrigger className='text-white text-xl'>
+                  <FaShare />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='bg-navbarBlack2 text-white flex flex-col justify-center items-center bg-black/75 min-w-2'>
+                  <DropdownMenuItem className='text-2xl cursor-pointer'>
+                    <FaInstagram />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className='text-2xl cursor-pointer'>
+                    <FaFacebook />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className='text-2xl cursor-pointer'>
+                    <FaTiktok />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <div
               className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-min-0 w-[85vw] max-w-[350px] mx-2'
               key={index}
