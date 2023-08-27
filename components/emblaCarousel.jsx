@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { flushSync } from "react-dom";
+import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from "react-icons/hi2";
 
 const TWEEN_FACTOR = 4.5;
 
@@ -13,6 +14,7 @@ const EmblaCarousel = (props) => {
   const [opacityValues, setOpacityValues] = useState([]);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [slideInView, setSlideInView] = useState(0);
+  const [mutedSlide, setMutedSlide] = useState(true);
 
   const onScroll = useCallback(() => {
     if (!emblaApi) return;
@@ -85,7 +87,7 @@ const EmblaCarousel = (props) => {
               <span className='text-bpmPink'>Yust</span> - {`Track ${index}`}
             </h1>
             <div
-              className='flex justify-center items-center transform flex-shrink-0 flex-grow-0 w-min-0 w-[85vw] max-w-[350px] mx-2'
+              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-min-0 w-[85vw] max-w-[350px] mx-2'
               key={index}
               style={{
                 ...(opacityValues && {
@@ -93,10 +95,20 @@ const EmblaCarousel = (props) => {
                 }),
               }}
             >
+              <div
+                className='absolute z-[999] top-5 left-5 text-white text-lg p-1.5 rounded-full bg-backgroundBlack/50'
+                onClick={() => setMutedSlide((muted) => !muted)}
+              >
+                {mutedSlide ? (
+                  <HiOutlineSpeakerXMark />
+                ) : (
+                  <HiOutlineSpeakerWave />
+                )}
+              </div>
               <video
                 className='w-full object-cover drop-shadow-md rounded-lg carousel-video'
                 autoPlay={index === slideInView}
-                muted={index !== slideInView}
+                muted={mutedSlide}
                 loop
               >
                 <source src={slide} />
