@@ -7,6 +7,7 @@ import LoadingBar from "@/components/loadingbar";
 
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { CalendarIcon } from "lucide-react";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -18,6 +19,13 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -50,6 +58,11 @@ function CalendarForm() {
     console.log(data.location);
   }
 
+  const locations = [
+    { label: "Yula Bar", value: "12345678" },
+    { label: "Kolaj Bar", value: "123" },
+  ];
+
   return (
     <>
       <Form {...form}>
@@ -64,10 +77,58 @@ function CalendarForm() {
             control={form.control}
             name='location'
             render={({ field }) => (
-              <FormItem className='w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg'>
-                <FormControl>
-                  <Input placeholder='Location' {...field} />
-                </FormControl>
+              <FormItem className='flex flex-col'>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant='outline'
+                        role='combobox'
+                        className={cn(
+                          "w-[90vw] max-w-[300px] min-w-[250px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? locations.find(
+                              (location) => location.value === field.value
+                            )?.label
+                          : "Select Location"}
+                        <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-[90vw] max-w-[300px] min-w-[250px] p-0'>
+                    <Command>
+                      <CommandInput
+                        placeholder='Search framework...'
+                        className='h-9'
+                      />
+                      <CommandEmpty>No Locations found.</CommandEmpty>
+                      <CommandGroup>
+                        {locations.map((location) => (
+                          <CommandItem
+                            value={location.label}
+                            key={location.value}
+                            onSelect={() => {
+                              form.setValue("location", location.value);
+                            }}
+                          >
+                            {location.label}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                location.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
@@ -133,7 +194,7 @@ export default function Page() {
   return (
     <>
       <div className='container mt-24 p-14 min-h-[650px] flex justify-center items-center'>
-        <EmblaCarousel
+        {/* <EmblaCarousel
           slides={[
             "https://drive.google.com/uc?id=1tn6-RtGJqk2zNIoaL7oKLfE6f_WErmTZ",
             "https://drive.google.com/uc?id=1jolteKG_n8PAE8NHJgdevwqo53O3VKBu",
@@ -148,8 +209,8 @@ export default function Page() {
             align: "center",
             inViewThreshold: 1,
           }}
-        />
-        {/* <CalendarForm /> */}
+        /> */}
+        <CalendarForm />
       </div>
     </>
   );
