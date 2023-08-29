@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 import { Calendar } from "@/components/ui/calendar";
@@ -89,7 +88,7 @@ function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex flex-col justify-center items-center gap-4'
+          className='flex flex-col justify-center items-center gap-4 p-10'
         >
           <h2 className='text-3xl lg:text-4xl mb-4 text-white font-thin'>
             <span className='text-bpmPink'>Spot</span> your tracks.
@@ -226,7 +225,7 @@ export default function Page() {
   return (
     <>
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className='container mt-24 h-[87dvh] min-h-[650px] flex justify-center items-center'>
+      <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (
@@ -236,14 +235,16 @@ export default function Page() {
             setError={setError}
           />
         ) : (
-          <EmblaCarousel
-            slides={stories.map((story) => story.drive_url)}
-            options={{
-              loop: true,
-              align: "center",
-              inViewThreshold: 1,
-            }}
-          />
+          <>
+            <EmblaCarousel
+              slides={stories}
+              options={{
+                loop: true,
+                align: "center",
+                inViewThreshold: 1,
+              }}
+            />
+          </>
         )}
       </div>
     </>
