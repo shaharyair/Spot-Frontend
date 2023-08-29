@@ -49,18 +49,39 @@ const FormSchema = z.object({
   }),
 });
 
-function CalendarForm() {
+function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
+
   function onSubmit(data) {
-    console.log(format(data.date, "dd/MM/yyyy"));
-    console.log(data.location);
+    data.date = format(data.date, "dd-MM-yyyy");
+
+    setLoading(true);
+
+    console.log(data);
+    console.log("searching tracks...");
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}location_songs`, data)
+      .then((response) => {
+        onStoriesSearch(response.data);
+        setLoading(false);
+        console.log("searched successfully.");
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   }
 
   const locations = [
-    { label: "Yula Bar", value: "12345678" },
-    { label: "Kolaj Bar", value: "123" },
+    { title: "art club" },
+    { title: "Kolaj Bar" },
+    { title: "Yula Bar" },
   ];
 
   return (
@@ -91,9 +112,9 @@ function CalendarForm() {
                       >
                         {field.value
                           ? locations.find(
-                              (location) => location.value === field.value
-                            )?.label
-                          : "Select Location"}
+                              (location) => location.title === field.value
+                            )?.title
+                          : "Pick a Location"}
                         <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                       </Button>
                     </FormControl>
@@ -101,24 +122,25 @@ function CalendarForm() {
                   <PopoverContent className='w-[90vw] max-w-[300px] min-w-[250px] p-0'>
                     <Command>
                       <CommandInput
-                        placeholder='Search framework...'
+                        placeholder='Search Location...'
                         className='h-9'
                       />
                       <CommandEmpty>No Locations found.</CommandEmpty>
                       <CommandGroup>
-                        {locations.map((location) => (
+                        {locations.map((location, i) => (
                           <CommandItem
-                            value={location.label}
-                            key={location.value}
+                            value={location.title}
+                            key={i}
                             onSelect={() => {
-                              form.setValue("location", location.value);
+                              setSelectedLocation(location.title);
+                              form.setValue("location", location.title);
                             }}
                           >
-                            {location.label}
+                            {location.title}
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                location.value === field.value
+                                location.title === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -163,6 +185,7 @@ function CalendarForm() {
                       mode='single'
                       selected={field.value}
                       onSelect={(selectDate) => {
+                        setSelectedDate(selectDate);
                         field.onChange(selectDate);
                       }}
                       disabled={(date) =>
@@ -179,7 +202,12 @@ function CalendarForm() {
               </FormItem>
             )}
           />
-          <Button type='submit' className='mt-2 gap-2' size='lg'>
+          <Button
+            disabled={!selectedLocation || !selectedDate}
+            type='submit'
+            className='mt-2 gap-2'
+            size='lg'
+          >
             Search
             <HiMagnifyingGlass className='text-lg ' />
           </Button>
@@ -191,26 +219,32 @@ function CalendarForm() {
 
 // Main component function
 export default function Page() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   return (
     <>
-      <div className='container mt-24 p-14 min-h-[650px] flex justify-center items-center'>
-        {/* <EmblaCarousel
-          slides={[
-            "https://drive.google.com/uc?id=1tn6-RtGJqk2zNIoaL7oKLfE6f_WErmTZ",
-            "https://drive.google.com/uc?id=1jolteKG_n8PAE8NHJgdevwqo53O3VKBu",
-            "https://drive.google.com/uc?id=1KESnzSgSlhJt1E5gP6g0tKV1YFMObR01",
-            "https://drive.google.com/uc?id=1LwTsb1fsXpT9TkWcMAWWboxoF5kqcSzA",
-            "https://drive.google.com/uc?id=1x06vLK_52GxzW_2w5XKD__zAtUaa3DuS",
-            "https://drive.google.com/uc?id=1FtZatD-vUClc-GCJIqLOBPxlptNN1TJI",
-            "https://drive.google.com/uc?id=1KiyTrUHjzIWMmZNrVgXeWsjrjJ7R8d2M",
-          ]}
-          options={{
-            loop: true,
-            align: "center",
-            inViewThreshold: 1,
-          }}
-        /> */}
-        <CalendarForm />
+      {error && <Dialog message={error} onClick={() => setError(false)} />}
+      <div className='container mt-24 h-[87dvh] min-h-[650px] flex justify-center items-center'>
+        {!error && loading ? (
+          <LoadingBar />
+        ) : stories.length === 0 ? (
+          <SpotTracksForm
+            onStoriesSearch={setStories}
+            setLoading={setLoading}
+            setError={setError}
+          />
+        ) : (
+          <EmblaCarousel
+            slides={stories.map((story) => story.drive_url)}
+            options={{
+              loop: true,
+              align: "center",
+              inViewThreshold: 1,
+            }}
+          />
+        )}
       </div>
     </>
   );
