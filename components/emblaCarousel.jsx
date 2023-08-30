@@ -21,7 +21,7 @@ const EmblaCarousel = (props) => {
   const videoRefs = useRef([]);
   const [opacityValues, setOpacityValues] = useState([]);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [slideInView, setSlideInView] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [mutedSlide, setMutedSlide] = useState(true);
 
   const onScroll = useCallback(() => {
@@ -32,7 +32,7 @@ const EmblaCarousel = (props) => {
     const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
     setScrollProgress(progress * 100);
 
-    const slideIndex = parseInt(emblaApi.slidesInView(true));
+    const slideIndex = emblaApi.selectedScrollSnap(true);
 
     const styles = emblaApi.scrollSnapList().map((scrollSnap, index) => {
       let diffToTarget = scrollSnap - scrollProgress;
@@ -52,8 +52,8 @@ const EmblaCarousel = (props) => {
       return numberWithinRange(tweenValue, 0, 1);
     });
     setOpacityValues(styles);
-    setSlideInView(slideIndex);
-  }, [emblaApi, setOpacityValues, setSlideInView]);
+    setSlideIndex(slideIndex);
+  }, [emblaApi, setOpacityValues, setSlideIndex]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -67,25 +67,20 @@ const EmblaCarousel = (props) => {
 
   useEffect(() => {
     // Play the video when it becomes the current slide
+
     videoRefs.current.forEach((video, index) => {
-      if (index === slideInView) {
-        if (video && video.readyState >= 2) {
+      if (video && index === slideIndex) {
+        if (video.readyState >= 2) {
           video.play().catch((error) => {
             console.error("Error playing video:", error);
           });
-        } else if (video) {
-          video.addEventListener("canplay", () => {
-            video.play().catch((error) => {
-              console.error("Error playing video:", error);
-            });
-          });
         }
-      } else if (video) {
+      } else {
         video.pause();
         video.currentTime = 0;
       }
     });
-  }, [slideInView]);
+  }, [slideIndex]);
 
   return (
     <div
@@ -93,13 +88,14 @@ const EmblaCarousel = (props) => {
       ref={emblaRef}
     >
       <div
-        className={`flex touch-pan-y w-full ${
-          slides.length <= 2 ? "max-w-[350px]" : "max-w-[750px]"
+        className={`flex touch-pan-y w-[80dvw] max-w-[350px] ${
+          slides.length <= 2 ? "lg:w-[20dvw]" : "lg:w-[40dvw] lg:max-w-[700px]"
         }`}
       >
         {slides.map((slide, index) => (
           <div
-            key={slide.metadata[0].acrid}
+            // key={slide.metadata[0].acrid}
+            key={index}
             className='flex flex-col justify-center items-center'
             style={{
               ...(opacityValues && {
@@ -107,13 +103,15 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <div className='w-[82dvw] lg:w-[20dvw] max-w-[350px] flex justify-between items-center text-white text-base font-thin  mb-1'>
+            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-between items-center text-white text-base font-thin mb-1 px-1'>
               <h1>
-                {`${slide.metadata[0].title}`}
+                {/* {`${slide.metadata[0].title}`} */}
+                Shaked Ha melech
                 <br />
-                <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span>
+                {/* <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span> */}
+                <span className='text-bpmPink'>Gil ha melech</span>
               </h1>
-              <Button size='icon'>
+              <Button size='icon' className='h-9 w-9'>
                 <Link
                   href='https://drive.google.com/uc?export=download&id=1HFLnfYmvFgP1rIEJfuarwzSKFqc2b61I'
                   // href=''
@@ -125,13 +123,8 @@ const EmblaCarousel = (props) => {
               </Button>
             </div>
             <div
-              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[82dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
+              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
               key={index}
-              style={{
-                ...(opacityValues && {
-                  opacity: opacityValues[index],
-                }),
-              }}
               onClick={() => setMutedSlide((muted) => !muted)}
             >
               <div className='absolute z-[999] top-5 left-5 text-white text-lg p-1.5 rounded-full bg-backgroundBlack/50'>
@@ -142,11 +135,12 @@ const EmblaCarousel = (props) => {
                 )}
               </div>
               <video
+                ref={(video) => (videoRefs.current[index] = video)}
                 key={index}
-                ref={(element) => (videoRefs.current[index] = element)}
                 className='w-full object-cover rounded-lg carousel-video'
-                autoPlay={index === slideInView}
+                autoPlay={index === slideIndex}
                 muted={mutedSlide}
+                preload='auto'
                 loop
               >
                 <source src={slide.drive_url} />
@@ -155,7 +149,11 @@ const EmblaCarousel = (props) => {
           </div>
         ))}
       </div>
-      <div className='z-10 bg-navbarBlack2 relative h-1 left-0 right-0 mt-2 mx-auto  max-w-[750px] overflow-hidden rounded-xl w-[98%]'>
+      <div
+        className={`z-10 bg-navbarBlack2 relative h-1 left-0 right-0 mt-2 mx-auto overflow-hidden rounded-xl w-[80dvw] max-w-[350px] ${
+          slides.length <= 2 ? "lg:w-[20dvw]" : "lg:w-[40dvw] lg:max-w-[700px]"
+        }`}
+      >
         <div
           className='bg-bpmPink absolute w-full top-0 bottom-0 -left-full rounded-xl'
           style={{ transform: `translate3d(${scrollProgress}%,0px,0px)` }}

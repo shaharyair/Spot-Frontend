@@ -228,7 +228,7 @@ export default function Page() {
       <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           <LoadingBar />
-        ) : stories.length === 0 ? (
+        ) : stories.length !== 0 ? (
           <SpotTracksForm
             onStoriesSearch={setStories}
             setLoading={setLoading}
@@ -237,7 +237,21 @@ export default function Page() {
         ) : (
           <>
             <EmblaCarousel
-              slides={stories}
+              // slides={stories}
+              slides={[
+                {
+                  drive_url:
+                    "https://drive.google.com/uc?id=1ZmVQc6vGabJYvwP4hhbB9w7smzDUfcFA",
+                },
+                {
+                  drive_url:
+                    "https://drive.google.com/uc?id=1_34x67S0NDwh7IwS7OihAvZBFQsGnAHn",
+                },
+                {
+                  drive_url:
+                    "https://drive.google.com/uc?id=1DZ3NnQJc2o6RhSbUsNe56R_CnPF_bPlH",
+                },
+              ]}
               options={{
                 loop: true,
                 align: "center",
