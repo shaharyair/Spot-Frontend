@@ -23,6 +23,7 @@ const EmblaCarousel = (props) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
   const [mutedSlide, setMutedSlide] = useState(true);
+  const [videoRemainingTime, setVideoRemainingTime] = useState(0);
 
   const onScroll = useCallback(() => {
     if (!emblaApi) return;
@@ -67,19 +68,36 @@ const EmblaCarousel = (props) => {
 
   useEffect(() => {
     // Play the video when it becomes the current slide
+    let countdownInterval;
 
     videoRefs.current.forEach((video, index) => {
       if (video && index === slideIndex) {
-        if (video.readyState >= 2) {
-          video.play().catch((error) => {
-            console.error("Error playing video:", error);
-          });
-        }
+        video.play().catch((error) => {
+          console.error("Error playing video:", error);
+        });
+
+        countdownInterval = setInterval(() => {
+          const remainingTime = video.duration - video.currentTime;
+
+          // Convert remainingTime to mm:ss format
+          const minutes = Math.floor(remainingTime / 60);
+          const seconds = Math.floor(remainingTime % 60);
+
+          // Format the time as mm:ss
+          const formattedTime = `${minutes
+            .toString()
+            .padStart(1, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+          setVideoRemainingTime(formattedTime);
+        }, 1000);
       } else {
         video.pause();
         video.currentTime = 0;
       }
     });
+    return () => {
+      clearInterval(countdownInterval);
+    };
   }, [slideIndex]);
 
   return (
@@ -125,20 +143,29 @@ const EmblaCarousel = (props) => {
             <div
               className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
               key={index}
-              onClick={() => setMutedSlide((muted) => !muted)}
+              onClick={() =>
+                index === slideIndex && setMutedSlide((muted) => !muted)
+              }
             >
-              <div className='absolute z-[999] top-5 left-5 text-white text-lg p-1.5 rounded-full bg-backgroundBlack/50'>
-                {mutedSlide ? (
-                  <HiOutlineSpeakerXMark />
-                ) : (
-                  <HiOutlineSpeakerWave />
-                )}
-              </div>
+              {index === slideIndex && (
+                <>
+                  <div className='absolute z-10 top-5 left-5 text-white text-lg p-1.5 rounded-full bg-backgroundBlack/50'>
+                    {mutedSlide ? (
+                      <HiOutlineSpeakerXMark />
+                    ) : (
+                      <HiOutlineSpeakerWave />
+                    )}
+                  </div>
+                  <div className='absolute z-10 top-5 right-5 text-white text-base font-thin tracking-wide px-1.5 py-1 rounded-md bg-backgroundBlack/50'>
+                    {videoRemainingTime}
+                  </div>
+                </>
+              )}
               <video
                 ref={(video) => (videoRefs.current[index] = video)}
                 key={index}
                 className='w-full object-cover rounded-lg carousel-video'
-                autoPlay={index === slideIndex}
+                // autoPlay={index === slideIndex}
                 muted={mutedSlide}
                 preload='auto'
                 loop
