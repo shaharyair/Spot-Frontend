@@ -112,8 +112,7 @@ const EmblaCarousel = (props) => {
       >
         {slides.map((slide, index) => (
           <div
-            // key={slide.metadata[0].acrid}
-            key={index}
+            key={slide.metadata[0].acrid}
             className='flex flex-col justify-center items-center'
             style={{
               ...(opacityValues && {
@@ -123,16 +122,13 @@ const EmblaCarousel = (props) => {
           >
             <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-between items-center text-white text-base font-thin mb-1 px-1'>
               <h1>
-                {/* {`${slide.metadata[0].title}`} */}
-                Shaked Ha melech
+                {`${slide.metadata[0].title}`}
                 <br />
-                {/* <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span> */}
-                <span className='text-bpmPink'>Gil ha melech</span>
+                <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span>
               </h1>
               <Button size='icon' className='h-9 w-9'>
                 <Link
-                  href='https://drive.google.com/uc?export=download&id=1HFLnfYmvFgP1rIEJfuarwzSKFqc2b61I'
-                  // href=''
+                  href={slide.download_url}
                   className='flex gap-1 items-center justify-center '
                   download
                 >
@@ -165,7 +161,6 @@ const EmblaCarousel = (props) => {
                 ref={(video) => (videoRefs.current[index] = video)}
                 key={index}
                 className='w-full object-cover rounded-lg carousel-video'
-                // autoPlay={index === slideIndex}
                 muted={mutedSlide}
                 preload='auto'
                 loop

@@ -1,6 +1,6 @@
 // Import necessary dependencies and components
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
@@ -48,7 +48,13 @@ const FormSchema = z.object({
   }),
 });
 
-function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
+function SpotTracksForm({
+  onStoriesSearch,
+  setLoading,
+  setError,
+  setSearchNoMatch,
+  locationsData,
+}) {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -67,21 +73,20 @@ function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}location_songs`, data)
       .then((response) => {
-        onStoriesSearch(response.data);
+        console.log("Searched successfully.");
+        if (response.data.length !== 0) {
+          onStoriesSearch(response.data);
+        } else {
+          setSearchNoMatch("No stories were found.");
+        }
         setLoading(false);
-        console.log("searched successfully.");
       })
       .catch((error) => {
         console.error(error);
         setError(error.message);
+        setLoading(false);
       });
   }
-
-  const locations = [
-    { title: "art club" },
-    { title: "Kolaj Bar" },
-    { title: "Yula Bar" },
-  ];
 
   return (
     <>
@@ -110,9 +115,9 @@ function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
                         )}
                       >
                         {field.value
-                          ? locations.find(
-                              (location) => location.title === field.value
-                            )?.title
+                          ? locationsData.find(
+                              (location) => location.name === field.value
+                            )?.name
                           : "Pick a Location"}
                         <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                       </Button>
@@ -126,20 +131,20 @@ function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
                       />
                       <CommandEmpty>No Locations found.</CommandEmpty>
                       <CommandGroup>
-                        {locations.map((location, i) => (
+                        {locationsData.map((location, i) => (
                           <CommandItem
-                            value={location.title}
+                            value={location.name}
                             key={i}
                             onSelect={() => {
-                              setSelectedLocation(location.title);
-                              form.setValue("location", location.title);
+                              setSelectedLocation(location.name);
+                              form.setValue("location", location.name);
                             }}
                           >
-                            {location.title}
+                            {location.name}
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                location.title === field.value
+                                location.name === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -187,9 +192,31 @@ function SpotTracksForm({ onStoriesSearch, setLoading, setError }) {
                         setSelectedDate(selectDate);
                         field.onChange(selectDate);
                       }}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
+                      disabled={(date) => {
+                        const selectedLocationData = locationsData.find(
+                          (location) => location.name === selectedLocation
+                        );
+
+                        if (selectedLocationData) {
+                          const isDateDisabled =
+                            !selectedLocationData.location_dates.some(
+                              (locationDate) => {
+                                const locationDateObj = new Date(locationDate);
+                                return (
+                                  date.getFullYear() ===
+                                    locationDateObj.getFullYear() &&
+                                  date.getMonth() ===
+                                    locationDateObj.getMonth() &&
+                                  date.getDate() === locationDateObj.getDate()
+                                );
+                              }
+                            );
+
+                          return isDateDisabled;
+                        }
+
+                        return date;
+                      }}
                       initialFocus
                     />
                   </PopoverContent>
@@ -221,37 +248,51 @@ export default function Page() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [searchNoMatch, setSearchNoMatch] = useState("");
+  const [locationsData, setLocationsData] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}locations`, {
+        dashboard: "Yost Koen",
+      })
+      .then((response) => {
+        setLocationsData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
+      {searchNoMatch && (
+        <Dialog
+          message={searchNoMatch}
+          onClick={() => setSearchNoMatch(false)}
+        />
+      )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
       <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           <LoadingBar />
-        ) : stories.length !== 0 ? (
+        ) : stories.length === 0 ? (
           <SpotTracksForm
             onStoriesSearch={setStories}
             setLoading={setLoading}
             setError={setError}
+            setSearchNoMatch={setSearchNoMatch}
+            locationsData={locationsData}
           />
         ) : (
           <>
             <EmblaCarousel
-              // slides={stories}
-              slides={[
-                {
-                  drive_url:
-                    "https://drive.google.com/uc?id=1ZmVQc6vGabJYvwP4hhbB9w7smzDUfcFA",
-                },
-                {
-                  drive_url:
-                    "https://drive.google.com/uc?id=1_34x67S0NDwh7IwS7OihAvZBFQsGnAHn",
-                },
-                {
-                  drive_url:
-                    "https://drive.google.com/uc?id=1DZ3NnQJc2o6RhSbUsNe56R_CnPF_bPlH",
-                },
-              ]}
+              slides={stories}
               options={{
                 loop: true,
                 align: "center",
