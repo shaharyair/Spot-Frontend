@@ -91,7 +91,7 @@ export default function SpotTracksForm({
           className='flex flex-col justify-center items-center gap-4 p-10'
         >
           <h2 className='text-3xl lg:text-4xl mb-4 text-white font-thin'>
-            <span className='text-bpmPink'>Spot</span> your tracks.
+            <span className='text-bpmPink'>Spot.</span> your tracks
           </h2>
           <FormField
             control={form.control}

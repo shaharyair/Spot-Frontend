@@ -106,7 +106,7 @@ const EmblaCarousel = (props) => {
       ref={emblaRef}
     >
       <div
-        className={`flex touch-pan-y w-[80dvw] max-w-[350px] ${
+        className={`flex relative touch-pan-y w-[80dvw] max-w-[350px] ${
           slides.length <= 2 ? "lg:w-[20dvw]" : "lg:w-[40dvw] lg:max-w-[700px]"
         }`}
       >
@@ -120,21 +120,12 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-between items-center text-white text-base font-thin mb-1 px-1'>
+            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-center items-center text-white text-base font-thin mb-1 px-1'>
               <h1>
                 {`${slide.metadata[0].title}`}
                 <br />
                 <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span>
               </h1>
-              <Button size='icon' className='h-9 w-9'>
-                <Link
-                  href={slide.download_url}
-                  className='flex gap-1 items-center justify-center '
-                  download
-                >
-                  <HiArrowDownTray className='text-xl' />
-                </Link>
-              </Button>
             </div>
             <div
               className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
@@ -154,6 +145,20 @@ const EmblaCarousel = (props) => {
                   </div>
                   <div className='absolute z-10 top-5 right-5 text-white text-base font-thin tracking-wide px-1.5 py-1 rounded-md bg-backgroundBlack/50'>
                     {videoRemainingTime}
+                  </div>
+                  <div className='absolute z-10 top-full left-5 -translate-y-14 '>
+                    <Button
+                      size='icon'
+                      className='bg-backgroundBlack/50 text-white hover:text-black'
+                    >
+                      <Link
+                        href={slide.download_url}
+                        className='flex gap-1 items-center justify-center font-thin'
+                        download
+                      >
+                        <HiArrowDownTray className='text-xl' />
+                      </Link>
+                    </Button>
                   </div>
                 </>
               )}
