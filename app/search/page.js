@@ -43,7 +43,7 @@ export default function Page() {
         />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
+      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (

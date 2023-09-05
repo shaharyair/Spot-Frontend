@@ -281,7 +281,7 @@ function Page() {
         <Dialog message={songUploaded} onClick={() => setSongUploaded(false)} />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
+      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           // Display loading bar
           <LoadingBar />
@@ -289,7 +289,7 @@ function Page() {
           // Display upload form
           <>
             <form
-              className='flex flex-col justify-center items-center text-center gap-4'
+              className='flex flex-col justify-center items-center text-center gap-4 p-10'
               onSubmit={handleUpload}
             >
               {/* Form header */}

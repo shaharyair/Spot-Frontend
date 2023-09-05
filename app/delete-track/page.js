@@ -264,7 +264,7 @@ function Page() {
   return (
     <>
       {/* Container for page content */}
-      <div className='container h-[90dvh] min-h-[650px] flex justify-center items-center'>
+      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
         <div className='flex flex-col justify-center items-center gap-8 text-center'>
           {/* Display error message */}
           {error && <ErrorMessage message={error} />}

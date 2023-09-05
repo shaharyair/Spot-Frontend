@@ -21,35 +21,37 @@ import Link from "next/link";
 function SongListTable({ songs }) {
   return (
     <>
-      {/* Scrollable area for the table */}
-      <ScrollArea className='h-[75vh] max-h-[550px] min-w-[50vw] py-4 px-6 rounded-md border'>
-        {/* Table for displaying song information */}
-        <Table className='text-left font-thin text-base lg:text-xl'>
-          <TableCaption>
-            {songs.length}{" "}
-            {songs.length === 1 ? "result was found." : "results were found."}
-          </TableCaption>
-          <TableHeader>
-            {/* Table header row */}
-            <TableRow>
-              <TableHead>Artist</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Album</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className='text-white'>
-            {/* Map through each song and display in a table row */}
-            {songs.map((song, index) => (
-              <TableRow key={index}>
-                {/* Display song details in table cells */}
-                <TableCell className='text-bpmPink'>{song.artist}</TableCell>
-                <TableCell>{song.title}</TableCell>
-                <TableCell className='text-bpmPink'>{song.album}</TableCell>
+      <div className='p-10'>
+        {/* Scrollable area for the table */}
+        <ScrollArea className='h-[75dvh] max-h-[650px] min-w-[50vw] py-4 px-6 rounded-md border'>
+          {/* Table for displaying song information */}
+          <Table className='text-left font-thin text-base lg:text-xl'>
+            <TableCaption>
+              {songs.length}{" "}
+              {songs.length === 1 ? "result was found." : "results were found."}
+            </TableCaption>
+            <TableHeader>
+              {/* Table header row */}
+              <TableRow>
+                <TableHead>Artist</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Album</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ScrollArea>
+            </TableHeader>
+            <TableBody className='text-white'>
+              {/* Map through each song and display in a table row */}
+              {songs.map((song, index) => (
+                <TableRow key={index}>
+                  {/* Display song details in table cells */}
+                  <TableCell className='text-bpmPink'>{song.artist}</TableCell>
+                  <TableCell>{song.title}</TableCell>
+                  <TableCell className='text-bpmPink'>{song.album}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </div>
     </>
   );
 }
@@ -79,8 +81,8 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className='container h-[98vh] min-h-[650px] flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-8 text-center mt-16'>
+      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
+        <div className='flex flex-col justify-center items-center text-center mt-16'>
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}
           {!error &&
