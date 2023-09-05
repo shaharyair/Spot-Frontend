@@ -5,7 +5,7 @@ import axios from "axios";
 import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
 
-import SpotTracksForm from "@/components/ui/spotTracksForm";
+import SpotTracksForm from "components/spotTracksForm";
 import EmblaCarousel from "components/emblaCarousel";
 
 // Main component function

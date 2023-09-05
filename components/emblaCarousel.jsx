@@ -120,7 +120,7 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-center items-center text-white text-base font-thin mb-1 px-1'>
+            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-center items-center text-left text-white text-base font-thin mb-1'>
               <h1>
                 {`${slide.metadata[0].title}`}
                 <br />
@@ -129,7 +129,6 @@ const EmblaCarousel = (props) => {
             </div>
             <div
               className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
-              key={index}
               onClick={() =>
                 index === slideIndex && setMutedSlide((muted) => !muted)
               }
@@ -150,14 +149,17 @@ const EmblaCarousel = (props) => {
                     <Button
                       size='icon'
                       className='bg-backgroundBlack/50 text-white hover:text-black'
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
                     >
-                      <Link
+                      <a
                         href={slide.download_url}
                         className='flex gap-1 items-center justify-center font-thin'
                         download
                       >
                         <HiArrowDownTray className='text-xl' />
-                      </Link>
+                      </a>
                     </Button>
                   </div>
                 </>
