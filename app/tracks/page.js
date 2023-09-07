@@ -2,8 +2,12 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import { API_BASE_URL, ENDPOINTS } from "@/config";
+
 import LoadingBar from "@/components/loadingbar";
 import ErrorMessage from "@/components/errormessage";
+
 import {
   Table,
   TableBody,
@@ -66,7 +70,7 @@ function Page() {
   // Fetch songs data from the server when the component mounts
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
+      .get(`${API_BASE_URL}${ENDPOINTS.database_songs}`)
       .then((response) => {
         setSongs(response.data);
         setLoading(false);

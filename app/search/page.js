@@ -2,10 +2,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import { API_BASE_URL, ENDPOINTS } from "@/config";
+
 import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
 
-import SpotTracksForm from "components/spotTracksForm";
+import SpotSearchForm from "@/components/spotSearchForm";
 import EmblaCarousel from "components/emblaCarousel";
 
 // Main component function
@@ -20,7 +23,7 @@ export default function Page() {
     setLoading(true);
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}locations`, {
+      .post(`${API_BASE_URL}${ENDPOINTS.locations}`, {
         dashboard: "Yost Koen",
       })
       .then((response) => {
@@ -47,7 +50,7 @@ export default function Page() {
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (
-          <SpotTracksForm
+          <SpotSearchForm
             onStoriesSearch={setStories}
             setLoading={setLoading}
             setError={setError}

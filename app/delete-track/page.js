@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+import { API_BASE_URL, ENDPOINTS } from "@/config";
+
 import { Button } from "@/components/ui/button";
 
 import LoadingBar from "@/components/loadingbar";
@@ -80,7 +82,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
 
     // Make API call to delete the song
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}delete_song`, data)
+      .post(`${API_BASE_URL}${ENDPOINTS.delete_song}`, data)
       .then((response) => {
         setOpenWarningDialog(false);
         onSongDeleted((prevCount) => prevCount + 1);
@@ -249,7 +251,7 @@ function Page() {
   // Fetch songs when the component mounts
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
+      .get(`${API_BASE_URL}${ENDPOINTS.database_songs}`)
       .then((response) => {
         setSongs(response.data);
         setLoading(false);

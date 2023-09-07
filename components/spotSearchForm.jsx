@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+import { API_BASE_URL, ENDPOINTS } from "@/config";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -43,7 +45,7 @@ const FormSchema = z.object({
   }),
 });
 
-export default function SpotTracksForm({
+export default function SpotSearchForm({
   onStoriesSearch,
   setLoading,
   setError,
@@ -66,7 +68,7 @@ export default function SpotTracksForm({
     console.log("searching tracks...");
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}location_songs`, data)
+      .post(`${API_BASE_URL}${ENDPOINTS.location_songs}`, data)
       .then((response) => {
         console.log("Searched successfully.");
         if (response.data.length !== 0) {

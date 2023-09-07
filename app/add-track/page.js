@@ -2,13 +2,16 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
+
+import { API_BASE_URL, ENDPOINTS } from "@/config";
+
+import LoadingBar from "@/components/loadingbar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   HiMiniArrowUpTray,
   HiOutlineQuestionMarkCircle,
 } from "react-icons/hi2";
-import LoadingBar from "@/components/loadingbar";
 import Dialog from "@/components/dialog";
 import Tooltip from "@/components/tooltip";
 
@@ -230,10 +233,7 @@ function Page() {
         setError("A track with the same title and artist already exists.");
       } else {
         // Upload the song if the title doesn't exist
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}upload_song`,
-          formData
-        );
+        await axios.post(`${API_BASE_URL}${ENDPOINTS.upload_song}`, formData);
         setSongUploaded("Track uploaded successfully.");
       }
     } catch (error) {
@@ -256,7 +256,7 @@ function Page() {
   // Fetch songs data from the server when uploadCount changes
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}database_songs`)
+      .get(`${API_BASE_URL}${ENDPOINTS.database_songs}`)
       .then((response) => {
         setSongs(response.data);
       })
