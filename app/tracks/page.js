@@ -25,9 +25,9 @@ import Link from "next/link";
 function SongListTable({ songs }) {
   return (
     <>
-      <div className='p-10'>
+      <div>
         {/* Scrollable area for the table */}
-        <ScrollArea className='h-[75dvh] max-h-[650px] min-w-[50vw] py-4 px-6 rounded-md border'>
+        <ScrollArea className='h-[75dvh] max-h-[650px] min-w-[50dvw] py-4 px-6 rounded-md border'>
           {/* Table for displaying song information */}
           <Table className='text-left font-thin text-base lg:text-xl'>
             <TableCaption>
@@ -85,8 +85,8 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
-        <div className='flex flex-col justify-center items-center text-center mt-16'>
+      <div className='container mt-24 min-h-[88dvh] p-10 flex flex-col justify-center items-center'>
+        <div className='flex flex-col justify-center items-center text-center'>
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}
           {!error &&
@@ -110,7 +110,7 @@ function Page() {
               </>
             ) : (
               <>
-                <h2 className='text-2xl lg:text-4xl text-white font-thin'>
+                <h2 className='text-2xl lg:text-4xl mb-5 text-white font-thin'>
                   <span className='text-bpmPink'>Your </span>tracks.
                 </h2>
                 {/* Display SongListTable component if there are songs */}
