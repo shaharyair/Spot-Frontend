@@ -10,6 +10,7 @@ import LoadingBar from "@/components/loadingbar";
 
 import SpotSearchForm from "@/components/spotSearchForm";
 import EmblaCarousel from "components/emblaCarousel";
+import { LocationRequestForm } from "@/components/locationRequestForm";
 
 // Main component function
 export default function Page() {
@@ -50,13 +51,16 @@ export default function Page() {
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (
-          <SpotSearchForm
-            onStoriesSearch={setStories}
-            setLoading={setLoading}
-            setError={setError}
-            setSearchNoMatch={setSearchNoMatch}
-            locationsData={locationsData}
-          />
+          <>
+            <SpotSearchForm
+              onStoriesSearch={setStories}
+              setLoading={setLoading}
+              setError={setError}
+              setSearchNoMatch={setSearchNoMatch}
+              locationsData={locationsData}
+            />
+            <LocationRequestForm />
+          </>
         ) : (
           <>
             <EmblaCarousel
