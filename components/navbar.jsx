@@ -152,7 +152,7 @@ function Navbar() {
           <div className='flex items-center justify-center gap-5 lg:order-3 text-bpmPink text-2xl'>
             <div className='lg:flex items-center justify-center gap-5 text-bpmPink text-2xl hidden'>
               <Link href='/tracks'>
-                <HiListBullet className=' hover:text-white transition-colors duration-200' />
+                <HiListBullet className=' hover:text-white transition-colors duration-200 text-3xl' />
               </Link>
               <Link href='/add-track'>
                 <HiMiniArrowUpTray className=' hover:text-white transition-colors duration-200' />
