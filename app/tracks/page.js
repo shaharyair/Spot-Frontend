@@ -85,7 +85,7 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className='container mt-24 min-h-[88dvh] p-10 flex flex-col justify-center items-center'>
+      <div className='container mt-24 min-h-[87dvh] p-10 flex flex-col justify-center items-center'>
         <div className='flex flex-col justify-center items-center text-center'>
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}

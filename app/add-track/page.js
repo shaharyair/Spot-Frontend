@@ -281,7 +281,7 @@ function Page() {
         <Dialog message={songUploaded} onClick={() => setSongUploaded(false)} />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className='container mt-24 min-h-[88dvh] flex flex-col justify-center items-center'>
+      <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
         {!error && loading ? (
           // Display loading bar
           <LoadingBar />
