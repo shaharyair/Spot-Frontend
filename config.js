@@ -22,7 +22,7 @@ const ENDPOINTS = {
 
 const EMAILS = {
   shahar: process.env.NEXT_PUBLIC_SHAHAR_EMAIL,
-  shaked: process.env.NEXT_PUBLIC_SHAHAR_EMAIL,
+  shaked: process.env.NEXT_PUBLIC_SHAKED_EMAIL,
   gil: process.env.NEXT_PUBLIC_GIL_EMAIL,
 };
 

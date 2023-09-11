@@ -55,13 +55,17 @@ export function LocationRequestForm() {
     !form.watch("fullname");
 
   function onSubmit(data) {
-    data.recipients = [EMAILS.shahar, EMAILS.shaked, EMAILS.gil];
+    data.recipients = [EMAILS.shahar, EMAILS.gil, EMAILS.shaked];
     console.log(data);
 
     axios
       .post(`${API_BASE_URL}${ENDPOINTS.send_location_email}`, data)
       .then((response) => {
         setLocationSubmitted("Request Submitted!");
+
+        form.setValue("locationWanted", "");
+        form.setValue("email", "");
+        form.setValue("fullname", "");
       })
       .catch((error) => {
         console.error(error);
