@@ -43,8 +43,8 @@ function Page() {
   const [artistsBySongtitle, setartistsBySongtitle] = useState("");
 
   // Regular expression pattern and error message for text validation
-  const regexPatternString = "^.{1,50}$";
-  const regexMessage = "Please enter a maximum length of 50 characters.";
+  const regexPatternString = "^.{1,75}$";
+  const regexMessage = "Please enter a maximum length of 75 characters.";
 
   // Validation function for text inputs
   const isValidText = (text) => {
@@ -392,7 +392,7 @@ function Page() {
               <Button
                 size='lg'
                 type='submit'
-                disabled={!selectedFile || trackExists}
+                disabled={!selectedFile || trackExists || !songArtist}
                 className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
               >
                 Upload
