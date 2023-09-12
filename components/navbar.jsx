@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Squash as Hamburger } from "hamburger-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Fade as Hamburger } from "hamburger-react";
 import {
   HiUser,
   HiBars3,
@@ -17,6 +17,7 @@ import SocialLinks from "./sociallinks";
 
 function Navbar() {
   const [openMobileNavbar, setOpenMobileNavbar] = useState(false);
+  const navbarContainerRef = useRef(null);
 
   const toggleMobileNavbar = () => {
     setOpenMobileNavbar(!openMobileNavbar);
@@ -41,8 +42,10 @@ function Navbar() {
 
     const handleOutsideClick = (event) => {
       // Check if the click target is outside the navbar container
-      const navbarContainer = document.querySelector(".container");
-      if (navbarContainer && !navbarContainer.contains(event.target)) {
+      if (
+        navbarContainerRef.current &&
+        !navbarContainerRef.current.contains(event.target)
+      ) {
         setOpenMobileNavbar(false);
       }
     };
@@ -64,13 +67,18 @@ function Navbar() {
         className='fixed top-0 left-0 flex h-24 w-full items-center justify-center bg-navbarBlack/90
        drop-shadow-lg backdrop-blur-sm z-50'
       >
-        <div className='container flex items-center justify-between'>
-          <div className='text-bpmPink lg:hidden'>
+        <div
+          ref={navbarContainerRef}
+          className='container flex items-center justify-between w-11/12 p-0'
+        >
+          <div className='text-bpmPink hover:text-white lg:hidden'>
             <Hamburger
+              direction='right'
               toggled={openMobileNavbar}
               toggle={toggleMobileNavbar}
               rounded
-              size={23}
+              size={20}
+              duration={0.2}
             />
           </div>
           <div
@@ -78,7 +86,7 @@ function Navbar() {
               openMobileNavbar
                 ? "left-1/4 md:left-1/2"
                 : "-left-3/4 md:-left-1/2"
-            } flex flex-col items-start justify-start top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-500 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
+            } flex flex-col items-start justify-start top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-200 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
           >
             <nav>
               <ul className='flex flex-col items-start justify-center gap-3 text-left text-sm lg:text-base text-bpmPink lg:flex-row lg:items-center lg:gap-5 lg:text-center'>
@@ -144,7 +152,7 @@ function Navbar() {
               <SocialLinks />
             </div>
           </div>
-          <Link href='/' className='lg:mr-20'>
+          <Link href='/' className='ml-1.5 lg:ml-0 lg:mr-20'>
             <h1 className='text-4xl lg:text-5xl font-semibold text-bpmPink'>
               Spot.
             </h1>
@@ -168,7 +176,7 @@ function Navbar() {
               <Button className='bg-bpmPink text-black hover:bg-white duration-200 rounded-xl justify-center hidden p-4 items-center gap-2 lg:flex lg:ml-2'>
                 Search <HiMagnifyingGlass className='text-lg' />
               </Button>
-              <HiMagnifyingGlass className='lg:hidden hover:text-white transition-colors duration-200' />
+              <HiMagnifyingGlass className='lg:hidden hover:text-white transition-colors duration-200 p-3 text-5xl' />
             </Link>
           </div>
         </div>
