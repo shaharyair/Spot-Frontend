@@ -106,8 +106,8 @@ const EmblaCarousel = (props) => {
       ref={emblaRef}
     >
       <div
-        className={`flex relative touch-pan-y w-[80dvw] max-w-[350px] ${
-          slides.length <= 2 ? "lg:w-[20dvw]" : "lg:w-[40dvw] lg:max-w-[700px]"
+        className={`flex relative touch-pan-y w-[80vw] max-w-[350px] ${
+          slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
         }`}
       >
         {slides.map((slide, index) => (
@@ -120,7 +120,7 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <div className='w-[80dvw] lg:w-[20dvw] max-w-[350px] flex justify-center items-center text-left text-white text-base font-thin mb-1'>
+            <div className='w-[80vw] lg:w-[20vw] max-w-[350px] flex justify-start items-center text-left text-white text-base font-thin p-2'>
               <h1>
                 {`${slide.metadata[0].title}`}
                 <br />
@@ -128,7 +128,7 @@ const EmblaCarousel = (props) => {
               </h1>
             </div>
             <div
-              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80dvw] lg:w-[20dvw] max-w-[350px] mx-2.5'
+              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80vw] lg:w-[20vw] max-w-[350px] mx-2.5'
               onClick={() =>
                 index === slideIndex && setMutedSlide((muted) => !muted)
               }
@@ -179,8 +179,8 @@ const EmblaCarousel = (props) => {
         ))}
       </div>
       <div
-        className={`z-10 bg-navbarBlack2 relative h-1 left-0 right-0 mt-2 mx-auto overflow-hidden rounded-xl w-[80dvw] max-w-[350px] ${
-          slides.length <= 2 ? "lg:w-[20dvw]" : "lg:w-[40dvw] lg:max-w-[700px]"
+        className={`z-10 bg-navbarBlack2 relative h-1 left-0 right-0 mt-2 mx-auto overflow-hidden rounded-xl w-[80vw] max-w-[350px] ${
+          slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
         }`}
       >
         <div
