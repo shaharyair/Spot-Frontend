@@ -120,7 +120,7 @@ const EmblaCarousel = (props) => {
               }),
             }}
           >
-            <div className='w-[80vw] lg:w-[20vw] max-w-[350px] flex justify-center items-center text-left text-white text-base font-thin mb-1'>
+            <div className='w-[80vw] lg:w-[20vw] max-w-[350px] flex justify-start items-center text-left text-white text-base font-thin p-2'>
               <h1>
                 {`${slide.metadata[0].title}`}
                 <br />
