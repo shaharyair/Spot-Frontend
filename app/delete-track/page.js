@@ -136,7 +136,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                             variant='outline'
                             role='combobox'
                             className={cn(
-                              "w-[90dvw] max-w-[300px] min-w-[250px] relative flex flex-col font-normal items-start justify-center pr-6 text-left min-h-[2.25rem] h-auto",
+                              "w-[90vw] max-w-[300px] min-w-[250px] relative flex flex-col font-normal items-start justify-center pr-6 text-left min-h-[2.25rem] h-auto",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -164,8 +164,8 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className='w-[90dvw] max-w-[300px] min-w-[250px] p-0'>
-                        <ScrollArea className='h-[40dvh] max-h-[300px]'>
+                      <PopoverContent className='w-[90vw] max-w-[300px] min-w-[250px] p-0'>
+                        <ScrollArea className='h-[40vh] max-h-[300px]'>
                           <Command>
                             <CommandInput
                               placeholder='Search Track'
@@ -266,7 +266,7 @@ function Page() {
   return (
     <>
       {/* Container for page content */}
-      <div className='container mt-24 min-h-[87dvh] flex flex-col justify-center items-center'>
+      <div className='container mt-24 min-h-[87vh] flex flex-col justify-center items-center'>
         <div className='flex flex-col justify-center items-center gap-8 text-center'>
           {/* Display error message */}
           {error && <ErrorMessage message={error} />}

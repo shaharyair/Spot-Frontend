@@ -27,7 +27,7 @@ function SongListTable({ songs }) {
     <>
       <div>
         {/* Scrollable area for the table */}
-        <ScrollArea className='h-[75dvh] max-h-[650px] min-w-[50dvw] py-4 px-6 rounded-md border'>
+        <ScrollArea className='h-[75vh] max-h-[650px] min-w-[50vw] py-4 px-6 rounded-md border'>
           {/* Table for displaying song information */}
           <Table className='text-left font-thin text-base lg:text-xl'>
             <TableCaption>
@@ -85,7 +85,7 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className='container mt-24 min-h-[87dvh] p-10 flex flex-col justify-center items-center'>
+      <div className='container mt-24 min-h-[87vh] p-10 flex flex-col justify-center items-center'>
         <div className='flex flex-col justify-center items-center text-center'>
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}
