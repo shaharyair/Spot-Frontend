@@ -27,9 +27,9 @@ function SongListTable({ songs }) {
     <>
       <div>
         {/* Scrollable area for the table */}
-        <ScrollArea className='h-[75vh] max-h-[650px] min-w-[50vw] py-4 px-6 rounded-md border'>
+        <ScrollArea className="h-[50vh] lg:h-[75vh] py-4 px-6 rounded-md border">
           {/* Table for displaying song information */}
-          <Table className='text-left font-thin text-base lg:text-xl'>
+          <Table className="text-left font-thin text-base lg:text-xl">
             <TableCaption>
               {songs.length}{" "}
               {songs.length === 1 ? "result was found." : "results were found."}
@@ -42,14 +42,14 @@ function SongListTable({ songs }) {
                 <TableHead>Album</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className='text-white'>
+            <TableBody className="text-white">
               {/* Map through each song and display in a table row */}
               {songs.map((song, index) => (
                 <TableRow key={index}>
                   {/* Display song details in table cells */}
-                  <TableCell className='text-bpmPink'>{song.artist}</TableCell>
+                  <TableCell className="text-bpmPink">{song.artist}</TableCell>
                   <TableCell>{song.title}</TableCell>
-                  <TableCell className='text-bpmPink'>{song.album}</TableCell>
+                  <TableCell className="text-bpmPink">{song.album}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -85,8 +85,8 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className='container mt-24 min-h-[87vh] p-10 flex flex-col justify-center items-center'>
-        <div className='flex flex-col justify-center items-center text-center'>
+      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none  p-10 flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center text-center">
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}
           {!error &&
@@ -95,14 +95,14 @@ function Page() {
               <LoadingBar />
             ) : songs.length === 0 ? (
               <>
-                <h2 className='text-2xl lg:text-4xl text-white font-thin'>
-                  <span className='text-bpmPink'>No </span>tracks were found.
+                <h2 className="text-2xl lg:text-4xl text-white font-thin">
+                  <span className="text-bpmPink">No </span>tracks were found.
                 </h2>
-                <Link href='/add-track'>
+                <Link href="/add-track">
                   <Button
-                    size='lg'
-                    type='submit'
-                    className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
+                    size="lg"
+                    type="submit"
+                    className="bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2"
                   >
                     Upload Track
                   </Button>
@@ -110,8 +110,8 @@ function Page() {
               </>
             ) : (
               <>
-                <h2 className='text-2xl lg:text-4xl mb-5 text-white font-thin'>
-                  <span className='text-bpmPink'>Your </span>tracks.
+                <h2 className="text-2xl lg:text-4xl mb-5 text-white font-thin">
+                  <span className="text-bpmPink">Your </span>tracks.
                 </h2>
                 {/* Display SongListTable component if there are songs */}
                 {songs.length !== 0 && <SongListTable songs={songs} />}

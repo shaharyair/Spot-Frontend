@@ -50,7 +50,7 @@ const FormSchema = z.object({
     },
     {
       message: "Song ID must be an 8-digit number.",
-    }
+    },
   ),
 });
 
@@ -115,42 +115,42 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
         <LoadingBar />
       ) : (
         // Display main form
-        <div className='flex flex-col justify-center items-center gap-10 p-10 font-thin '>
-          <h2 className='text-3xl lg:text-4xl text-white'>
-            <span className='text-bpmPink'>Delete</span> your tracks.
+        <div className="flex flex-col justify-center items-center gap-10 p-10 font-thin ">
+          <h2 className="text-3xl lg:text-4xl text-white">
+            <span className="text-bpmPink">Delete</span> your tracks.
           </h2>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className='flex flex-col justify-center items-center gap-8'
+              className="flex flex-col justify-center items-center gap-8"
             >
               <FormField
                 control={form.control}
-                name='id'
+                name="id"
                 render={({ field }) => (
-                  <FormItem className='flex flex-col justify-center items-center'>
+                  <FormItem className="flex flex-col justify-center items-center">
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant='outline'
-                            role='combobox'
+                            variant="outline"
+                            role="combobox"
                             className={cn(
                               "w-[90vw] max-w-[300px] min-w-[250px] relative flex flex-col font-normal items-start justify-center pr-6 text-left min-h-[2.25rem] h-auto",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value
                               ? (() => {
                                   const matchedSong = songs.find(
-                                    (song) => song.id === field.value
+                                    (song) => song.id === field.value,
                                   );
                                   setSelectedSong(matchedSong);
                                   if (matchedSong) {
                                     return (
                                       <>
                                         <h1>{matchedSong.title}</h1>
-                                        <h1 className='text-bpmPink'>
+                                        <h1 className="text-bpmPink">
                                           {matchedSong.artist}
                                         </h1>
                                       </>
@@ -160,16 +160,16 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                                   }
                                 })()
                               : "Select a Track"}
-                            <CaretSortIcon className=' absolute right-2 h-4 w-4 shrink-0 opacity-50' />
+                            <CaretSortIcon className=" absolute right-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className='w-[90vw] max-w-[300px] min-w-[250px] p-0'>
-                        <ScrollArea className='h-[40vh] max-h-[300px]'>
+                      <PopoverContent className="w-[90vw] max-w-[300px] min-w-[250px] p-0">
+                        <ScrollArea className="h-[40vh] max-h-[300px]">
                           <Command>
                             <CommandInput
-                              placeholder='Search Track'
-                              className='h-9'
+                              placeholder="Search Track"
+                              className="h-9"
                             />
                             <CommandEmpty>No Tracks Found.</CommandEmpty>
                             <CommandGroup>
@@ -179,7 +179,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
 
                                 return (
                                   <CommandItem
-                                    className='flex-col items-start justify-center px-3 hover:aria-selected:bg-gray-200'
+                                    className="flex-col items-start justify-center px-3 hover:aria-selected:bg-gray-200"
                                     value={combinedValue} // Use the combined string as the value
                                     key={song.id}
                                     onSelect={() => {
@@ -187,7 +187,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                                     }}
                                   >
                                     {song.title}
-                                    <span className='text-bpmPink'>
+                                    <span className="text-bpmPink">
                                       {song.artist}
                                     </span>
                                     <CheckIcon
@@ -195,7 +195,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                                         "absolute h-4 w-4 right-1",
                                         song.id === field.value
                                           ? "opacity-100"
-                                          : "opacity-0"
+                                          : "opacity-0",
                                       )}
                                     />
                                   </CommandItem>
@@ -215,12 +215,12 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
               <Button
                 onClick={() => setOpenWarningDialog(true)}
                 disabled={!selectedSong}
-                size='lg'
-                className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
-                type='button'
+                size="lg"
+                className="bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2"
+                type="button"
               >
                 Delete
-                <HiTrash className='text-lg lg:text-xl' />
+                <HiTrash className="text-lg lg:text-xl" />
               </Button>
               {/* Display warning dialog */}
               {openWarningDialog && (
@@ -266,8 +266,8 @@ function Page() {
   return (
     <>
       {/* Container for page content */}
-      <div className='container mt-24 min-h-[87vh] flex flex-col justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-8 text-center'>
+      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-8 text-center">
           {/* Display error message */}
           {error && <ErrorMessage message={error} />}
           {!error &&
