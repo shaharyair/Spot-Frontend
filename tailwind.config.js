@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      spacing: {
+        navbarHeight: "6rem",
+      },
       colors: {
         bpmPink: "#E73059",
         white: "#FAF4F4",
