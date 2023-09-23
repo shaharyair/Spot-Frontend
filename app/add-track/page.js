@@ -68,7 +68,7 @@ function Page() {
       fileNameWithoutExtension &&
       songs.filter(
         (song) =>
-          fileNameWithoutExtension.toLowerCase() === song.title.toLowerCase()
+          fileNameWithoutExtension.toLowerCase() === song.title.toLowerCase(),
       );
 
     const matchingArtists =
@@ -86,7 +86,7 @@ function Page() {
       !songTitle &&
       songs.some(
         (song) =>
-          song.title.toLowerCase() === fileNameWithoutExtension.toLowerCase()
+          song.title.toLowerCase() === fileNameWithoutExtension.toLowerCase(),
       );
     setTracksExists(titleExists);
 
@@ -108,7 +108,7 @@ function Page() {
     const selectedSongsBySongtitle =
       newTitle &&
       songs.filter(
-        (song) => newTitle.toLowerCase() === song.title.toLowerCase()
+        (song) => newTitle.toLowerCase() === song.title.toLowerCase(),
       );
 
     const matchingArtists =
@@ -125,20 +125,20 @@ function Page() {
       (newTitle &&
         !songArtist &&
         songs.some(
-          (song) => song.title.toLowerCase() === newTitle.toLowerCase()
+          (song) => song.title.toLowerCase() === newTitle.toLowerCase(),
         )) ||
       (fileName &&
         !newTitle &&
         !songArtist &&
         songs.some(
-          (song) => song.title.toLowerCase() === fileName.toLowerCase()
+          (song) => song.title.toLowerCase() === fileName.toLowerCase(),
         )) ||
       (newTitle &&
         songArtist &&
         songs.some(
           (song) =>
             song.title.toLowerCase() === newTitle.toLowerCase() &&
-            song.artist.toLowerCase() === songArtist.toLowerCase()
+            song.artist.toLowerCase() === songArtist.toLowerCase(),
         )) ||
       (!newTitle &&
         fileName &&
@@ -146,7 +146,7 @@ function Page() {
         songs.some(
           (song) =>
             song.title.toLowerCase() === fileName.toLowerCase() &&
-            song.artist.toLowerCase() === songArtist.toLowerCase()
+            song.artist.toLowerCase() === songArtist.toLowerCase(),
         ));
     setTracksExists(titleExists);
   };
@@ -162,12 +162,12 @@ function Page() {
         songs.some(
           (song) =>
             song.title.toLowerCase() === songTitle.toLowerCase() &&
-            song.artist.toLowerCase() === newArtist.toLowerCase()
+            song.artist.toLowerCase() === newArtist.toLowerCase(),
         )) ||
       (songTitle &&
         !newArtist &&
         songs.some(
-          (song) => song.title.toLowerCase() === songTitle.toLowerCase()
+          (song) => song.title.toLowerCase() === songTitle.toLowerCase(),
         )) ||
       (fileName &&
         newArtist &&
@@ -175,12 +175,12 @@ function Page() {
         songs.some(
           (song) =>
             song.title.toLowerCase() === fileName.toLowerCase() &&
-            song.artist.toLowerCase() === newArtist.toLowerCase()
+            song.artist.toLowerCase() === newArtist.toLowerCase(),
         )) ||
       (fileName &&
         !newArtist &&
         songs.some(
-          (song) => song.title.toLowerCase() === fileName.toLowerCase()
+          (song) => song.title.toLowerCase() === fileName.toLowerCase(),
         ));
     setTracksExists(artistExists);
   };
@@ -281,7 +281,7 @@ function Page() {
         <Dialog message={songUploaded} onClick={() => setSongUploaded(false)} />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className='container mt-24 min-h-[87vh] flex flex-col justify-center items-center'>
+      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none flex flex-col justify-center items-center">
         {!error && loading ? (
           // Display loading bar
           <LoadingBar />
@@ -289,29 +289,29 @@ function Page() {
           // Display upload form
           <>
             <form
-              className='flex flex-col justify-center items-center text-center gap-4 p-10'
+              className="flex flex-col justify-center items-center text-center gap-4 p-10"
               onSubmit={handleUpload}
             >
               {/* Form header */}
-              <h2 className='text-3xl lg:text-4xl mb-8 text-white font-thin'>
-                <span className='text-bpmPink'>Upload</span> your tracks.
+              <h2 className="text-3xl lg:text-4xl mb-8 text-white font-thin">
+                <span className="text-bpmPink">Upload</span> your tracks.
               </h2>
               {/* File input */}
               <Input
                 className={`w-[90vw] max-w-[300px] min-w-[250px]  ${
                   trackExists && "border-2 border-red-500 text-red-800"
                 }`}
-                id='Track'
-                type='file'
+                id="Track"
+                type="file"
                 onChange={handleFileChange}
                 required
               />
               {/* Title exists message */}
               {trackExists && (
-                <div className='text-red-800'>
+                <div className="text-red-800">
                   <p>
                     This track title is already taken by&nbsp;
-                    <span className='text-white'>
+                    <span className="text-white">
                       {`${artistsBySongtitle || artistsByFilename}`}
                     </span>
                     <br />
@@ -321,13 +321,13 @@ function Page() {
               )}
 
               {/* More Options section */}
-              <div className='grid grid-col-2 justify-center items-center'>
+              <div className="grid grid-col-2 justify-center items-center">
                 {/* Toggle More Options */}
                 <div
                   onClick={() => setOptionsOpen(!optionsOpen)}
-                  className='text-gray-400 font-thin cursor-pointer flex items-center text-sm lg:text-base gap-1 row-start-1 col-start-1 pl-1'
+                  className="text-gray-400 font-thin cursor-pointer flex items-center text-sm lg:text-base gap-1 row-start-1 col-start-1 pl-1"
                 >
-                  <span className='text-lg lg:text-lg'>
+                  <span className="text-lg lg:text-lg">
                     {optionsOpen ? "-" : "+"}
                   </span>
                   More Options
@@ -350,13 +350,13 @@ function Page() {
                     optionsOpen ? "max-h-[500px]" : "max-h-[0px]"
                   } col-span-2 overflow-hidden flex flex-col w-[90vw] max-w-[300px] min-w-[250px] text-md lg:text-lg transition-max-w  duration-300 ease-linear`}
                 >
-                  <div className='flex flex-col gap-3 p-1'>
+                  <div className="flex flex-col gap-3 p-1">
                     {/* Title input */}
                     <Input
-                      type='text'
+                      type="text"
                       value={userEditedTitle ? songTitle : fileName}
                       onChange={handleTitleChange}
-                      placeholder='Title'
+                      placeholder="Title"
                       pattern={regexPatternString}
                       title={regexMessage}
                       className={
@@ -365,10 +365,10 @@ function Page() {
                     />
                     {/* Artist input */}
                     <Input
-                      type='text'
+                      type="text"
                       value={songArtist}
                       onChange={handleArtistChange}
-                      placeholder='Artist (Required)'
+                      placeholder="Artist (Required)"
                       pattern={regexPatternString}
                       title={regexMessage}
                       className={
@@ -378,10 +378,10 @@ function Page() {
                     />
                     {/* Album input */}
                     <Input
-                      type='text'
+                      type="text"
                       value={songAlbum}
                       onChange={handleAlbumChange}
-                      placeholder='Album'
+                      placeholder="Album"
                       pattern={regexPatternString}
                       title={regexMessage}
                     />
@@ -390,13 +390,13 @@ function Page() {
               </div>
               {/* Upload button */}
               <Button
-                size='lg'
-                type='submit'
+                size="lg"
+                type="submit"
                 disabled={!selectedFile || trackExists || !songArtist}
-                className='bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2'
+                className="bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2"
               >
                 Upload
-                <HiMiniArrowUpTray className='text-lg lg:text-xl' />
+                <HiMiniArrowUpTray className="text-lg lg:text-xl" />
               </Button>
             </form>
           </>
