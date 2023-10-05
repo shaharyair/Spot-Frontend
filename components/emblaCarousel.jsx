@@ -102,63 +102,63 @@ const EmblaCarousel = (props) => {
 
   return (
     <div
-      className='overflow-hidden rounded-lg drop-shadow-md p-5'
+      className="overflow-hidden rounded-lg p-5 drop-shadow-md"
       ref={emblaRef}
     >
       <div
-        className={`flex relative touch-pan-y w-[80vw] max-w-[350px] ${
+        className={`relative flex w-[80vw] max-w-[350px] touch-pan-y ${
           slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
         }`}
       >
         {slides.map((slide, index) => (
           <div
             key={slide.metadata[0].acrid}
-            className='flex flex-col justify-center items-center'
+            className="flex flex-col items-center justify-center"
             style={{
               ...(opacityValues && {
                 opacity: opacityValues[index],
               }),
             }}
           >
-            <div className='w-[80vw] lg:w-[20vw] max-w-[350px] flex justify-start items-center text-left text-white text-base font-thin p-2'>
+            <div className="flex w-[80vw] max-w-[350px] items-center justify-start p-2 text-left text-base font-thin text-white lg:w-[20vw]">
               <h1>
                 {`${slide.metadata[0].title}`}
                 <br />
-                <span className='text-bpmPink'>{`${slide.metadata[0].artist}`}</span>
+                <span className="text-bpmPink">{`${slide.metadata[0].artist}`}</span>
               </h1>
             </div>
             <div
-              className='flex justify-center items-center relative transform flex-shrink-0 flex-grow-0 w-[80vw] lg:w-[20vw] max-w-[350px] mx-2.5'
+              className="relative mx-2.5 flex w-[80vw] max-w-[350px] flex-shrink-0 flex-grow-0 transform items-center justify-center lg:w-[20vw]"
               onClick={() =>
                 index === slideIndex && setMutedSlide((muted) => !muted)
               }
             >
               {index === slideIndex && (
                 <>
-                  <div className='absolute z-10 top-5 left-5 text-white text-lg p-1.5 rounded-full bg-backgroundBlack/50'>
+                  <div className="absolute left-5 top-5 z-10 rounded-full bg-backgroundBlack/50 p-1.5 text-lg text-white">
                     {mutedSlide ? (
                       <HiOutlineSpeakerXMark />
                     ) : (
                       <HiOutlineSpeakerWave />
                     )}
                   </div>
-                  <div className='absolute z-10 top-5 right-5 text-white text-base font-thin tracking-wide px-1.5 py-1 rounded-md bg-backgroundBlack/50'>
+                  <div className="absolute right-5 top-5 z-10 rounded-md bg-backgroundBlack/50 px-1.5 py-1 text-base font-thin tracking-wide text-white">
                     {videoRemainingTime}
                   </div>
-                  <div className='absolute z-10 top-full left-5 -translate-y-14 '>
+                  <div className="absolute left-5 top-full z-10 -translate-y-14 ">
                     <Button
-                      size='icon'
-                      className='bg-backgroundBlack/50 text-white hover:text-black'
+                      size="icon"
+                      className="bg-backgroundBlack/50 text-white hover:text-black"
                       onClick={(event) => {
                         event.stopPropagation();
                       }}
                     >
                       <a
                         href={slide.download_url}
-                        className='flex gap-1 items-center justify-center font-thin'
+                        className="flex items-center justify-center gap-1 font-thin"
                         download
                       >
-                        <HiArrowDownTray className='text-xl' />
+                        <HiArrowDownTray className="text-xl" />
                       </a>
                     </Button>
                   </div>
@@ -167,9 +167,9 @@ const EmblaCarousel = (props) => {
               <video
                 ref={(video) => (videoRefs.current[index] = video)}
                 key={index}
-                className='w-full object-cover rounded-lg carousel-video'
+                className="carousel-video w-full rounded-lg object-cover"
                 muted={mutedSlide}
-                preload='auto'
+                preload="auto"
                 loop
               >
                 <source src={slide.drive_url} />
@@ -179,12 +179,12 @@ const EmblaCarousel = (props) => {
         ))}
       </div>
       <div
-        className={`z-10 bg-navbarBlack2 relative h-1 left-0 right-0 mt-2 mx-auto overflow-hidden rounded-xl w-[80vw] max-w-[350px] ${
+        className={`relative left-0 right-0 z-10 mx-auto mt-2 h-1 w-[80vw] max-w-[350px] overflow-hidden rounded-xl bg-navbarBlack2 ${
           slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
         }`}
       >
         <div
-          className='bg-bpmPink absolute w-full top-0 bottom-0 -left-full rounded-xl'
+          className="absolute -left-full bottom-0 top-0 w-full rounded-xl bg-bpmPink"
           style={{ transform: `translate3d(${scrollProgress}%,0px,0px)` }}
         />
       </div>
