@@ -9,7 +9,7 @@ import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
 
 import SpotSearchForm from "@/components/spotSearchForm";
-import EmblaCarousel from "components/emblaCarousel";
+import StoriesCarousel from "@/components/storiesCarousel";
 import { LocationRequestForm } from "@/components/locationRequestForm";
 
 // Main component function
@@ -47,7 +47,7 @@ export default function Page() {
         />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none flex flex-col justify-center items-center">
+      <div className="container mt-navbarHeight flex h-pageHeight max-h-maxMobilePageHeight flex-col items-center justify-center lg:max-h-none">
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (
@@ -63,7 +63,7 @@ export default function Page() {
           </>
         ) : (
           <>
-            <EmblaCarousel
+            <StoriesCarousel
               slides={stories}
               options={{
                 loop: true,

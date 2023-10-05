@@ -15,7 +15,7 @@ const TWEEN_FACTOR = 2;
 const numberWithinRange = (number, min, max) =>
   Math.min(Math.max(number, min), max);
 
-const EmblaCarousel = (props) => {
+const StoriesCarousel = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const videoRefs = useRef([]);
@@ -192,4 +192,4 @@ const EmblaCarousel = (props) => {
   );
 };
 
-export default EmblaCarousel;
+export default StoriesCarousel;
