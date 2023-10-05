@@ -112,7 +112,7 @@ const EmblaCarousel = (props) => {
       >
         {slides.map((slide, index) => (
           <div
-            key={slide.metadata[0].acrid}
+            key={slide.acrcloud_id}
             className="flex flex-col items-center justify-center"
             style={{
               ...(opacityValues && {
@@ -122,9 +122,9 @@ const EmblaCarousel = (props) => {
           >
             <div className="flex w-[80vw] max-w-[350px] items-center justify-start p-2 text-left text-base font-thin text-white lg:w-[20vw]">
               <h1>
-                {`${slide.metadata[0].title}`}
+                {`${slide.results.title}`}
                 <br />
-                <span className="text-bpmPink">{`${slide.metadata[0].artist}`}</span>
+                <span className="text-bpmPink">{`${slide.results.artist}`}</span>
               </h1>
             </div>
             <div
