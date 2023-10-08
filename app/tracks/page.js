@@ -27,9 +27,9 @@ function SongListTable({ songs }) {
     <>
       <div>
         {/* Scrollable area for the table */}
-        <ScrollArea className="h-[50vh] lg:h-[75vh] py-4 px-6 rounded-md border">
+        <ScrollArea className="h-[50vh] rounded-md border px-6 py-4 lg:h-[75vh]">
           {/* Table for displaying song information */}
-          <Table className="text-left font-thin text-base lg:text-xl">
+          <Table className="text-left text-base font-thin lg:text-xl">
             <TableCaption>
               {songs.length}{" "}
               {songs.length === 1 ? "result was found." : "results were found."}
@@ -85,8 +85,8 @@ function Page() {
   return (
     <>
       {/* Container for the entire page */}
-      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none  p-10 flex flex-col justify-center items-center">
-        <div className="flex flex-col justify-center items-center text-center">
+      <div className="container mt-navbarHeight flex  h-pageHeight flex-col items-center justify-center p-10 lg:max-h-none">
+        <div className="flex flex-col items-center justify-center text-center">
           {/* Display error message if there's an error */}
           {error && <ErrorMessage message={error} />}
           {!error &&
@@ -95,14 +95,14 @@ function Page() {
               <LoadingBar />
             ) : songs.length === 0 ? (
               <>
-                <h2 className="text-2xl lg:text-4xl text-white font-thin">
+                <h2 className="text-2xl font-thin text-white lg:text-4xl">
                   <span className="text-bpmPink">No </span>tracks were found.
                 </h2>
                 <Link href="/add-track">
                   <Button
                     size="lg"
                     type="submit"
-                    className="bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2"
+                    className="flex items-center justify-center gap-2 bg-bpmPink text-black duration-200 hover:bg-white"
                   >
                     Upload Track
                   </Button>
@@ -110,7 +110,7 @@ function Page() {
               </>
             ) : (
               <>
-                <h2 className="text-2xl lg:text-4xl mb-5 text-white font-thin">
+                <h2 className="mb-5 text-2xl font-thin text-white lg:text-4xl">
                   <span className="text-bpmPink">Your </span>tracks.
                 </h2>
                 {/* Display SongListTable component if there are songs */}

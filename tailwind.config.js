@@ -18,8 +18,7 @@ module.exports = {
     extend: {
       spacing: {
         navbarHeight: "6rem",
-        pageHeight: "87vh",
-        maxMobilePageHeight: "550px",
+        pageHeight: "89dvh",
       },
       colors: {
         bpmPink: "#E73059",
