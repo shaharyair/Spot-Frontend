@@ -54,6 +54,8 @@ export default function SpotSearchForm({
 }) {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [openPopoverLocations, setOpenPopoverLocations] = useState(false);
+  const [openPopoverDates, setOpenPopoverDates] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -90,41 +92,44 @@ export default function SpotSearchForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex flex-col justify-center items-center gap-4 p-10'
+          className="flex flex-col items-center justify-center gap-4 p-10"
         >
-          <h2 className='text-3xl lg:text-4xl mb-4 text-white font-thin'>
-            <span className='text-bpmPink'>Spot.</span> your tracks
+          <h2 className="mb-4 text-3xl font-thin text-white lg:text-4xl">
+            <span className="text-bpmPink">Spot.</span> your tracks
           </h2>
           <FormField
             control={form.control}
-            name='location'
+            name="location"
             render={({ field }) => (
-              <FormItem className='flex flex-col'>
-                <Popover>
+              <FormItem className="flex flex-col">
+                <Popover open={openPopoverLocations}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant='outline'
-                        role='combobox'
+                        onClick={() =>
+                          setOpenPopoverLocations(!openPopoverLocations)
+                        }
+                        variant="outline"
+                        role="combobox"
                         className={cn(
-                          "w-[90vw] max-w-[300px] min-w-[250px] justify-between",
-                          !field.value && "text-muted-foreground"
+                          "w-[90vw] min-w-[250px] max-w-[300px] justify-between",
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value
                           ? locationsData.find(
-                              (location) => location.name === field.value
+                              (location) => location.name === field.value,
                             )?.name
                           : "Pick a Location"}
-                        <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className='w-[90vw] max-w-[300px] min-w-[250px] p-0'>
+                  <PopoverContent className="w-[90vw] min-w-[250px] max-w-[300px] p-0">
                     <Command>
                       <CommandInput
-                        placeholder='Search Location...'
-                        className='h-9'
+                        placeholder="Search Location..."
+                        className="h-9"
                       />
                       <CommandEmpty>No Locations found.</CommandEmpty>
                       <CommandGroup>
@@ -135,6 +140,7 @@ export default function SpotSearchForm({
                             onSelect={() => {
                               setSelectedLocation(location.name);
                               form.setValue("location", location.name);
+                              setOpenPopoverLocations(false);
                             }}
                           >
                             {location.name}
@@ -143,7 +149,7 @@ export default function SpotSearchForm({
                                 "ml-auto h-4 w-4",
                                 location.name === field.value
                                   ? "opacity-100"
-                                  : "opacity-0"
+                                  : "opacity-0",
                               )}
                             />
                           </CommandItem>
@@ -158,17 +164,18 @@ export default function SpotSearchForm({
           />
           <FormField
             control={form.control}
-            name='date'
+            name="date"
             render={({ field }) => (
               <FormItem>
-                <Popover>
+                <Popover open={openPopoverDates}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
+                        onClick={() => setOpenPopoverDates(!openPopoverDates)}
                         variant={"outline"}
                         className={cn(
-                          "w-[90vw] max-w-[300px] min-w-[250px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
+                          "w-[90vw] min-w-[250px] max-w-[300px] pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value ? (
@@ -176,22 +183,23 @@ export default function SpotSearchForm({
                         ) : (
                           <span>Pick a date</span>
                         )}
-                        <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className='w-auto p-0' align='start'>
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
-                      className='w-[90vw] max-w-[300px] min-w-[250px] flex justify-center items-center'
-                      mode='single'
+                      className="flex w-[90vw] min-w-[250px] max-w-[300px] items-center justify-center"
+                      mode="single"
                       selected={field.value}
                       onSelect={(selectDate) => {
                         setSelectedDate(selectDate);
                         field.onChange(selectDate);
+                        setOpenPopoverDates(false);
                       }}
                       disabled={(date) => {
                         const selectedLocationData = locationsData.find(
-                          (location) => location.name === selectedLocation
+                          (location) => location.name === selectedLocation,
                         );
 
                         if (selectedLocationData) {
@@ -206,7 +214,7 @@ export default function SpotSearchForm({
                                     locationDateObj.getMonth() &&
                                   date.getDate() === locationDateObj.getDate()
                                 );
-                              }
+                              },
                             );
 
                           return isDateDisabled;
@@ -218,7 +226,7 @@ export default function SpotSearchForm({
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription className='ml-1'>
+                <FormDescription className="ml-1">
                   Enter the date you want to Spot.
                 </FormDescription>
                 <FormMessage />
@@ -227,12 +235,12 @@ export default function SpotSearchForm({
           />
           <Button
             disabled={!selectedLocation || !selectedDate}
-            type='submit'
-            className='mt-2 gap-2'
-            size='lg'
+            type="submit"
+            className="mt-2 gap-2"
+            size="lg"
           >
             Search
-            <HiMagnifyingGlass className='text-lg ' />
+            <HiMagnifyingGlass className="text-lg " />
           </Button>
         </form>
       </Form>
