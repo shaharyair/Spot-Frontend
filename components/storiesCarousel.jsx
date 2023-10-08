@@ -10,7 +10,7 @@ import {
 
 import { Button } from "./ui/button";
 
-const TWEEN_FACTOR = 2.25;
+const TWEEN_FACTOR = 2;
 
 const numberWithinRange = (number, min, max) =>
   Math.min(Math.max(number, min), max);
