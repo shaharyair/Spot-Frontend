@@ -54,6 +54,7 @@ export default function DeleteTrackForm({
   // State management
   const [openWarningDialog, setOpenWarningDialog] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
+  const [openPopover, setOpenPopover] = useState(false);
 
   // React Hook Form initialization
   const form = useForm({
@@ -105,10 +106,11 @@ export default function DeleteTrackForm({
               name="id"
               render={({ field }) => (
                 <FormItem className="flex flex-col items-center justify-center">
-                  <Popover>
+                  <Popover open={openPopover}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
+                          onClick={() => setOpenPopover(!openPopover)}
                           variant="outline"
                           role="combobox"
                           className={cn(
@@ -160,6 +162,7 @@ export default function DeleteTrackForm({
                                   key={song.id}
                                   onSelect={() => {
                                     form.setValue("id", song.id);
+                                    setOpenPopover(false);
                                   }}
                                 >
                                   {song.title}
