@@ -48,7 +48,7 @@ export default function Page() {
         <Dialog message={error} onClick={() => setError(false)} />
       )}
       {/* Container for page content */}
-      <div className="container mt-navbarHeight flex h-pageHeight max-h-maxMobilePageHeight flex-col items-center justify-center lg:max-h-none">
+      <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           {/* Display error message */}
           {error && <ErrorMessage message={error} />}
