@@ -5,6 +5,7 @@ import {
   HiOutlineSpeakerWave,
   HiOutlineSpeakerXMark,
   HiArrowDownTray,
+  HiXMark,
 } from "react-icons/hi2";
 
 import { Button } from "./ui/button";
@@ -188,11 +189,17 @@ const StoriesCarousel = (props) => {
   );
 };
 
-export default function StoriesCarouselPopup({ slides, options }) {
+export default function StoriesCarouselPopup({ slides, options, onClick }) {
   return (
     <>
       <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen animate-fade-in items-center justify-center bg-dialogBlack/75 text-center backdrop-blur-[3px]">
         <StoriesCarousel slides={slides} options={options} />
+        <button
+          onClick={onClick}
+          className="absolute right-6 top-6 text-3xl text-gray-400 drop-shadow-md transition-colors hover:text-white lg:right-10 lg:top-10 lg:text-4xl"
+        >
+          <HiXMark />
+        </button>
       </div>
     </>
   );
