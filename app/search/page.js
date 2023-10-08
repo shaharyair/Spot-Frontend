@@ -9,7 +9,7 @@ import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
 
 import SpotSearchForm from "@/components/spotSearchForm";
-import StoriesCarousel from "@/components/storiesCarousel";
+import StoriesCarouselPopup from "@/components/storiesCarousel";
 import { LocationRequestForm } from "@/components/locationRequestForm";
 
 // Main component function
@@ -65,7 +65,7 @@ export default function Page() {
           </>
         ) : (
           <>
-            <StoriesCarousel
+            <StoriesCarouselPopup
               slides={stories}
               options={{
                 loop: true,

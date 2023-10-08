@@ -192,4 +192,12 @@ const StoriesCarousel = (props) => {
   );
 };
 
-export default StoriesCarousel;
+export default function StoriesCarouselPopup({ slides, options }) {
+  return (
+    <>
+      <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen animate-fade-in items-center justify-center bg-dialogBlack/25 text-center backdrop-blur-[3px]">
+        <StoriesCarousel slides={slides} options={options} />
+      </div>
+    </>
+  );
+}
