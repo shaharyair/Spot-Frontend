@@ -5,10 +5,10 @@ import {
   HiOutlineSpeakerWave,
   HiOutlineSpeakerXMark,
   HiArrowDownTray,
+  HiXMark,
 } from "react-icons/hi2";
 
 import { Button } from "./ui/button";
-import Link from "next/link";
 
 const TWEEN_FACTOR = 2;
 
@@ -101,10 +101,7 @@ const StoriesCarousel = (props) => {
   }, [slideIndex]);
 
   return (
-    <div
-      className="overflow-hidden rounded-lg p-5 drop-shadow-md"
-      ref={emblaRef}
-    >
+    <div className="overflow-hidden p-1 drop-shadow-md" ref={emblaRef}>
       <div
         className={`relative flex w-[80vw] max-w-[350px] touch-pan-y ${
           slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
@@ -113,7 +110,7 @@ const StoriesCarousel = (props) => {
         {slides.map((slide, index) => (
           <div
             key={slide.acrcloud_id}
-            className="flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-between"
             style={{
               ...(opacityValues && {
                 opacity: opacityValues[index],
@@ -179,7 +176,7 @@ const StoriesCarousel = (props) => {
         ))}
       </div>
       <div
-        className={`relative left-0 right-0 z-10 mx-auto mt-2 h-1 w-[80vw] max-w-[350px] overflow-hidden rounded-xl bg-navbarBlack2 ${
+        className={`relative left-0 right-0 z-10 mx-auto mt-5 h-1 w-[80vw] max-w-[350px] overflow-hidden rounded-xl bg-navbarBlack2 ${
           slides.length <= 2 ? "lg:w-[20vw]" : "lg:w-[40vw] lg:max-w-[700px]"
         }`}
       >
@@ -192,4 +189,18 @@ const StoriesCarousel = (props) => {
   );
 };
 
-export default StoriesCarousel;
+export default function StoriesCarouselPopup({ slides, options, onClick }) {
+  return (
+    <>
+      <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen animate-fade-in-popup items-center justify-center bg-dialogBlack/75 text-center backdrop-blur-[3px]">
+        <StoriesCarousel slides={slides} options={options} />
+        <button
+          onClick={onClick}
+          className="absolute right-6 top-6 text-3xl text-gray-400 drop-shadow-md transition-colors hover:text-white lg:right-10 lg:top-10 lg:text-4xl"
+        >
+          <HiXMark />
+        </button>
+      </div>
+    </>
+  );
+}

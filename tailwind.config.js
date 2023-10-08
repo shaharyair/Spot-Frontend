@@ -91,6 +91,10 @@ module.exports = {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
+        "fade-in-popup": {
+          from: { opacity: 0, transform: "scale(0.99)" },
+          to: { opacity: 1, transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -98,6 +102,7 @@ module.exports = {
         "fade-out": "fade-out 0.3s ease forwards",
         "fade-in": "fade-in 0.3s ease forwards",
         "fade-in-header": "fade-in 2s ease-in forwards",
+        "fade-in-popup": "fade-in-popup 0.5s ease-in",
       },
     },
   },
