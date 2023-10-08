@@ -62,6 +62,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
   const [selectedSong, setSelectedSong] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [openPopover, setOpenPopover] = useState(false);
 
   // React Hook Form initialization
   const form = useForm({
@@ -115,28 +116,29 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
         <LoadingBar />
       ) : (
         // Display main form
-        <div className="flex flex-col justify-center items-center gap-10 p-10 font-thin ">
-          <h2 className="text-3xl lg:text-4xl text-white">
+        <div className="flex flex-col items-center justify-center gap-10 p-10 font-thin ">
+          <h2 className="text-3xl text-white lg:text-4xl">
             <span className="text-bpmPink">Delete</span> your tracks.
           </h2>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col justify-center items-center gap-8"
+              className="flex flex-col items-center justify-center gap-8"
             >
               <FormField
                 control={form.control}
                 name="id"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col justify-center items-center">
-                    <Popover>
+                  <FormItem className="flex flex-col items-center justify-center">
+                    <Popover open={openPopover}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            onClick={() => setOpenPopover(!openPopover)}
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              "w-[90vw] max-w-[300px] min-w-[250px] relative flex flex-col font-normal items-start justify-center pr-6 text-left min-h-[2.25rem] h-auto",
+                              "relative flex h-auto min-h-[2.25rem] w-[90vw] min-w-[250px] max-w-[300px] flex-col items-start justify-center pr-6 text-left font-normal",
                               !field.value && "text-muted-foreground",
                             )}
                           >
@@ -164,7 +166,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[90vw] max-w-[300px] min-w-[250px] p-0">
+                      <PopoverContent className="w-[90vw] min-w-[250px] max-w-[300px] p-0">
                         <ScrollArea className="h-[40vh] max-h-[300px]">
                           <Command>
                             <CommandInput
@@ -184,6 +186,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                                     key={song.id}
                                     onSelect={() => {
                                       form.setValue("id", song.id);
+                                      setOpenPopover(false);
                                     }}
                                   >
                                     {song.title}
@@ -192,7 +195,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                                     </span>
                                     <CheckIcon
                                       className={cn(
-                                        "absolute h-4 w-4 right-1",
+                                        "absolute right-1 h-4 w-4",
                                         song.id === field.value
                                           ? "opacity-100"
                                           : "opacity-0",
@@ -216,7 +219,7 @@ function SongListDeleteForm({ songs, onSongDeleted }) {
                 onClick={() => setOpenWarningDialog(true)}
                 disabled={!selectedSong}
                 size="lg"
-                className="bg-bpmPink text-black hover:bg-white duration-200 flex justify-center items-center gap-2"
+                className="flex items-center justify-center gap-2 bg-bpmPink text-black duration-200 hover:bg-white"
                 type="button"
               >
                 Delete
@@ -266,8 +269,8 @@ function Page() {
   return (
     <>
       {/* Container for page content */}
-      <div className="container mt-navbarHeight h-pageHeight max-h-maxMobilePageHeight lg:max-h-none flex flex-col justify-center items-center">
-        <div className="flex flex-col justify-center items-center gap-8 text-center">
+      <div className="container mt-navbarHeight flex h-pageHeight max-h-maxMobilePageHeight flex-col items-center justify-center lg:max-h-none">
+        <div className="flex flex-col items-center justify-center gap-8 text-center">
           {/* Display error message */}
           {error && <ErrorMessage message={error} />}
           {!error &&
