@@ -52,7 +52,7 @@ export default function Page() {
       <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
         {!error && loading ? (
           <LoadingBar />
-        ) : stories.length === 0 ? (
+        ) : (
           <>
             <SpotSearchForm
               onStoriesSearch={setStories}
@@ -63,9 +63,11 @@ export default function Page() {
             />
             <LocationRequestForm />
           </>
-        ) : (
+        )}
+        {stories.length !== 0 && (
           <>
             <StoriesCarouselPopup
+              onClick={() => setStories([])}
               slides={stories}
               options={{
                 loop: true,
