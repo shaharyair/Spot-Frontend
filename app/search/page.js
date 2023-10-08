@@ -47,7 +47,7 @@ export default function Page() {
         />
       )}
       {error && <Dialog message={error} onClick={() => setError(false)} />}
-      <div className="container mt-navbarHeight flex h-pageHeight max-h-maxMobilePageHeight flex-col items-center justify-center lg:max-h-none">
+      <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
         {!error && loading ? (
           <LoadingBar />
         ) : stories.length === 0 ? (
