@@ -63,6 +63,7 @@ export default function SpotSearchForm({
 
   function onSubmit(data) {
     data.date = format(data.date, "dd-MM-yyyy");
+    data.username = "Yost Koen"; // Temporary username hardcode until user system feature.
 
     setLoading(true);
 

@@ -9,7 +9,7 @@ import Dialog from "@/components/dialog";
 import LoadingBar from "@/components/loadingbar";
 
 import SpotSearchForm from "@/components/spotSearchForm";
-import StoriesCarousel from "@/components/storiesCarousel";
+import StoriesCarouselPopup from "@/components/storiesCarousel";
 import { LocationRequestForm } from "@/components/locationRequestForm";
 
 // Main component function
@@ -23,10 +23,12 @@ export default function Page() {
   useEffect(() => {
     setLoading(true);
 
+    const data = {
+      username: "Yost Koen", // Temporary username hardcode until user system feature.
+    };
+
     axios
-      .post(`${API_BASE_URL}${ENDPOINTS.locations}`, {
-        dashboard: "Yost Koen",
-      })
+      .post(`${API_BASE_URL}${ENDPOINTS.locations}`, data)
       .then((response) => {
         setLocationsData(response.data);
         setLoading(false);
@@ -50,7 +52,7 @@ export default function Page() {
       <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
         {!error && loading ? (
           <LoadingBar />
-        ) : stories.length === 0 ? (
+        ) : (
           <>
             <SpotSearchForm
               onStoriesSearch={setStories}
@@ -61,9 +63,11 @@ export default function Page() {
             />
             <LocationRequestForm />
           </>
-        ) : (
+        )}
+        {stories.length !== 0 && (
           <>
-            <StoriesCarousel
+            <StoriesCarouselPopup
+              onClick={() => setStories([])}
               slides={stories}
               options={{
                 loop: true,
