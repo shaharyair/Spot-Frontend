@@ -23,10 +23,12 @@ export default function Page() {
   useEffect(() => {
     setLoading(true);
 
+    const data = {
+      username: "Yost Koen", // Temporary username hardcode until user system feature.
+    };
+
     axios
-      .post(`${API_BASE_URL}${ENDPOINTS.locations}`, {
-        dashboard: "Yost Koen",
-      })
+      .post(`${API_BASE_URL}${ENDPOINTS.locations}`, data)
       .then((response) => {
         setLocationsData(response.data);
         setLoading(false);
