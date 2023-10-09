@@ -100,6 +100,34 @@ const StoriesCarousel = (props) => {
     };
   }, [slideIndex]);
 
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (!emblaApi) return;
+
+      switch (e.key) {
+        case "ArrowLeft":
+          emblaApi.scrollPrev();
+          break;
+        case "ArrowRight":
+          emblaApi.scrollNext();
+          break;
+      }
+    },
+    [emblaApi],
+  );
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    // Add event listener for keyboard input
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      // Remove the event listener when the component unmounts
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [emblaApi, handleKeyDown]);
+
   return (
     <div className="overflow-hidden p-1 drop-shadow-md" ref={emblaRef}>
       <div
