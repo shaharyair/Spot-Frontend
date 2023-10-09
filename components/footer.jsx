@@ -11,83 +11,83 @@ import SocialLinks from "./sociallinks";
 
 function Footer() {
   return (
-    <footer className='pb-10'>
-      <hr className='border-gray-600 w-[90vw] lg:w-[95vw] mx-auto mb-5 lg:mb-8' />
-      <div className='container max-w-6xl'>
-        <nav className='grid grid-cols-2 grid-rows-auto justify-center items-start text-center text-white font-thin text-sm gap-5 lg:text-base lg:grid-cols-3'>
-          <div className='col-start-1 col-span-2 row-start-1 self-center lg:col-span-1 lg:self-start flex justify-center items-center gap-[5px]'>
+    <footer className="pb-10">
+      <hr className="mx-auto mb-5 w-[90vw] border-gray-600 lg:mb-8 lg:w-[95vw]" />
+      <div className="container max-w-6xl">
+        <nav className="grid-rows-auto grid grid-cols-2 items-start justify-center gap-5 text-center text-sm font-thin text-white lg:grid-cols-3 lg:text-base">
+          <div className="col-span-2 col-start-1 row-start-1 flex items-center justify-center gap-[5px] self-center lg:col-span-1 lg:self-start">
             <h1>Powered</h1>
             <h1>By</h1>
-            <Link href='https://www.bpm-music.com/'>
+            <Link href="https://www.bpm-music.com/">
               <Image
                 src={bpmLogo}
                 width={65}
-                alt='Bpm Logo'
-                loading='lazy'
-                className='max-w-[55px] lg:max-w-[65px]'
+                alt="Bpm Logo"
+                loading="lazy"
+                className="max-w-[55px] lg:max-w-[65px]"
               />
             </Link>
           </div>
-          <ul className='col-start-1 row-start-2 flex flex-col gap-2 lg:col-start-2 lg:row-start-1'>
+          <ul className="col-start-1 row-start-2 flex flex-col gap-2 lg:col-start-2 lg:row-start-1">
             <li>
-              <h1 className=' text-gray-400 mb-1'>Company</h1>
+              <h1 className=" mb-1 text-gray-400">Company</h1>
             </li>
             <li>
               <Link
-                href='/'
-                className='hover:text-bpmPink transition-colors duration-200'
+                href="/"
+                className="transition-colors duration-200 hover:text-bpmPink"
               >
                 Contact us
               </Link>
             </li>
             <li>
               <Link
-                href='/'
-                className='hover:text-bpmPink transition-colors duration-200'
+                href="/"
+                className="transition-colors duration-200 hover:text-bpmPink"
               >
                 About
               </Link>
             </li>
             <li>
               <Link
-                href='/'
-                className='hover:text-bpmPink transition-colors duration-200'
+                href="/"
+                className="transition-colors duration-200 hover:text-bpmPink"
               >
                 Services
               </Link>
             </li>
           </ul>
-          <ul className='col-start-2 row-start-2 flex flex-col gap-2 lg:col-start-3 lg:row-start-1'>
+          <ul className="col-start-2 row-start-2 flex flex-col gap-2 lg:col-start-3 lg:row-start-1">
             <li>
-              <h1 className=' text-gray-400 mb-1'>Legal</h1>
+              <h1 className=" mb-1 text-gray-400">Legal</h1>
             </li>
             <li>
               <Link
-                href='/'
-                className='hover:text-bpmPink transition-colors duration-200'
+                href="/"
+                className="transition-colors duration-200 hover:text-bpmPink"
               >
                 Terms of Services
               </Link>
             </li>
             <li>
               <Link
-                href='/'
-                className='hover:text-bpmPink transition-colors duration-200'
+                href="/"
+                className="transition-colors duration-200 hover:text-bpmPink"
               >
                 Privacy Policy
               </Link>
             </li>
           </ul>
-          <div className=' col-start-1 row-start-3 col-span-2 lg:row-start-3 lg:col-span-3'>
-            <h1 className='text-gray-400 mb-5'>Follow us</h1>
-            <div className='flex justify-center items-center gap-5 text-2xl lg:text-3xl text-bpmPink transition-colors duration-200'>
+          <div className=" col-span-2 col-start-1 row-start-3 lg:col-span-3 lg:row-start-3">
+            <h1 className="mb-5 text-gray-400">Follow us</h1>
+            <div className="flex items-center justify-center gap-5 text-2xl text-bpmPink transition-colors duration-200 lg:text-3xl">
               <SocialLinks />
             </div>
           </div>
-          <div className='row-start-4 col-start-1 col-span-2 mt-5 lg:row-start-4 lg:col-span-3 lg:self-end'>
+          <div className="col-span-2 col-start-1 row-start-4 mt-5 lg:col-span-3 lg:row-start-4 lg:self-end">
             <p>
               &copy; {new Date().getFullYear()}{" "}
-              <a href='/' className='underline'>
+              <a href="/" className="underline">
                 Spot.
               </a>
               All rights reserved.
