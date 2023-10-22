@@ -24,7 +24,7 @@ export default function Page() {
     setLoading(true);
 
     axios
-      .post(`${API_BASE_URL}${ENDPOINTS.locations}`)
+      .get(`${API_BASE_URL}${ENDPOINTS.locations}`)
       .then((response) => {
         setLocationsData(response.data);
         setLoading(false);

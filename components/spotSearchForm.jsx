@@ -118,8 +118,8 @@ export default function SpotSearchForm({
                       >
                         {field.value
                           ? locationsData.find(
-                              (location) => location.name === field.value,
-                            )?.name
+                              (item) => item.location === field.value,
+                            )?.location
                           : "Pick a Location"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -133,21 +133,21 @@ export default function SpotSearchForm({
                       />
                       <CommandEmpty>No Locations found.</CommandEmpty>
                       <CommandGroup>
-                        {locationsData.map((location, i) => (
+                        {locationsData.map((item, i) => (
                           <CommandItem
-                            value={location.name}
+                            value={item.location}
                             key={i}
                             onSelect={() => {
-                              setSelectedLocation(location.name);
-                              form.setValue("location", location.name);
+                              form.setValue("location", item.location);
+                              setSelectedLocation(item.location);
                               setOpenPopoverLocations(false);
                             }}
                           >
-                            {location.name}
+                            {item.location}
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                location.name === field.value
+                                item.location === field.value
                                   ? "opacity-100"
                                   : "opacity-0",
                               )}
@@ -193,29 +193,27 @@ export default function SpotSearchForm({
                       mode="single"
                       selected={field.value}
                       onSelect={(selectDate) => {
-                        setSelectedDate(selectDate);
                         field.onChange(selectDate);
+                        setSelectedDate(selectDate);
                         setOpenPopoverDates(false);
                       }}
                       disabled={(date) => {
                         const selectedLocationData = locationsData.find(
-                          (location) => location.name === selectedLocation,
+                          (item) => item.location === selectedLocation,
                         );
 
                         if (selectedLocationData) {
                           const isDateDisabled =
-                            !selectedLocationData.location_dates.some(
-                              (locationDate) => {
-                                const locationDateObj = new Date(locationDate);
-                                return (
-                                  date.getFullYear() ===
-                                    locationDateObj.getFullYear() &&
-                                  date.getMonth() ===
-                                    locationDateObj.getMonth() &&
-                                  date.getDate() === locationDateObj.getDate()
-                                );
-                              },
-                            );
+                            !selectedLocationData.dates.some((locationDate) => {
+                              const locationDateObj = new Date(locationDate);
+                              return (
+                                date.getFullYear() ===
+                                  locationDateObj.getFullYear() &&
+                                date.getMonth() ===
+                                  locationDateObj.getMonth() &&
+                                date.getDate() === locationDateObj.getDate()
+                              );
+                            });
 
                           return isDateDisabled;
                         }
