@@ -40,8 +40,9 @@ import {
 
 const FormSchema = z.object({
   location: z.string({ required_error: "A location is required." }),
-  date: z.date({
-    required_error: "A date is required.",
+  dates: z.object({
+    from: z.date({ required_error: "A start date is required." }),
+    to: z.date().optional(),
   }),
 });
 
@@ -55,14 +56,19 @@ export default function SpotSearchForm({
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [openPopoverLocations, setOpenPopoverLocations] = useState(false);
-  const [openPopoverDates, setOpenPopoverDates] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
 
   function onSubmit(data) {
-    data.date = format(data.date, "dd-MM-yyyy");
+    data.date = format(data.dates.from, "dd-MM-yyyy");
+
+    if (data.dates.to) {
+      data.end_date = format(data.dates.to, "dd-MM-yyyy");
+    }
+
+    delete data.dates;
 
     setLoading(true);
 
@@ -164,22 +170,26 @@ export default function SpotSearchForm({
           />
           <FormField
             control={form.control}
-            name="date"
+            name="dates"
             render={({ field }) => (
               <FormItem>
-                <Popover open={openPopoverDates}>
+                <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        onClick={() => setOpenPopoverDates(!openPopoverDates)}
                         variant={"outline"}
                         className={cn(
                           "w-[90vw] min-w-[250px] max-w-[300px] pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        {field.value ? (
-                          format(field.value, "PPP")
+                        {field.value?.from && !field.value?.to ? (
+                          format(field.value.from, "dd/MM/yyyy")
+                        ) : field.value?.from && field.value?.to ? (
+                          `${format(field.value.from, "dd/MM/yyyy")} - ${format(
+                            field.value.to,
+                            "dd/MM/yyyy",
+                          )}`
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -190,12 +200,11 @@ export default function SpotSearchForm({
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       className="flex w-[90vw] min-w-[250px] max-w-[300px] items-center justify-center"
-                      mode="single"
+                      mode="range"
                       selected={field.value}
                       onSelect={(selectDate) => {
                         field.onChange(selectDate);
                         setSelectedDate(selectDate);
-                        setOpenPopoverDates(false);
                       }}
                       disabled={(date) => {
                         const selectedLocationData = locationsData.find(
