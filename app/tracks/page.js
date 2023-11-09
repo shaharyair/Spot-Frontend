@@ -27,29 +27,19 @@ function SongListTable({ songs }) {
     <>
       <div>
         {/* Scrollable area for the table */}
-        <ScrollArea className="h-[50vh] rounded-md border px-6 py-4 lg:h-[75vh]">
+        <ScrollArea className="h-[75vh] rounded-md border px-6 py-4">
           {/* Table for displaying song information */}
           <Table className="text-left text-base font-thin lg:text-xl">
             <TableCaption>
               {songs.length}{" "}
               {songs.length === 1 ? "result was found." : "results were found."}
             </TableCaption>
-            <TableHeader>
-              {/* Table header row */}
-              <TableRow>
-                <TableHead>Artist</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Album</TableHead>
-              </TableRow>
-            </TableHeader>
             <TableBody className="text-white">
               {/* Map through each song and display in a table row */}
               {songs.map((song, index) => (
                 <TableRow key={index}>
                   {/* Display song details in table cells */}
-                  <TableCell className="text-bpmPink">{song.artist}</TableCell>
                   <TableCell>{song.title}</TableCell>
-                  <TableCell className="text-bpmPink">{song.album}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
