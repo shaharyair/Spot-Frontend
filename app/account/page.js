@@ -39,7 +39,7 @@ function Page() {
       {error && !openWarningDialog && (
         <Dialog message={error} onClick={() => setError(false)} />
       )}
-      {!error && !openWarningDialog && (
+      {isRescan && !error && !openWarningDialog && (
         <Dialog message={isRescan} onClick={() => setIsRescan(false)} />
       )}
       {openWarningDialog && (
