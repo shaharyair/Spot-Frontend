@@ -31,7 +31,7 @@ function Page() {
       {songUploaded && (
         <Dialog message={songUploaded} onClick={() => setSongUploaded(false)} />
       )}
-      {error && <Dialog message={error} onClose={() => setError(false)} />}
+      {error && <Dialog message={error} onClick={() => setError(false)} />}
       <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
         {!error && loading ? (
           <LoadingBar />
