@@ -146,11 +146,7 @@ const StoriesCarousel = (props) => {
             }}
           >
             <div className="flex w-[80vw] max-w-[350px] items-center justify-start p-2 text-left text-base font-thin text-white lg:w-[20vw]">
-              <h1>
-                {`${slide.results.title}`}
-                <br />
-                <span className="text-bpmPink">{`${slide.results.artist}`}</span>
-              </h1>
+              <h1 className="text-bpmPink">{`${slide.results.title}`}</h1>
             </div>
             <div
               className="relative mx-2.5 flex w-[80vw] max-w-[350px] flex-shrink-0 flex-grow-0 transform items-center justify-center lg:w-[20vw]"

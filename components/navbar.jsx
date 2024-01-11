@@ -64,12 +64,12 @@ function Navbar() {
   return (
     <>
       <div
-        className="fixed top-0 left-0 flex h-navbarHeight w-full items-center justify-center bg-navbarBlack/90
-       drop-shadow-lg backdrop-blur-sm z-50"
+        className="fixed left-0 top-0 z-50 flex h-navbarHeight w-full items-center justify-center
+       bg-navbarBlack/90 drop-shadow-lg backdrop-blur-sm"
       >
         <div
           ref={navbarContainerRef}
-          className="container flex items-center justify-between w-11/12 p-0"
+          className="container flex w-11/12 items-center justify-between p-0"
         >
           <div className="text-bpmPink hover:text-white lg:hidden">
             <Hamburger
@@ -86,14 +86,14 @@ function Navbar() {
               openMobileNavbar
                 ? "left-1/4 md:left-1/2"
                 : "-left-3/4 md:-left-1/2"
-            } flex flex-col items-start justify-start top-24 h-screen w-3/4 md:w-1/2 -translate-x-1/3 md:-translate-x-full transition-mobilenavbar lg:transition-none duration-200 bg-navbarBlack2  px-10 pt-10 lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0`}
+            } transition-mobilenavbar top-24 flex h-screen w-3/4 -translate-x-1/3 flex-col items-start justify-start bg-navbarBlack2 px-10 pt-10 duration-200 md:w-1/2  md:-translate-x-full lg:static lg:order-2 lg:mr-auto lg:h-auto lg:w-auto lg:translate-x-0 lg:bg-transparent lg:p-0 lg:transition-none`}
           >
             <nav>
-              <ul className="flex flex-col items-start justify-center gap-3 text-left text-sm lg:text-base text-bpmPink lg:flex-row lg:items-center lg:gap-5 lg:text-center">
+              <ul className="flex flex-col items-start justify-center gap-3 text-left text-sm text-bpmPink lg:flex-row lg:items-center lg:gap-5 lg:text-center lg:text-base">
                 <li>
                   <Link
                     href="/"
-                    className="block p-0 lg:px-2 lg:py-1 hover:text-white transition-colors duration-200"
+                    className="block p-0 transition-colors duration-200 hover:text-white lg:px-2 lg:py-1"
                   >
                     Home
                   </Link>
@@ -101,7 +101,7 @@ function Navbar() {
                 <li>
                   <Link
                     href="/"
-                    className="block p-0 lg:px-2 lg:py-1 hover:text-white transition-colors duration-200"
+                    className="block p-0 transition-colors duration-200 hover:text-white lg:px-2 lg:py-1"
                   >
                     Contact Us
                   </Link>
@@ -109,74 +109,74 @@ function Navbar() {
                 <li>
                   <Link
                     href="/"
-                    className="block p-0 lg:px-2 lg:py-1 hover:text-white transition-colors duration-200"
+                    className="block p-0 transition-colors duration-200 hover:text-white lg:px-2 lg:py-1"
                   >
                     Services
                   </Link>
                 </li>
               </ul>
             </nav>
-            <div className="lg:hidden flex flex-col items-start justify-center gap-3 my-10 text-bpmPink text-lg">
+            <div className="my-10 flex flex-col items-start justify-center gap-3 text-lg text-bpmPink lg:hidden">
               <Link
                 href="/tracks"
-                className="flex justify-center items-center gap-2 hover:text-white transition-colors duration-200 text-xl"
+                className="flex items-center justify-center gap-2 text-xl transition-colors duration-200 hover:text-white"
               >
                 <HiListBullet />
                 <span className="text-sm">Tracks</span>
               </Link>
               <Link
                 href="/add-track"
-                className="flex justify-center items-center gap-2 hover:text-white transition-colors duration-200 text-xl"
+                className="flex items-center justify-center gap-2 text-xl transition-colors duration-200 hover:text-white"
               >
                 <HiMiniArrowUpTray />
                 <span className="text-sm">Upload Track</span>
               </Link>
               <Link
                 href="/delete-track"
-                className="flex justify-center items-center gap-2 hover:text-white transition-colors duration-200 text-xl"
+                className="flex items-center justify-center gap-2 text-xl transition-colors duration-200 hover:text-white"
               >
                 <HiTrash />
                 <span className="text-sm">Delete Track</span>
               </Link>
             </div>
-            <div className="flex flex-row items-center gap-3 text-bpmPink hover:text-white transition-colors duration-200 text-sm lg:hidden">
+            <div className="flex flex-row items-center gap-3 text-sm text-bpmPink transition-colors duration-200 hover:text-white lg:hidden">
               <Link
-                href="/"
-                className="flex justify-center items-center gap-2 hover:text-white transition-colors duration-200 text-xl"
+                href="/account"
+                className="flex items-center justify-center gap-2 text-xl transition-colors duration-200 hover:text-white"
               >
                 <HiUser />
-                <span className="text-sm">Sign In</span>
+                <span className="text-sm">Account</span>
               </Link>
             </div>
-            <div className="flex gap-4 lg:hidden text-2xl text-bpmPink my-10">
+            <div className="my-10 flex gap-4 text-2xl text-bpmPink lg:hidden">
               <SocialLinks />
             </div>
           </div>
           <Link href="/" className="ml-1.5 lg:ml-0 lg:mr-20">
-            <h1 className="text-4xl lg:text-5xl font-semibold text-bpmPink">
+            <h1 className="text-4xl font-semibold text-bpmPink lg:text-5xl">
               Spot.
             </h1>
           </Link>
-          <div className="flex items-center justify-center gap-5 lg:order-3 text-bpmPink text-2xl">
-            <div className="lg:flex items-center justify-center gap-5 text-bpmPink text-2xl hidden">
+          <div className="flex items-center justify-center gap-5 text-2xl text-bpmPink lg:order-3">
+            <div className="hidden items-center justify-center gap-5 text-2xl text-bpmPink lg:flex">
               <Link href="/tracks">
-                <HiListBullet className=" hover:text-white transition-colors duration-200 text-3xl" />
+                <HiListBullet className=" text-3xl transition-colors duration-200 hover:text-white" />
               </Link>
               <Link href="/add-track">
-                <HiMiniArrowUpTray className=" hover:text-white transition-colors duration-200" />
+                <HiMiniArrowUpTray className=" transition-colors duration-200 hover:text-white" />
               </Link>
               <Link href="/delete-track">
-                <HiTrash className=" hover:text-white transition-colors duration-200" />
+                <HiTrash className=" transition-colors duration-200 hover:text-white" />
               </Link>
-              <Link href="/">
-                <HiUser className="hover:text-white transition-colors duration-200" />
+              <Link href="/account">
+                <HiUser className="transition-colors duration-200 hover:text-white" />
               </Link>
             </div>
             <Link href="/search">
-              <Button className="bg-bpmPink text-black hover:bg-white duration-200 rounded-xl justify-center hidden p-4 items-center gap-2 lg:flex lg:ml-2">
+              <Button className="hidden items-center justify-center gap-2 rounded-xl bg-bpmPink p-4 text-black duration-200 hover:bg-white lg:ml-2 lg:flex">
                 Search <HiMagnifyingGlass className="text-lg" />
               </Button>
-              <HiMagnifyingGlass className="lg:hidden hover:text-white transition-colors duration-200 p-3 text-5xl" />
+              <HiMagnifyingGlass className="p-3 text-5xl transition-colors duration-200 hover:text-white lg:hidden" />
             </Link>
           </div>
         </div>

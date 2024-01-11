@@ -37,11 +37,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const FormSchema = z.object({
   location: z.string({ required_error: "A location is required." }),
-  date: z.date({
-    required_error: "A date is required.",
+  dates: z.object({
+    from: z.date({ required_error: "A start date is required." }),
+    to: z.date().optional(),
   }),
 });
 
@@ -55,15 +57,19 @@ export default function SpotSearchForm({
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [openPopoverLocations, setOpenPopoverLocations] = useState(false);
-  const [openPopoverDates, setOpenPopoverDates] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
 
   function onSubmit(data) {
-    data.date = format(data.date, "dd-MM-yyyy");
-    data.username = "Yost Koen"; // Temporary username hardcode until user system feature.
+    data.date = format(data.dates.from, "dd-MM-yyyy");
+
+    if (data.dates.to) {
+      data.end_date = format(data.dates.to, "dd-MM-yyyy");
+    }
+
+    delete data.dates;
 
     setLoading(true);
 
@@ -119,44 +125,46 @@ export default function SpotSearchForm({
                       >
                         {field.value
                           ? locationsData.find(
-                              (location) => location.name === field.value,
-                            )?.name
+                              (item) => item.location === field.value,
+                            )?.location
                           : "Pick a Location"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-[90vw] min-w-[250px] max-w-[300px] p-0">
-                    <Command>
-                      <CommandInput
-                        placeholder="Search Location..."
-                        className="h-9"
-                      />
-                      <CommandEmpty>No Locations found.</CommandEmpty>
-                      <CommandGroup>
-                        {locationsData.map((location, i) => (
-                          <CommandItem
-                            value={location.name}
-                            key={i}
-                            onSelect={() => {
-                              setSelectedLocation(location.name);
-                              form.setValue("location", location.name);
-                              setOpenPopoverLocations(false);
-                            }}
-                          >
-                            {location.name}
-                            <CheckIcon
-                              className={cn(
-                                "ml-auto h-4 w-4",
-                                location.name === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0",
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
+                    <ScrollArea className="h-[40vh] max-h-[300px]">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search Location..."
+                          className="h-9"
+                        />
+                        <CommandEmpty>No Locations found.</CommandEmpty>
+                        <CommandGroup>
+                          {locationsData.map((item, i) => (
+                            <CommandItem
+                              value={item.location}
+                              key={i}
+                              onSelect={() => {
+                                form.setValue("location", item.location);
+                                setSelectedLocation(item.location);
+                                setOpenPopoverLocations(false);
+                              }}
+                            >
+                              {item.location}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  item.location === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </ScrollArea>
                   </PopoverContent>
                 </Popover>
                 <FormMessage />
@@ -165,22 +173,26 @@ export default function SpotSearchForm({
           />
           <FormField
             control={form.control}
-            name="date"
+            name="dates"
             render={({ field }) => (
               <FormItem>
-                <Popover open={openPopoverDates}>
+                <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        onClick={() => setOpenPopoverDates(!openPopoverDates)}
                         variant={"outline"}
                         className={cn(
                           "w-[90vw] min-w-[250px] max-w-[300px] pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        {field.value ? (
-                          format(field.value, "PPP")
+                        {field.value?.from && !field.value?.to ? (
+                          format(field.value.from, "dd/MM/yyyy")
+                        ) : field.value?.from && field.value?.to ? (
+                          `${format(field.value.from, "dd/MM/yyyy")} - ${format(
+                            field.value.to,
+                            "dd/MM/yyyy",
+                          )}`
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -191,32 +203,29 @@ export default function SpotSearchForm({
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       className="flex w-[90vw] min-w-[250px] max-w-[300px] items-center justify-center"
-                      mode="single"
+                      mode="range"
                       selected={field.value}
                       onSelect={(selectDate) => {
-                        setSelectedDate(selectDate);
                         field.onChange(selectDate);
-                        setOpenPopoverDates(false);
+                        setSelectedDate(selectDate);
                       }}
                       disabled={(date) => {
                         const selectedLocationData = locationsData.find(
-                          (location) => location.name === selectedLocation,
+                          (item) => item.location === selectedLocation,
                         );
 
                         if (selectedLocationData) {
                           const isDateDisabled =
-                            !selectedLocationData.location_dates.some(
-                              (locationDate) => {
-                                const locationDateObj = new Date(locationDate);
-                                return (
-                                  date.getFullYear() ===
-                                    locationDateObj.getFullYear() &&
-                                  date.getMonth() ===
-                                    locationDateObj.getMonth() &&
-                                  date.getDate() === locationDateObj.getDate()
-                                );
-                              },
-                            );
+                            !selectedLocationData.dates.some((locationDate) => {
+                              const locationDateObj = new Date(locationDate);
+                              return (
+                                date.getFullYear() ===
+                                  locationDateObj.getFullYear() &&
+                                date.getMonth() ===
+                                  locationDateObj.getMonth() &&
+                                date.getDate() === locationDateObj.getDate()
+                              );
+                            });
 
                           return isDateDisabled;
                         }
