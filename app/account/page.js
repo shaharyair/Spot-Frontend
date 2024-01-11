@@ -13,6 +13,7 @@ function Page() {
   const [openWarningDialog, setOpenWarningDialog] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRescan, setIsRescan] = useState("");
 
   const onSubmit = () => {
     setLoading(true);
@@ -21,6 +22,7 @@ function Page() {
       .post(`${API_BASE_URL}${ENDPOINTS.rescan}`)
       .then((response) => {
         setOpenWarningDialog(false);
+        setIsRescan("Database Rescanned Successfully.");
       })
       .catch((error) => {
         setOpenWarningDialog(false);
@@ -36,6 +38,9 @@ function Page() {
       {loading && !error && <LoadingBar />}
       {error && !openWarningDialog && (
         <Dialog message={error} onClick={() => setError(false)} />
+      )}
+      {!error && !openWarningDialog && (
+        <Dialog message={isRescan} onClick={() => setIsRescan(false)} />
       )}
       {openWarningDialog && (
         <WarningDialog
