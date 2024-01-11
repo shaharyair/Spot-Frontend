@@ -37,6 +37,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const FormSchema = z.object({
   location: z.string({ required_error: "A location is required." }),
@@ -132,36 +133,38 @@ export default function SpotSearchForm({
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-[90vw] min-w-[250px] max-w-[300px] p-0">
-                    <Command>
-                      <CommandInput
-                        placeholder="Search Location..."
-                        className="h-9"
-                      />
-                      <CommandEmpty>No Locations found.</CommandEmpty>
-                      <CommandGroup>
-                        {locationsData.map((item, i) => (
-                          <CommandItem
-                            value={item.location}
-                            key={i}
-                            onSelect={() => {
-                              form.setValue("location", item.location);
-                              setSelectedLocation(item.location);
-                              setOpenPopoverLocations(false);
-                            }}
-                          >
-                            {item.location}
-                            <CheckIcon
-                              className={cn(
-                                "ml-auto h-4 w-4",
-                                item.location === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0",
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
+                    <ScrollArea className="h-[40vh] max-h-[300px]">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search Location..."
+                          className="h-9"
+                        />
+                        <CommandEmpty>No Locations found.</CommandEmpty>
+                        <CommandGroup>
+                          {locationsData.map((item, i) => (
+                            <CommandItem
+                              value={item.location}
+                              key={i}
+                              onSelect={() => {
+                                form.setValue("location", item.location);
+                                setSelectedLocation(item.location);
+                                setOpenPopoverLocations(false);
+                              }}
+                            >
+                              {item.location}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  item.location === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </ScrollArea>
                   </PopoverContent>
                 </Popover>
                 <FormMessage />
