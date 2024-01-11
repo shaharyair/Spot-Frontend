@@ -18,6 +18,9 @@ const ENDPOINTS = {
 
   // send email for location request
   send_location_email: "/send_location_email",
+
+  // rescan acrcloud cloud stories and tracks
+  rescan: "/rescan_all_songs",
 };
 
 const EMAILS = {
