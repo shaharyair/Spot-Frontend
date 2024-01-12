@@ -16,16 +16,16 @@ function Page() {
   const [isRescan, setIsRescan] = useState("");
 
   const onSubmit = () => {
+    setOpenWarningDialog(false);
     setLoading(true);
 
     axios
       .post(`${API_BASE_URL}${ENDPOINTS.rescan}`)
       .then((response) => {
-        setOpenWarningDialog(false);
         setIsRescan("Database Rescanned Successfully.");
+        console.log(response.data);
       })
       .catch((error) => {
-        setOpenWarningDialog(false);
         setError(error.message);
       })
       .finally(() => {
@@ -35,7 +35,6 @@ function Page() {
 
   return (
     <>
-      {loading && !error && <LoadingBar />}
       {error && !openWarningDialog && (
         <Dialog message={error} onClick={() => setError(false)} />
       )}
@@ -53,14 +52,18 @@ function Page() {
         />
       )}
       <div className="container mt-navbarHeight flex h-pageHeight flex-col items-center justify-center lg:max-h-none">
-        <Button
-          onClick={() => setOpenWarningDialog(true)}
-          type="button"
-          className="flex items-center justify-center gap-2 rounded-xl px-8 py-8 text-xl drop-shadow-md duration-200 hover:bg-white"
-        >
-          Rescan
-          <HiArrowPath className="text-2xl" />
-        </Button>
+        {loading && !error ? (
+          <LoadingBar />
+        ) : (
+          <Button
+            onClick={() => setOpenWarningDialog(true)}
+            type="button"
+            className="flex items-center justify-center gap-2 rounded-xl px-8 py-8 text-xl drop-shadow-md duration-200 hover:bg-white"
+          >
+            Rescan
+            <HiArrowPath className="text-2xl" />
+          </Button>
+        )}
       </div>
     </>
   );
