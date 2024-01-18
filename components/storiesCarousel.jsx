@@ -87,9 +87,9 @@ const StoriesCarousel = (props) => {
   }, [emblaApi, handleKeyDown]);
 
   return (
-    <div className="overflow-hidden p-1 drop-shadow-md" ref={emblaRef}>
+    <div className="overflow-hidden drop-shadow-md lg:p-1" ref={emblaRef}>
       <div
-        className={`relative flex w-[100vw] touch-pan-y ${
+        className={`relative flex w-[95vw] touch-pan-y ${
           slides.length <= 2 ? "lg:w-[30vw]" : "lg:w-[70vw]"
         }`}
       >
@@ -103,10 +103,10 @@ const StoriesCarousel = (props) => {
               }),
             }}
           >
-            <div className="flex w-[100vw] items-center justify-start p-2 text-left text-base font-thin text-white lg:w-[30vw]">
+            <div className="flex w-[95vw] items-center justify-start p-2 text-left text-base font-thin text-white lg:w-[30vw]">
               <h1 className="text-bpmPink">{`${slide.results.title}`}</h1>
             </div>
-            <div className="relative mx-0 flex w-[100vw] flex-shrink-0 flex-grow-0 transform items-center justify-center lg:mx-3 lg:w-[30vw]">
+            <div className="relative m-0 flex w-[95vw] flex-shrink-0 flex-grow-0 transform items-center justify-center lg:mx-3 lg:w-[30vw]">
               <div className="absolute bottom-full left-4 z-10 translate-y-14">
                 <Button
                   size="icon"
@@ -137,7 +137,7 @@ const StoriesCarousel = (props) => {
         ))}
       </div>
       <div
-        className={`relative left-0 right-0 z-10 mx-auto mt-5 h-1 w-[100vw] overflow-hidden rounded-xl bg-navbarBlack2 ${
+        className={`relative left-0 right-0 z-10 mx-auto mt-5 h-1 w-[95vw] overflow-hidden rounded-xl bg-navbarBlack2 ${
           slides.length <= 2 ? "lg:w-[30vw]" : "lg:w-[70vw]"
         }`}
       >
@@ -147,16 +147,16 @@ const StoriesCarousel = (props) => {
         />
       </div>
       <div
-        className="absolute right-1 top-1/2 z-10"
+        className="absolute right-1 top-1/2 z-10 cursor-pointer"
         onClick={() => emblaApi.scrollNext()}
       >
-        <HiChevronRight className="text-3xl text-white drop-shadow-md transition-colors duration-200 hover:text-bpmPink lg:text-4xl" />
+        <HiChevronRight className="text-4xl text-white drop-shadow-md transition-colors duration-200 hover:text-bpmPink lg:text-5xl" />
       </div>
       <div
-        className="absolute left-1 top-1/2 z-10"
+        className="absolute left-1 top-1/2 z-10 cursor-pointer"
         onClick={() => emblaApi.scrollPrev()}
       >
-        <HiChevronLeft className="text-3xl text-white drop-shadow-md transition-colors duration-200 hover:text-bpmPink lg:text-4xl" />
+        <HiChevronLeft className="text-4xl text-white drop-shadow-md transition-colors duration-200 hover:text-bpmPink lg:text-5xl" />
       </div>
     </div>
   );
