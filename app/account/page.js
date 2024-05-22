@@ -17,19 +17,13 @@ function Page() {
 
   const onSubmit = () => {
     setOpenWarningDialog(false);
-    setLoading(true);
+    setIsRescan("Database is rescanning... action may take a while.");
 
     axios
       .post(`${API_BASE_URL}${ENDPOINTS.rescan}`)
-      .then((response) => {
-        setIsRescan("Database Rescanned Successfully.");
-        console.log(response.data);
-      })
+      .then((response) => {})
       .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
+        console.error(error.message);
       });
   };
 
